@@ -43,6 +43,19 @@ const Portfolio = () => {
   const [showTitanicDashboard, setShowTitanicDashboard] = useState(false);
   const [skillsDecrypted, setSkillsDecrypted] = useState(false);
   const [closeXHovered, setCloseXHovered] = useState(false);
+  const [copiedField, setCopiedField] = useState(null);
+
+  const handleCopy = async (text, field, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
 
   useEffect(() => {
     document.body.style.overflow = (isCVOpen || showTitanicDashboard) ? 'hidden' : 'unset';
@@ -86,29 +99,52 @@ const Portfolio = () => {
 
         <div className="flex flex-col gap-4 pointer-events-auto">
           {[
-            { icon: <Icons.Gmail />, label: "mwendavictory2@gmail.com", color: "#EA4335", hoverBg: "hover:bg-[#EA4335]/20", href: "https://mail.google.com/mail/?view=cm&fs=1&to=mwendavictory2@gmail.com&su=%20Inquiry&body=Hi%20Victory," },
-            { icon: <Icons.Linkedin />, label: "victory mwenda", color: "#0A66C2", hoverBg: "hover:bg-[#0A66C2]/20", href: "https://www.linkedin.com/in/victory-mwenda-2723113aa/" },
-            { icon: <Icons.Github />, label: "prince-vizzy", color: "#FFFFFF", hoverBg: "hover:bg-white/20", href: "https://github.com/prince-vizzy" },
-            { icon: <Icons.WhatsApp />, label: "0758985990", color: "#25D366", hoverBg: "hover:bg-[#25D366]/20", href: "https://wa.me/254758985990" },
-            { icon: <Icons.Phone />, label: "0710595923", color: "#FFFFFF", hoverBg: "hover:bg-white/20", href: "tel:0710595923" },
+            { icon: <Icons.Gmail />, label: "mwendavictory2@gmail.com", color: "#EA4335", hoverBg: "hover:bg-[#EA4335]/20", href: "https://mail.google.com/mail/?view=cm&fs=1&to=mwendavictory2@gmail.com&su=%20Inquiry&body=Hi%20Victory,", isCopy: false },
+            { icon: <Icons.Linkedin />, label: "victory mwenda", color: "#0A66C2", hoverBg: "hover:bg-[#0A66C2]/20", href: "https://www.linkedin.com/in/victory-mwenda-2723113aa/", isCopy: false },
+            { icon: <Icons.Github />, label: "prince-vizzy", color: "#FFFFFF", hoverBg: "hover:bg-white/20", href: "https://github.com/prince-vizzy", isCopy: false },
+            { icon: <Icons.WhatsApp />, label: "0758985990", color: "#25D366", hoverBg: "hover:bg-[#25D366]/20", href: "https://wa.me/254758985990", isCopy: false },
+            { icon: <Icons.Phone />, label: "0710595923", color: "#FFFFFF", hoverBg: "hover:bg-white/20", href: "tel:0710595923", isCopy: true, copyText: "0710595923" },
           ].map((social, idx) => (
-            <a
-              key={idx}
-              href={social.href}
-              target={social.href.startsWith('http') || social.href.startsWith('mailto') ? "_blank" : undefined}
-              rel="noreferrer"
-              className={`group flex items-center w-fit gap-3 rounded-full transition-all duration-300 ${social.hoverBg} hover:pl-4 hover:pr-4`}
-            >
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/10">
-                {social.icon}
-              </div>
-              <span
-                style={{ color: social.color }}
-                className="text-[11px] uppercase tracking-[0.15em] font-medium opacity-80 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
+            social.isCopy ? (
+              <button
+                key={idx}
+                onClick={(e) => handleCopy(social.copyText, social.label, e)}
+                className={`group flex items-center w-fit gap-3 rounded-full transition-all duration-300 ${social.hoverBg} hover:pl-4 hover:pr-4 relative`}
               >
-                {social.label}
-              </span>
-            </a>
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/10">
+                  {social.icon}
+                </div>
+                <span
+                  style={{ color: social.color }}
+                  className="text-[11px] uppercase tracking-[0.15em] font-medium opacity-80 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
+                >
+                  {social.label}
+                </span>
+                {copiedField === social.label && (
+                  <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800/90 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-lg whitespace-nowrap animate-fade-in-out">
+                    Copied! ✓
+                  </span>
+                )}
+              </button>
+            ) : (
+              <a
+                key={idx}
+                href={social.href}
+                target={social.href.startsWith('http') || social.href.startsWith('mailto') ? "_blank" : undefined}
+                rel="noreferrer"
+                className={`group flex items-center w-fit gap-3 rounded-full transition-all duration-300 ${social.hoverBg} hover:pl-4 hover:pr-4`}
+              >
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/10">
+                  {social.icon}
+                </div>
+                <span
+                  style={{ color: social.color }}
+                  className="text-[11px] uppercase tracking-[0.15em] font-medium opacity-80 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
+                >
+                  {social.label}
+                </span>
+              </a>
+            )
           ))}
         </div>
       </div>
@@ -329,6 +365,15 @@ const Portfolio = () => {
         @keyframes titanicSlideUp {
           from { opacity: 0; transform: translateY(32px); }
           to   { opacity: 1; transform: translateY(0);    }
+        }
+        @keyframes fadeInOut {
+          0% { opacity: 0; transform: translateY(-5px); }
+          15% { opacity: 1; transform: translateY(0); }
+          85% { opacity: 1; transform: translateY(0); }
+          100% { opacity: 0; transform: translateY(-5px); }
+        }
+        .animate-fade-in-out {
+          animation: fadeInOut 2s ease forwards;
         }
       `}</style>
     </div>
