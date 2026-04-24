@@ -28,6 +28,11 @@ const Icons = {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF">
       <path d="M20 22.621l-3.521-6.795c-.008.004-1.974.97-2.064 1.011-2.24 1.086-6.799-7.82-4.559-8.907.077-.037 2.043-1.003 2.051-1.007l-3.521-6.795-2.142 1.037c-2.73 1.344-3.5 5.253-1.631 8.86 1.871 3.61 5.485 5.762 8.214 4.417l2.141-1.037z"/>
     </svg>
+  ),
+  Gmail: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#EA4335">
+      <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.156-3.292 3.94-2.315L12 7.663l8.06-4.521c1.784-.977 3.94.292 3.94 2.315z"/>
+    </svg>
   )
 };
 
@@ -81,7 +86,8 @@ const Portfolio = () => {
 
         <div className="flex flex-col gap-4 pointer-events-auto">
           {[
-            { icon: <Icons.Linkedin />, label: "victory mwenda", color: "#0A66C2", hoverBg: "hover:bg-[#0A66C2]/20", href: "https://linkedin.com/in/victory-mwenda" },
+            { icon: <Icons.Gmail />, label: "mwendavictory2@gmail.com", color: "#EA4335", hoverBg: "hover:bg-[#EA4335]/20", href: "https://mail.google.com/mail/?view=cm&fs=1&to=mwendavictory2@gmail.com&su=%20Inquiry&body=Hi%20Victory," },
+            { icon: <Icons.Linkedin />, label: "victory mwenda", color: "#0A66C2", hoverBg: "hover:bg-[#0A66C2]/20", href: "https://www.linkedin.com/in/victory-mwenda-2723113aa/" },
             { icon: <Icons.Github />, label: "prince-vizzy", color: "#FFFFFF", hoverBg: "hover:bg-white/20", href: "https://github.com/prince-vizzy" },
             { icon: <Icons.WhatsApp />, label: "0758985990", color: "#25D366", hoverBg: "hover:bg-[#25D366]/20", href: "https://wa.me/254758985990" },
             { icon: <Icons.Phone />, label: "0710595923", color: "#FFFFFF", hoverBg: "hover:bg-white/20", href: "tel:0710595923" },
@@ -89,7 +95,7 @@ const Portfolio = () => {
             <a
               key={idx}
               href={social.href}
-              target="_blank"
+              target={social.href.startsWith('http') || social.href.startsWith('mailto') ? "_blank" : undefined}
               rel="noreferrer"
               className={`group flex items-center w-fit gap-3 rounded-full transition-all duration-300 ${social.hoverBg} hover:pl-4 hover:pr-4`}
             >
