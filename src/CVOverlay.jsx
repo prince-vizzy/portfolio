@@ -4,6 +4,38 @@ import { useState, useEffect } from 'react';
 const CVOverlay = ({ isOpen, onClose, cvUrl }) => {
   const [copiedField, setCopiedField] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isPdfLoaded, setIsPdfLoaded] = useState(false);
+  const [pdfObjectUrl, setPdfObjectUrl] = useState(null);
+
+  useEffect(() => {
+    if (!isOpen) setIsPdfLoaded(false);
+  }, [isOpen]);
+
+  useEffect(() => {
+    let cancelled = false;
+    let createdUrl = null;
+    const warm = () => {
+      fetch(cvUrl)
+        .then((r) => (r.ok ? r.blob() : null))
+        .then((blob) => {
+          if (cancelled || !blob) return;
+          createdUrl = URL.createObjectURL(blob);
+          setPdfObjectUrl(createdUrl);
+        })
+        .catch(() => {});
+    };
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(warm, { timeout: 1500 });
+    } else {
+      setTimeout(warm, 200);
+    }
+    return () => {
+      cancelled = true;
+      if (createdUrl) URL.revokeObjectURL(createdUrl);
+    };
+  }, [cvUrl]);
+
+  const iframeSrc = `${pdfObjectUrl || cvUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`;
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -99,8 +131,9 @@ const CVOverlay = ({ isOpen, onClose, cvUrl }) => {
               ].join(' ')}
             >
               <iframe
-                src={`${cvUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                src={iframeSrc}
                 title="Victory Kanake CV"
+                onLoad={() => setIsPdfLoaded(true)}
                 className="border-none outline-none"
                 style={
                   isMobile
@@ -115,6 +148,12 @@ const CVOverlay = ({ isOpen, onClose, cvUrl }) => {
                       }
                 }
               />
+              {!isPdfLoaded && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#050505]/60 pointer-events-none">
+                  <div className="w-10 h-10 border-2 border-[#217522]/30 border-t-[#217522] rounded-full animate-spin"></div>
+                  <span className="text-white/60 text-[9px] uppercase tracking-[0.4em]">Loading CV</span>
+                </div>
+              )}
             </motion.div>
 
             {/* RIGHT CONTACT PANEL — desktop only */}
