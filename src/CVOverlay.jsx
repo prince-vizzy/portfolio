@@ -99,7 +99,7 @@ const CVOverlay = ({ isOpen, onClose, cvUrl }) => {
               ].join(' ')}
             >
               <iframe
-                src={cvUrl}
+                src={`${cvUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
                 title="Victory Kanake CV"
                 className="border-none outline-none"
                 style={
