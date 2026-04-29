@@ -7,6 +7,8 @@ import DecryptedText from './DecryptedText';
 import ParticleBackground from './ParticleBackground';
 import TitanicDashboard from './TitanicDashboard';
 
+const assetUrl = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+
 // Icons Component
 const Icons = {
   Linkedin: () => (
@@ -96,7 +98,7 @@ const Portfolio = () => {
           className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-2 transition-all duration-700 pointer-events-auto
             ${isProfileHovered ? 'border-[#217522] scale-105 shadow-[0_0_50px_rgba(33,117,34,0.15)]' : 'border-white/10 scale-100'}`}
         >
-          <img src="/color-image.jpg" alt="Victory Kanake" className="w-full h-full object-cover" />
+          <img src={assetUrl('/color-image.jpg')} alt="Victory Kanake" className="w-full h-full object-cover" />
         </div>
 
         <div className="flex flex-col gap-3 md:gap-4 pointer-events-auto">
@@ -240,7 +242,7 @@ const Portfolio = () => {
             aria-label="Open Titanic Survival Audit dashboard"
           >
             <TiltedCard
-              imageSrc="/titanic-viz.png"
+              imageSrc={assetUrl('/titanic-viz.png')}
               altText="Titanic Survival Audit Dashboard"
               containerHeight="auto"
               imageWidth="100%"
@@ -282,7 +284,7 @@ const Portfolio = () => {
             aria-label="Open Darts Scoring app"
           >
             <TiltedCard
-              imageSrc="/darts.png"
+              imageSrc={assetUrl('/darts.png')}
               altText="Darts Scoring and Dashboard App"
               containerHeight="auto"
               imageWidth="100%"
@@ -319,7 +321,7 @@ const Portfolio = () => {
       </footer>
 
       {/* CV Overlay */}
-      <CVOverlay isOpen={isCVOpen} onClose={() => setIsCVOpen(false)} cvUrl="/CV(4).pdf" />
+      <CVOverlay isOpen={isCVOpen} onClose={() => setIsCVOpen(false)} cvUrl={assetUrl('/CV(4).pdf')} />
 
       {/* â”€â”€ Titanic Dashboard Full-screen Modal â”€â”€ */}
       {showTitanicDashboard && (
@@ -458,7 +460,7 @@ const Portfolio = () => {
 
           <iframe
             title="Darts scoring app"
-            src="/darts-app/index.html"
+            src={assetUrl('/darts-app/index.html')}
             style={{
               width: '100%',
               height: '100%',
