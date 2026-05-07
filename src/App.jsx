@@ -44,6 +44,7 @@ const Portfolio = () => {
   const [isCVOpen, setIsCVOpen] = useState(false);
   const [showTitanicDashboard, setShowTitanicDashboard] = useState(false);
   const [showDartsApp, setShowDartsApp] = useState(false);
+  const [showShiiNgapi, setShowShiiNgapi] = useState(false);
   const [skillsDecrypted, setSkillsDecrypted] = useState(false);
   const [closeXHovered, setCloseXHovered] = useState(false);
   const [copiedField, setCopiedField] = useState(null);
@@ -61,10 +62,10 @@ const Portfolio = () => {
   };
 
   useEffect(() => {
-    document.body.style.overflow = (isCVOpen || showTitanicDashboard || showDartsApp) ? 'hidden' : 'unset';
+    document.body.style.overflow = (isCVOpen || showTitanicDashboard || showDartsApp || showShiiNgapi) ? 'hidden' : 'unset';
     const timer = setTimeout(() => setSkillsDecrypted(true), 4000);
     return () => clearTimeout(timer);
-  }, [isCVOpen, showTitanicDashboard, showDartsApp]);
+  }, [isCVOpen, showTitanicDashboard, showDartsApp, showShiiNgapi]);
 
   // Close on Escape key
   useEffect(() => {
@@ -72,6 +73,7 @@ const Portfolio = () => {
       if (e.key === 'Escape') {
         setShowTitanicDashboard(false);
         setShowDartsApp(false);
+        setShowShiiNgapi(false);
         setIsCVOpen(false);
       }
     };
@@ -313,6 +315,47 @@ const Portfolio = () => {
               </p>
             </div>
           </div>
+
+          {/* Shii Ngapi card — opens transit demo */}
+          <div
+            className="group cursor-pointer max-w-2xl w-full"
+            onClick={() => setShowShiiNgapi(true)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === ‘Enter’ && setShowShiiNgapi(true)}
+            aria-label="Open Shii Ngapi transit planner demo"
+          >
+            <TiltedCard
+              imageSrc={assetUrl(‘/matatu.jpeg’)}
+              altText="Shii Ngapi — Nairobi Transit Planner"
+              containerHeight="auto"
+              imageWidth="100%"
+              className="aspect-square w-full"
+            />
+            <div className="mt-8 space-y-4">
+              <div className="flex items-center gap-4">
+                <h4 className="text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all">
+                  Shii Ngapi
+                </h4>
+                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                  Transit App
+                </span>
+              </div>
+              <p className="text-sm text-gray-500 leading-relaxed max-w-md font-light">
+                A Nairobi matatu journey planner that finds the fastest route between any two points,
+                shows transfer stages, live fare estimates, and renders polylines on a live map.
+                Built with a multi-hop routing engine and Google Maps integration.
+              </p>
+              <div className="flex flex-wrap gap-4 text-[10px] text-gray-600 font-mono">
+                <span>[ Python / Flask ]</span>
+                <span>[ Routing Engine ]</span>
+                <span>[ GIS / Maps ]</span>
+              </div>
+              <p className="text-[10px] text-[#217522]/60 uppercase tracking-widest group-hover:text-[#217522] transition-colors">
+                Click to try demo →
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -461,6 +504,77 @@ const Portfolio = () => {
           <iframe
             title="Darts scoring app"
             src={assetUrl('/darts-app/index.html')}
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 0,
+              display: 'block',
+              animation: 'titanicSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          />
+        </div>
+      )}
+
+      {/* Shii Ngapi Full-screen Modal */}
+      {showShiiNgapi && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 50,
+            background: 'rgba(3, 3, 3, 0.97)',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
+            overflow: 'hidden',
+            animation: 'titanicFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        >
+          <button
+            onClick={() => setShowShiiNgapi(false)}
+            onMouseEnter={() => setCloseXHovered(true)}
+            onMouseLeave={() => setCloseXHovered(false)}
+            aria-label="Close Shii Ngapi demo"
+            style={{
+              position: 'fixed',
+              top: '20px',
+              right: '24px',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              background: closeXHovered ? 'rgba(232,72,85,0.15)' : 'rgba(255,255,255,0.07)',
+              border: `1px solid ${closeXHovered ? 'rgba(232,72,85,0.5)' : 'rgba(255,255,255,0.14)'}`,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 60,
+              transform: closeXHovered ? 'rotate(90deg) scale(1.1)' : 'rotate(0deg) scale(1)',
+              transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)',
+              padding: 0,
+              fontSize: 0,
+            }}
+          >
+            <span style={{
+              position: 'absolute',
+              width: '13px', height: '1.5px',
+              background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)',
+              borderRadius: '2px',
+              transform: 'rotate(45deg)',
+              transition: 'background 0.2s ease',
+            }} />
+            <span style={{
+              position: 'absolute',
+              width: '13px', height: '1.5px',
+              background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)',
+              borderRadius: '2px',
+              transform: 'rotate(-45deg)',
+              transition: 'background 0.2s ease',
+            }} />
+          </button>
+
+          <iframe
+            title="Shii Ngapi transit planner demo"
+            src={assetUrl('/shii-ngapi-demo/index.html')}
             style={{
               width: '100%',
               height: '100%',
