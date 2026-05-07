@@ -6,6 +6,7 @@ import Chart from 'chart.js/auto';
 import DecryptedText from './DecryptedText';
 import ParticleBackground from './ParticleBackground';
 import TitanicDashboard from './TitanicDashboard';
+import MpesaTrackerDashboard from './MpesaTrackerDashboard';
 
 const assetUrl = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
 
@@ -45,6 +46,7 @@ const Portfolio = () => {
   const [showTitanicDashboard, setShowTitanicDashboard] = useState(false);
   const [showDartsApp, setShowDartsApp] = useState(false);
   const [showShiiNgapi, setShowShiiNgapi] = useState(false);
+  const [showMpesaTracker, setShowMpesaTracker] = useState(false);
   const [skillsDecrypted, setSkillsDecrypted] = useState(false);
   const [closeXHovered, setCloseXHovered] = useState(false);
   const [copiedField, setCopiedField] = useState(null);
@@ -62,7 +64,7 @@ const Portfolio = () => {
   };
 
   useEffect(() => {
-    document.body.style.overflow = (isCVOpen || showTitanicDashboard || showDartsApp || showShiiNgapi) ? 'hidden' : 'unset';
+    document.body.style.overflow = (isCVOpen || showTitanicDashboard || showDartsApp || showShiiNgapi || showMpesaTracker) ? 'hidden' : 'unset';
     const timer = setTimeout(() => setSkillsDecrypted(true), 4000);
     return () => clearTimeout(timer);
   }, [isCVOpen, showTitanicDashboard, showDartsApp, showShiiNgapi]);
@@ -74,6 +76,7 @@ const Portfolio = () => {
         setShowTitanicDashboard(false);
         setShowDartsApp(false);
         setShowShiiNgapi(false);
+        setShowMpesaTracker(false);
         setIsCVOpen(false);
       }
     };
@@ -271,7 +274,7 @@ const Portfolio = () => {
               </div>
               {/* Subtle "click to open" hint */}
               <p className="text-[10px] text-[#217522]/60 uppercase tracking-widest group-hover:text-[#217522] transition-colors">
-                Click to explore â†’
+                Click to explore â†'
               </p>
             </div>
           </div>
@@ -311,7 +314,49 @@ const Portfolio = () => {
                 <span>[ Live Scoring ]</span>
               </div>
               <p className="text-[10px] text-[#217522]/60 uppercase tracking-widest group-hover:text-[#217522] transition-colors">
-                Click to play â†’
+                Click to play â†'
+              </p>
+            </div>
+          </div>
+
+          {/* M-Pesa Tracker card — opens budget dashboard demo */}
+          <div
+            className="group cursor-pointer max-w-2xl w-full"
+            onClick={() => setShowMpesaTracker(true)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && setShowMpesaTracker(true)}
+            aria-label="Open M-Pesa Budget Tracker demo"
+          >
+            <TiltedCard
+              imageSrc={assetUrl('/finance.png')}
+              altText="M-Pesa Budget Tracker Flutter App"
+              containerHeight="auto"
+              imageWidth="100%"
+              className="aspect-square w-full"
+            />
+            <div className="mt-8 space-y-4">
+              <div className="flex items-center gap-4">
+                <h4 className="text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all">
+                  M-Pesa Budget Tracker
+                </h4>
+                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                  Flutter App
+                </span>
+              </div>
+              <p className="text-sm text-gray-500 leading-relaxed max-w-md font-light">
+                An Android app that intercepts M-Pesa SMS notifications in real time, parses transaction
+                details, auto-categorizes spending by merchant, and tracks budgets with live charts —
+                all stored locally in SQLite with no server required.
+              </p>
+              <div className="flex flex-wrap gap-4 text-[10px] text-gray-600 font-mono">
+                <span>[ Flutter / Dart ]</span>
+                <span>[ SQLite ]</span>
+                <span>[ Android Native ]</span>
+                <span>[ Chart.js ]</span>
+              </div>
+              <p className="text-[10px] text-[#217522]/60 uppercase tracking-widest group-hover:text-[#217522] transition-colors">
+                Click to explore demo →
               </p>
             </div>
           </div>
@@ -322,16 +367,18 @@ const Portfolio = () => {
             onClick={() => setShowShiiNgapi(true)}
             role="button"
             tabIndex={0}
-            onKeyDown={e => e.key === ‘Enter’ && setShowShiiNgapi(true)}
+            onKeyDown={e => e.key === 'Enter' && setShowShiiNgapi(true)}
             aria-label="Open Shii Ngapi transit planner demo"
           >
-            <TiltedCard
-              imageSrc={assetUrl(‘/matatu.jpeg’)}
-              altText="Shii Ngapi — Nairobi Transit Planner"
-              containerHeight="auto"
-              imageWidth="100%"
-              className="aspect-square w-full"
-            />
+            <div className="w-56">
+              <TiltedCard
+                imageSrc={assetUrl('/matatu-hero.png')}
+                altText="Shii Ngapi — Nairobi Transit Planner"
+                containerHeight="auto"
+                imageWidth="100%"
+                objectFit="contain"
+              />
+            </div>
             <div className="mt-8 space-y-4">
               <div className="flex items-center gap-4">
                 <h4 className="text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all">
@@ -365,6 +412,61 @@ const Portfolio = () => {
 
       {/* CV Overlay */}
       <CVOverlay isOpen={isCVOpen} onClose={() => setIsCVOpen(false)} cvUrl={assetUrl('/CV(4).pdf')} />
+
+      {/* M-Pesa Tracker Full-screen Modal */}
+      {showMpesaTracker && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 50,
+            background: 'rgba(3, 3, 3, 0.97)',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
+            overflowY: 'auto',
+            animation: 'titanicFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        >
+          <button
+            onClick={() => setShowMpesaTracker(false)}
+            onMouseEnter={() => setCloseXHovered(true)}
+            onMouseLeave={() => setCloseXHovered(false)}
+            aria-label="Close M-Pesa tracker demo"
+            style={{
+              position: 'fixed',
+              top: '20px',
+              right: '24px',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              background: closeXHovered ? 'rgba(232,72,85,0.15)' : 'rgba(255,255,255,0.07)',
+              border: `1px solid ${closeXHovered ? 'rgba(232,72,85,0.5)' : 'rgba(255,255,255,0.14)'}`,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 60,
+              transform: closeXHovered ? 'rotate(90deg) scale(1.1)' : 'rotate(0deg) scale(1)',
+              transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)',
+              padding: 0,
+              fontSize: 0,
+            }}
+          >
+            <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(45deg)', transition: 'background 0.2s ease' }} />
+            <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(-45deg)', transition: 'background 0.2s ease' }} />
+          </button>
+          <div
+            style={{
+              maxWidth: '1100px',
+              margin: '0 auto',
+              padding: '20px 16px 56px',
+              animation: 'titanicSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            <MpesaTrackerDashboard />
+          </div>
+        </div>
+      )}
 
       {/* â”€â”€ Titanic Dashboard Full-screen Modal â”€â”€ */}
       {showTitanicDashboard && (
