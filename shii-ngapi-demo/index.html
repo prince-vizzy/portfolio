@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Shii Ngapi — Nairobi Transit Demo</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --border:rgba(255,255,255,.13);
+  --text:#e8f5ec;--muted:#6b8a72;
+  --accent:#3ecf6e;--green:#3ecf6e;
+  --blue:#60a5fa;--purple:#a78bfa;--orange:#f59e0b;--red:#f87171;
+  --r:14px;
+}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:#000;color:var(--text);overflow:hidden}
+#app{position:relative;width:100vw;height:100dvh;background:#000;overflow:hidden}
+#map{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.leaflet-tile-pane{filter:brightness(0.45) saturate(0.4) hue-rotate(90deg)}
+.leaflet-control-attribution{display:none!important}
+.leaflet-control-zoom{display:none}
+#top-bar{position:absolute;top:0;left:0;right:0;height:56px;padding:0 20px;display:flex;align-items:flex-end;padding-bottom:8px;background:linear-gradient(to bottom,rgba(10,20,12,.92) 0%,transparent 100%);z-index:20}
+#app-title{font-size:.85rem;font-weight:700;letter-spacing:.05em;color:#fff;opacity:.9}
+#demo-tag{margin-left:10px;background:rgba(62,207,110,.15);border:1px solid rgba(62,207,110,.3);border-radius:20px;padding:3px 10px;color:var(--accent);font-size:.65rem;font-weight:700;letter-spacing:.05em}
+#legend{position:absolute;top:64px;right:12px;background:rgba(10,20,12,.85);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:.7rem;backdrop-filter:blur(8px);z-index:20}
+.leg-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;color:#9ab09e}
+.leg-row:last-child{margin-bottom:0}
+.swatch{width:22px;height:3px;border-radius:2px}
+.swatch.dashed{background:repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 5px,transparent 5px,transparent 10px)}
+#map-info{position:absolute;top:64px;left:12px;background:rgba(10,20,12,.9);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;max-width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);border-left:4px solid var(--green);backdrop-filter:blur(10px);z-index:20}
+#map-info .mi-title{font-size:.72rem;color:var(--green);font-weight:700;margin-bottom:4px}
+#map-info .mi-detail{font-size:.72rem;color:#9ab09e;line-height:1.7}
+#drawer{position:absolute;top:0;bottom:0;left:0;right:0;background:rgba(10,20,12,.93);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top-left-radius:28px;border-top-right-radius:28px;padding:14px 18px 32px;z-index:30;display:flex;flex-direction:column;transition:transform .45s cubic-bezier(.4,0,.2,1)}
+#drawer.collapsed{transform:translateY(calc(100% - 76px))}
+#drawer.half{transform:translateY(50%)}
+#drawer-handle{width:40px;height:4px;background:rgba(255,255,255,.18);background-clip:content-box;border-radius:2px;padding:16px 50px;box-sizing:content-box;margin:0 auto 0;cursor:grab;touch-action:none;user-select:none}
+#mini-card{display:none;align-items:center;gap:10px;padding:0 2px 12px;cursor:grab;touch-action:none;user-select:none}
+#mini-card.show{display:flex}
+#mini-badges{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+#mini-fare{font-size:.82rem;font-weight:700;color:var(--green);white-space:nowrap}
+#mini-meta{font-size:.7rem;color:var(--muted);white-space:nowrap}
+#mini-expand{font-size:.9rem;color:var(--muted)}
+.fields{display:flex;flex-direction:column;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:16px;overflow:visible;margin-bottom:10px}
+.field-row{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.field-row+.field-row{border-top:1px solid var(--border)}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.dot.from{background:var(--blue)}
+.dot.to{background:var(--red)}
+.field-row input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:16px;font-family:inherit}
+.field-divider{position:relative;height:0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;padding-right:14px}
+#btn-swap{display:flex;width:28px;height:28px;background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:50%;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:14px;flex-shrink:0}
+#btn-search{width:100%;padding:14px;background:var(--accent);border:none;border-radius:14px;color:#071a0b;font-size:.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s,transform .1s;letter-spacing:.02em}
+#btn-search:active{opacity:.85;transform:scale(.98)}
+#results{margin-top:12px;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:8px;touch-action:pan-y;-webkit-overflow-scrolling:touch}
+#results::-webkit-scrollbar{display:none}
+.spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin-right:6px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.route-card{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;cursor:pointer;transition:border-color .15s,box-shadow .15s;animation:fadeUp .25s ease both}
+.route-card:hover{border-color:var(--accent)}
+.route-card.active{border-color:var(--green);box-shadow:0 0 0 3px rgba(62,207,110,.12)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:4px}
+.card-type{font-size:.68rem;color:var(--muted);font-weight:500}
+.fare{font-size:.76rem;font-weight:700;color:var(--green)}
+.legs{display:flex;flex-direction:column;gap:5px}
+.leg{display:flex;align-items:flex-start;gap:8px;font-size:.74rem;color:#9ab09e;line-height:1.4}
+.leg-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0}
+.leg-text{color:#9ab09e;flex:1}
+.leg-text b{color:var(--text)}
+.xfer-tag{font-size:.65rem;background:rgba(245,158,11,.15);color:var(--orange);padding:2px 6px;border-radius:10px;border:1px solid rgba(245,158,11,.3)}
+.walk-pill{margin-top:6px;padding:5px 9px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);border-radius:8px;font-size:.72rem;color:var(--orange);display:flex;align-items:center;gap:5px}
+.results-header{font-size:.75rem;color:var(--muted);margin-bottom:2px}
+.user-dot{width:16px;height:16px;background:var(--blue);border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(96,165,250,.3)}
+.dest-dot{width:16px;height:16px;background:var(--red);border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(248,113,113,.3)}
+.stop-dot{width:10px;height:10px;border:2px solid #fff;border-radius:50%}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="map"></div>
+  <div id="top-bar">
+    <span id="app-title">SHII NGAPI</span>
+    <span id="demo-tag">DEMO</span>
+  </div>
+  <div id="legend">
+    <div class="leg-row"><div class="swatch" style="background:var(--green)"></div> Direct</div>
+    <div class="leg-row"><div class="swatch" style="background:var(--blue)"></div> Leg 1</div>
+    <div class="leg-row"><div class="swatch" style="background:var(--purple)"></div> Leg 2</div>
+    <div class="leg-row"><div class="swatch dashed"></div> Walking</div>
+  </div>
+  <div id="map-info">
+    <div class="mi-title">Best Route &#x2714;</div>
+    <div class="mi-detail" id="mi-detail">Board at <b>Kencom</b> &middot; Alight at <b>Westlands</b><br>KSh <b>30</b> &nbsp;&middot;&nbsp; ~18 min</div>
+  </div>
+  <div id="drawer" class="half">
+    <div id="drawer-handle"></div>
+    <div id="mini-card">
+      <div id="mini-badges"></div>
+      <span id="mini-meta"></span>
+      <span id="mini-fare"></span>
+      <span id="mini-expand">&#x2303;</span>
+    </div>
+    <div class="fields">
+      <div class="field-row">
+        <span class="dot from"></span>
+        <input id="inp-from" type="text" value="CBD, Nairobi" autocomplete="off" readonly>
+      </div>
+      <div class="field-divider">
+        <button id="btn-swap" title="Swap">&#x21C5;</button>
+      </div>
+      <div class="field-row">
+        <span class="dot to"></span>
+        <input id="inp-to" type="text" value="Westlands, Nairobi" autocomplete="off" readonly>
+      </div>
+    </div>
+    <button id="btn-search">
+      <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      Search Routes
+    </button>
+    <div id="results"></div>
+  </div>
+</div>
+<script>
+var map = L.map('map', {center:[-1.2786,36.8148],zoom:14,zoomControl:false,attributionControl:false});
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(map);
+
+var FROM={lat:-1.2916,lng:36.8219,name:'CBD'};
+var TO={lat:-1.2653,lng:36.8068,name:'Westlands'};
+
+var ROUTES=[
+  {id:0,type:'Direct',fare:30,duration:'~18 min',color:'#3ecf6e',
+   legs:[{route:'107',board:{name:'Kencom',lat:-1.2916,lng:36.8219},alight:{name:'Westlands Stage',lat:-1.2653,lng:36.8068},fare:30,color:'#3ecf6e'}],
+   path:[[-1.2916,36.8219],[-1.2891,36.8196],[-1.2857,36.8165],[-1.2820,36.8124],[-1.2772,36.8093],[-1.2720,36.8075],[-1.2680,36.8068],[-1.2653,36.8068]]},
+  {id:1,type:'1 Transfer',fare:50,duration:'~32 min',color:'#60a5fa',
+   legs:[
+     {route:'23',board:{name:'Railways',lat:-1.2978,lng:36.8264},alight:{name:'Globe Roundabout',lat:-1.2728,lng:36.8166},fare:30,color:'#60a5fa'},
+     {route:'58',board:{name:'Globe Roundabout',lat:-1.2728,lng:36.8166},alight:{name:'Sarit Centre',lat:-1.2662,lng:36.8049},fare:20,color:'#a78bfa'}],
+   path1:[[-1.2978,36.8264],[-1.2940,36.8242],[-1.2890,36.8218],[-1.2830,36.8200],[-1.2780,36.8183],[-1.2728,36.8166]],
+   path2:[[-1.2728,36.8166],[-1.2710,36.8143],[-1.2690,36.8113],[-1.2671,36.8075],[-1.2662,36.8049]]},
+  {id:2,type:'1 Transfer',fare:60,duration:'~38 min',color:'#f59e0b',
+   legs:[
+     {route:'46',board:{name:'Nation Centre',lat:-1.2886,lng:36.8230},alight:{name:'Haile Selassie Jcn',lat:-1.2897,lng:36.8120},fare:20,color:'#f59e0b'},
+     {route:'103',board:{name:'Haile Selassie Jcn',lat:-1.2897,lng:36.8120},alight:{name:'Westlands Terminus',lat:-1.2660,lng:36.8055},fare:40,color:'#f87171'}],
+   path1:[[-1.2886,36.8230],[-1.2886,36.8175],[-1.2890,36.8140],[-1.2897,36.8120]],
+   path2:[[-1.2897,36.8120],[-1.2860,36.8100],[-1.2820,36.8082],[-1.2760,36.8065],[-1.2700,36.8058],[-1.2660,36.8055]]}
+];
+
+var overlays=[];
+function clearOverlays(){overlays.forEach(function(o){map.removeLayer(o)});overlays=[];}
+
+function makeDot(ll,cls,title){
+  var el=document.createElement('div');el.className=cls;
+  var icon=L.divIcon({html:el.outerHTML,className:'',iconSize:[16,16],iconAnchor:[8,8]});
+  overlays.push(L.marker(ll,{icon:icon,title:title,zIndexOffset:100}).addTo(map));
+}
+function makeStopDot(ll,color,title){
+  var el=document.createElement('div');el.className='stop-dot';el.style.background=color;
+  var icon=L.divIcon({html:el.outerHTML,className:'',iconSize:[10,10],iconAnchor:[5,5]});
+  overlays.push(L.marker(ll,{icon:icon,title:title,zIndexOffset:80}).addTo(map));
+}
+function drawDashed(pts){overlays.push(L.polyline(pts,{color:'#f59e0b',weight:3,opacity:0.7,dashArray:'6 8'}).addTo(map));}
+
+function drawRoute(route){
+  clearOverlays();
+  var bounds=L.latLngBounds([[FROM.lat,FROM.lng],[TO.lat,TO.lng]]);
+  if(route.path){
+    overlays.push(L.polyline(route.path,{color:route.color,weight:6,opacity:0.9}).addTo(map));
+    route.path.forEach(function(p){bounds.extend(p);});
+  }
+  if(route.path1){
+    overlays.push(L.polyline(route.path1,{color:route.legs[0].color,weight:6,opacity:0.9}).addTo(map));
+    route.path1.forEach(function(p){bounds.extend(p);});
+    overlays.push(L.polyline(route.path2,{color:route.legs[1].color,weight:6,opacity:0.9}).addTo(map));
+    route.path2.forEach(function(p){bounds.extend(p);});
+    makeStopDot([route.legs[0].alight.lat,route.legs[0].alight.lng],'#f59e0b',route.legs[0].alight.name+' (Transfer)');
+  }
+  var fb=route.legs[0].board;
+  var la=route.legs[route.legs.length-1].alight;
+  drawDashed([[FROM.lat,FROM.lng],[fb.lat,fb.lng]]);
+  drawDashed([[la.lat,la.lng],[TO.lat,TO.lng]]);
+  makeDot([FROM.lat,FROM.lng],'user-dot','CBD — Origin');
+  makeDot([TO.lat,TO.lng],'dest-dot','Westlands — Destination');
+  makeStopDot([fb.lat,fb.lng],route.legs[0].color,fb.name+' (Board)');
+  makeStopDot([la.lat,la.lng],route.legs[route.legs.length-1].color,la.name+' (Alight)');
+  map.fitBounds(bounds.pad(0.18),{paddingTopLeft:[20,80],paddingBottomRight:[20,360]});
+  document.getElementById('mi-detail').innerHTML=
+    'Board at <b>'+fb.name+'</b> &middot; Alight at <b>'+la.name+'</b><br>KSh <b>'+route.fare+'</b> &nbsp;&middot;&nbsp; '+route.duration;
+}
+
+function renderCards(){
+  var el=document.getElementById('results');
+  el.innerHTML='<div class="results-header">'+ROUTES.length+' routes found &middot; CBD &rarr; Westlands</div>';
+  ROUTES.forEach(function(route,idx){
+    var card=document.createElement('div');
+    card.className='route-card'+(idx===0?' active':'');
+    card.style.animationDelay=(idx*0.06)+'s';
+    var legsHtml='';
+    route.legs.forEach(function(leg,li){
+      legsHtml+='<div class="leg"><div class="leg-icon" style="background:'+leg.color+';font-size:.7rem">&#x1F68C;</div>'
+        +'<div class="leg-text"><b>'+leg.route+'</b> &middot; Board at <b>'+leg.board.name+'</b>'
+        +'<span style="float:right;font-size:.72rem;color:var(--muted)">KSh '+leg.fare+'</span></div></div>';
+      if(li<route.legs.length-1){
+        legsHtml+='<div class="leg"><span class="xfer-tag">Transfer at '+leg.alight.name+'</span></div>';
+      } else {
+        legsHtml+='<div class="leg"><div class="leg-icon" style="background:#f87171;font-size:.7rem">&#x1F3C1;</div>'
+          +'<div class="leg-text">Alight at <b>'+leg.alight.name+'</b></div></div>';
+      }
+    });
+    card.innerHTML='<div class="card-head"><span class="card-type">'+route.type+'</span><span class="fare">KSh '+route.fare+'</span></div>'
+      +'<div class="legs">'+legsHtml+'</div>'
+      +'<div class="walk-pill">&#x23F1; '+route.duration+'</div>';
+    card.addEventListener('click',function(){
+      document.querySelectorAll('.route-card').forEach(function(c){c.classList.remove('active');});
+      card.classList.add('active');
+      drawRoute(route);
+      collapseDrawer(route);
+    });
+    el.appendChild(card);
+  });
+}
+
+var _rt=null;
+function fitResults(){
+  var r=document.getElementById('results'); if(!r) return;
+  r.style.maxHeight=Math.max(60,window.innerHeight-r.getBoundingClientRect().top-32)+'px';
+}
+function setDrawer(state){
+  var d=document.getElementById('drawer');
+  d.classList.remove('collapsed','half');
+  if(state==='collapsed') d.classList.add('collapsed');
+  if(state==='half') d.classList.add('half');
+  clearTimeout(_rt); _rt=setTimeout(fitResults,460);
+}
+function getDrawer(){
+  var d=document.getElementById('drawer');
+  if(d.classList.contains('collapsed')) return 'collapsed';
+  if(d.classList.contains('half')) return 'half';
+  return 'full';
+}
+function collapseDrawer(route){
+  document.getElementById('mini-badges').innerHTML=route.legs.map(function(l){
+    return '<span style="padding:2px 8px;border-radius:12px;font-size:.68rem;font-weight:700;color:#fff;background:'+l.color+'">'+l.route+'</span>';
+  }).join('');
+  document.getElementById('mini-meta').textContent=route.duration;
+  document.getElementById('mini-fare').textContent='KSh '+route.fare;
+  document.getElementById('mini-card').classList.add('show');
+  setDrawer('collapsed');
+}
+
+(function(){
+  var drawer=document.getElementById('drawer');
+  var handle=document.getElementById('drawer-handle');
+  var mini=document.getElementById('mini-card');
+  var sy=0,by=0,ly=0,lt=0,active=false;
+  function snapY(s){var h=drawer.offsetHeight;if(s==='collapsed')return h-76;if(s==='half')return h*0.5;return 0;}
+  function begin(y){sy=y;ly=y;lt=Date.now();by=snapY(getDrawer());active=true;drawer.style.transition='none';}
+  function move(y){
+    if(!active)return;
+    drawer.style.transform='translateY('+Math.max(0,Math.min(snapY('collapsed'),by+(y-sy)))+'px)';
+    ly=y;lt=Date.now();
+  }
+  function end(y){
+    if(!active)return;active=false;
+    var ty=Math.max(0,Math.min(snapY('collapsed'),by+(y-sy)));
+    var dt=Date.now()-lt;
+    var vel=dt<200?(y-ly)/Math.max(1,dt):0;
+    drawer.style.transition='';drawer.style.transform='';
+    var cur=getDrawer();
+    if(vel>0.45) setDrawer(cur==='full'?'half':'collapsed');
+    else if(vel<-0.45) setDrawer(cur==='collapsed'?'half':'full');
+    else{
+      var pts=['full','half','collapsed'].map(function(s){return{s:s,d:Math.abs(ty-snapY(s))};});
+      setDrawer(pts.reduce(function(a,b){return b.d<a.d?b:a;}).s);
+    }
+  }
+  function bind(el){
+    el.addEventListener('touchstart',function(e){begin(e.touches[0].clientY);},{passive:true});
+    el.addEventListener('touchmove',function(e){move(e.touches[0].clientY);e.preventDefault();},{passive:false});
+    el.addEventListener('touchend',function(e){end(e.changedTouches[0].clientY);},{passive:true});
+    el.addEventListener('mousedown',function(e){
+      begin(e.clientY);
+      var mm=function(ev){move(ev.clientY);};
+      var mu=function(ev){end(ev.clientY);window.removeEventListener('mousemove',mm);window.removeEventListener('mouseup',mu);};
+      window.addEventListener('mousemove',mm);window.addEventListener('mouseup',mu);e.preventDefault();
+    });
+  }
+  bind(handle);bind(mini);
+  mini.addEventListener('click',function(){if(getDrawer()==='collapsed')setDrawer('half');});
+}());
+
+document.getElementById('btn-search').addEventListener('click',function(){
+  var btn=this;
+  btn.disabled=true;
+  btn.innerHTML='<span class="spinner"></span> Finding routes…';
+  document.getElementById('results').innerHTML='<div style="text-align:center;color:var(--muted);font-size:.78rem;padding:8px 0"><span class="spinner"></span> Searching matatu routes…</div>';
+  setDrawer('half');
+  setTimeout(function(){
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg> Search Routes';
+    renderCards();drawRoute(ROUTES[0]);fitResults();
+  },1400);
+});
+
+document.getElementById('btn-swap').addEventListener('click',function(){
+  var f=document.getElementById('inp-from'),t=document.getElementById('inp-to');
+  var tmp=f.value;f.value=t.value;t.value=tmp;
+});
+
+setTimeout(function(){renderCards();drawRoute(ROUTES[0]);fitResults();setDrawer('half');},300);
+</script>
+</body>
+</html>
