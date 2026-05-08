@@ -149,7 +149,7 @@ export default function MpesaTrackerDashboard() {
           <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #0F172A, #1E293B)', border: '1px solid rgba(234,179,8,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>💳</div>
           <div>
             <div style={{ fontSize: 16, fontWeight: 600, color: 'white' }}>M-Pesa Budget Tracker</div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)' }}>Victor · April 2025 · Flutter + Android</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)' }}>Victory · April 2025 · Flutter + Android</div>
           </div>
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
