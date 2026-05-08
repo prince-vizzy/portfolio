@@ -1,0 +1,928 @@
+
+<h2 class="sr-only">Social Media & Mental Health Interactive Analytics Dashboard — 481 survey respondents, exploring correlations between screen time and wellbeing indicators.</h2>
+
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+/* ── Dark palette & parent override ── */
+.dash {
+  --bg:     #0D1117;
+  --surf:   #161B22;
+  --surf2:  #1C2128;
+  --surf3:  #21262D;
+  --bdr:    #30363D;
+  --bdr2:   rgba(48,54,61,0.55);
+
+  --blue:       #388BFD;
+  --blue-bg:    rgba(56,139,253,0.10);
+  --blue-glow:  rgba(56,139,253,0.18);
+  --green:      #3FB950;
+  --green-bg:   rgba(63,185,80,0.10);
+  --orange:     #E3B341;
+  --orange-bg:  rgba(227,179,65,0.10);
+  --red:        #F85149;
+  --red-bg:     rgba(248,81,73,0.10);
+  --purple:     #BC8CFF;
+  --purple-bg:  rgba(188,140,255,0.10);
+  --teal:       #2DD4BF;
+  --teal-bg:    rgba(45,212,191,0.10);
+
+  --text:   #E6EDF3;
+  --text2:  #8B949E;
+  --text3:  #6E7681;
+
+  /* Override parent app CSS variables */
+  --color-text-primary:         #E6EDF3;
+  --color-text-secondary:       #8B949E;
+  --color-background-primary:   #161B22;
+  --color-background-secondary: #1C2128;
+  --color-border-secondary:     #30363D;
+  --color-border-tertiary:      rgba(48,54,61,0.55);
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+
+  color-scheme: dark;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.dash-header {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+  padding: 18px 24px 16px;
+  border-bottom: 1px solid var(--bdr);
+  background: linear-gradient(180deg, rgba(56,139,253,0.06) 0%, transparent 100%);
+}
+.hdr-left  { display: flex; align-items: center; gap: 13px; }
+.hdr-icon  {
+  width: 38px; height: 38px;
+  background: var(--blue-bg); border: 1px solid rgba(56,139,253,0.28);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.hdr-title { font-size: 16px; font-weight: 600; color: var(--text); letter-spacing: -0.015em; }
+.hdr-sub   { font-size: 12px; color: var(--text2); margin-top: 3px; }
+.hdr-right { display: flex; align-items: center; gap: 12px; }
+.live-badge {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; color: var(--green);
+  background: var(--green-bg); border: 1px solid rgba(63,185,80,0.25);
+  border-radius: 20px; padding: 3px 10px;
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+  animation: blink 2.2s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+.hdr-meta { font-size: 11px; color: var(--text3); }
+
+/* ── Filter bar ── */
+.filter-bar {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 12px 24px 12px;
+  border-bottom: 1px solid var(--bdr2);
+  background: var(--surf);
+}
+.filter-lbl { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-right: 4px; white-space: nowrap; }
+.fwrap { display: flex; align-items: center; gap: 4px; }
+.fsel {
+  font-size: 12px; padding: 5px 28px 5px 10px;
+  border-radius: 7px; border: 1px solid var(--bdr);
+  background: var(--surf2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238B949E' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 9px center;
+  color: var(--text); cursor: pointer; appearance: none; -webkit-appearance: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: inherit;
+}
+.fsel:hover { border-color: var(--blue); }
+.fsel:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
+.reset-btn {
+  margin-left: auto; font-size: 11px; padding: 5px 13px;
+  border-radius: 7px; border: 1px solid var(--bdr);
+  background: transparent; color: var(--text2);
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.reset-btn:hover { border-color: var(--text2); color: var(--text); }
+
+/* ── Section header ── */
+.sec {
+  display: flex; align-items: center; gap: 10px;
+  padding: 18px 24px 10px;
+}
+.sec-lbl { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.09em; white-space: nowrap; }
+.sec-line { flex: 1; height: 1px; background: var(--bdr2); }
+
+/* ── KPI grid ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px; padding: 0 24px 4px;
+}
+@media (max-width: 960px) { .kpi-grid { grid-template-columns: repeat(3,1fr); } }
+@media (max-width: 540px)  { .kpi-grid { grid-template-columns: repeat(2,1fr); } }
+
+.kpi {
+  background: var(--surf); border: 1px solid var(--bdr);
+  border-radius: 12px; padding: 14px 15px;
+  position: relative; overflow: hidden;
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  cursor: default;
+}
+.kpi::after {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: var(--kpi-accent, var(--blue));
+  border-radius: 12px 12px 0 0;
+}
+.kpi:hover { border-color: #4A5568; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+.kpi-top   { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.kpi-ico   {
+  width: 24px; height: 24px; border-radius: 7px;
+  background: var(--kpi-accent-bg, var(--blue-bg));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+.kpi-label { font-size: 10px; color: var(--text2); font-weight: 500; }
+.kpi-val   { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.03em; line-height: 1; margin-bottom: 4px; }
+.kpi-sub   { font-size: 10px; color: var(--text3); }
+
+/* ── Charts area ── */
+.charts-area { padding: 0 24px; }
+.charts-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 660px) { .charts-grid { grid-template-columns: 1fr; } }
+
+/* ── Card ── */
+.card {
+  background: var(--surf); border: 1px solid var(--bdr);
+  border-radius: 14px; padding: 16px 18px;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: #3D4654; }
+.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 3px; }
+.card-title { font-size: 13px; font-weight: 500; color: var(--text); display: flex; align-items: center; gap: 7px; line-height: 1.2; }
+.card-title .cti { font-size: 14px; color: var(--text2); }
+.card-desc  { font-size: 11px; color: var(--text3); margin-top: 3px; }
+.card-canvas { position: relative; margin-top: 14px; }
+
+/* ── Legend ── */
+.legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; font-size: 11px; color: var(--text2); }
+.legend span { display: flex; align-items: center; gap: 5px; }
+.ldot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+
+/* ── Metric toggles ── */
+.toggle-lbl { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+.metric-toggle { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.mtbtn {
+  font-size: 11px; padding: 4px 12px;
+  border-radius: 20px; border: 1px solid var(--bdr);
+  background: transparent; color: var(--text2);
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.mtbtn:hover  { border-color: var(--blue); color: var(--blue); background: var(--blue-bg); }
+.mtbtn.active { background: var(--blue-bg); color: var(--blue); border-color: rgba(56,139,253,0.45); }
+
+/* ── Insight bar ── */
+.insight-bar {
+  border-left: 2px solid var(--blue);
+  background: linear-gradient(90deg, var(--blue-bg) 0%, transparent 100%);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+  font-size: 12px; color: var(--text2);
+  margin-top: 14px; cursor: help; line-height: 1.5;
+}
+
+/* ── Platform bars ── */
+.platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 24px; margin-top: 8px; }
+@media (max-width: 540px) { .platform-grid { grid-template-columns: 1fr; } }
+.pbar-row {
+  font-size: 12px; color: var(--text2);
+  cursor: help; padding: 7px 8px;
+  border-radius: 8px; transition: background 0.12s;
+}
+.pbar-row:hover { background: var(--surf2); }
+.pbar-top  { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.pbar-name { font-weight: 500; color: var(--text); font-size: 12px; }
+.pbar-meta { display: flex; align-items: center; gap: 8px; }
+.pbar-pct  { font-weight: 700; color: var(--blue); font-size: 11px; }
+.pbar-n    { font-size: 10px; color: var(--text3); }
+.pbar-track { height: 4px; background: var(--surf3); border-radius: 2px; overflow: hidden; }
+.pbar-fill  { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--blue) 0%, #93C5FD 100%); }
+
+/* ── Stat pills on gender legend ── */
+.gender-legend { display: flex; gap: 14px; margin-top: 8px; margin-bottom: 2px; flex-wrap: wrap; }
+.gpill { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); }
+.gpill-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── Footer ── */
+.dash-footer {
+  margin-top: 6px; padding: 13px 24px;
+  border-top: 1px solid var(--bdr2);
+  font-size: 11px; color: var(--text3);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+}
+
+/* ── Spacer ── */
+.gap12 { height: 12px; }
+
+/* ── Tooltip system ── */
+#tt {
+  position: fixed; z-index: 99999;
+  background: var(--surf3, #21262D); border: 1px solid var(--bdr, #30363D);
+  border-radius: 10px; padding: 10px 14px;
+  font-size: 12px; color: var(--text, #E6EDF3);
+  max-width: 284px; line-height: 1.55;
+  box-shadow: 0 10px 36px rgba(0,0,0,0.55);
+  pointer-events: none; opacity: 0; transition: opacity 0.12s;
+}
+#tt.visible { opacity: 1; }
+#tt .tt-title { font-weight: 700; font-size: 10px; color: var(--text3, #6E7681); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+.tip-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--surf3, #21262D); color: var(--text3, #6E7681);
+  font-size: 9px; font-style: normal; font-weight: 700;
+  cursor: help; flex-shrink: 0;
+  border: 1px solid var(--bdr, #30363D);
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  user-select: none; line-height: 1;
+}
+.tip-icon:hover { background: var(--blue-bg, rgba(56,139,253,0.1)); color: var(--blue, #388BFD); border-color: rgba(56,139,253,0.4); }
+</style>
+
+<div id="tt"></div>
+
+<div class="dash">
+
+  <!-- ── Header ── -->
+  <header class="dash-header">
+    <div class="hdr-left">
+      <div class="hdr-icon">📊</div>
+      <div>
+        <div class="hdr-title">Social Media &amp; Mental Health Analytics</div>
+        <div class="hdr-sub">481 survey respondents &nbsp;·&nbsp; Screen time &amp; wellbeing correlations &nbsp;·&nbsp; Likert scale 1–5</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="live-badge"><span class="live-dot"></span>Survey Data</div>
+      <div class="hdr-meta">2022 – 2023 &nbsp;·&nbsp; n = 481</div>
+    </div>
+  </header>
+
+  <!-- ── Filter bar ── -->
+  <div class="filter-bar">
+    <span class="filter-lbl">Filter by</span>
+
+    <div class="fwrap">
+      <select id="filterGender" class="fsel" onchange="applyFilters()">
+        <option value="all">All genders</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <span class="tip-icon"
+        data-tip-title="Gender filter"
+        data-tip="Narrows the KPI summary cards by respondent gender. Select Male or Female to isolate that group — useful for comparing how social media affects each gender differently.">i</span>
+    </div>
+
+    <div class="fwrap">
+      <select id="filterOcc" class="fsel" onchange="applyFilters()">
+        <option value="all">All occupations</option>
+        <option value="University Student">University students</option>
+        <option value="School Student">School students</option>
+        <option value="Salaried Worker">Salaried workers</option>
+        <option value="Retired">Retired</option>
+      </select>
+      <span class="tip-icon"
+        data-tip-title="Occupation filter"
+        data-tip="Filters by respondent occupation. University students make up 64% of the sample (309 of 481). Compare their patterns with school students, salaried workers, or retired respondents.">i</span>
+    </div>
+
+    <div class="fwrap">
+      <select id="filterRel" class="fsel" onchange="applyFilters()">
+        <option value="all">All relationships</option>
+        <option value="Single">Single</option>
+        <option value="In a relationship">In a relationship</option>
+        <option value="Married">Married</option>
+        <option value="Divorced">Divorced</option>
+      </select>
+      <span class="tip-icon"
+        data-tip-title="Relationship filter"
+        data-tip="Filters by relationship status. Useful for exploring whether being single, partnered, married, or divorced correlates with different usage habits or mental health scores.">i</span>
+    </div>
+
+    <button class="reset-btn" onclick="resetFilters()">↺ Reset</button>
+  </div>
+
+  <!-- ── Overview KPIs ── -->
+  <div class="sec"><span class="sec-lbl">Overview</span><span class="sec-line"></span></div>
+  <div class="kpi-grid" id="kpiGrid"></div>
+
+  <!-- ── Usage Patterns ── -->
+  <div class="sec"><span class="sec-lbl">Usage Patterns</span><span class="sec-line"></span></div>
+  <div class="charts-area">
+    <div class="charts-grid">
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title"><i class="ti ti-clock cti" aria-hidden="true"></i> Daily usage distribution</div>
+            <div class="card-desc">Respondent count per daily screen time bracket</div>
+          </div>
+          <span class="tip-icon" style="flex-shrink:0"
+            data-tip-title="Daily usage distribution"
+            data-tip="Count of respondents per daily screen time bracket. The distribution skews heavy — 116 people (24%) use social media more than 5 hours daily, the single largest group. Bars darken with usage intensity.">i</span>
+        </div>
+        <div class="card-canvas" style="height:210px;">
+          <canvas id="chartUsage" role="img" aria-label="Bar chart of daily social media usage distribution"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title"><i class="ti ti-gender-bigender cti" aria-hidden="true"></i> Mental health by gender</div>
+            <div class="card-desc">6 indicators compared on a 1–5 scale (higher = worse)</div>
+          </div>
+          <span class="tip-icon" style="flex-shrink:0"
+            data-tip-title="Mental health by gender"
+            data-tip="Grouped bars comparing 6 mental health indicators for Male vs Female respondents on a 1–5 scale. Female respondents score slightly higher across all six dimensions, indicating comparatively greater reported distress.">i</span>
+        </div>
+        <div id="genderLegend" class="gender-legend"></div>
+        <div class="card-canvas" style="height:196px;">
+          <canvas id="chartGender" role="img" aria-label="Grouped bar chart of mental health scores by gender"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Mental Health Trends ── -->
+  <div class="sec"><span class="sec-lbl">Mental Health Trends</span><span class="sec-line"></span></div>
+  <div class="charts-area">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title"><i class="ti ti-trending-up cti" aria-hidden="true"></i> Mental health scores vs. daily screen time</div>
+          <div class="card-desc">Mean indicator score per usage bracket — toggle metrics to compare</div>
+        </div>
+        <span class="tip-icon" style="flex-shrink:0"
+          data-tip-title="Score trends by screen time"
+          data-tip="Plots average mental health indicator scores across daily usage brackets (x-axis). Each data point is the mean for all respondents in that bracket. Toggle the metric pills to add or remove indicators. All scores are on a 1–5 scale.">i</span>
+      </div>
+      <div class="toggle-lbl">Active metrics</div>
+      <div class="metric-toggle" id="metricToggle"></div>
+      <div class="legend" id="lineChartLegend"></div>
+      <div class="card-canvas" style="height:240px;">
+        <canvas id="chartLine" role="img" aria-label="Line chart of mental health indicators vs screen time"></canvas>
+      </div>
+      <div class="insight-bar" id="insightBar"
+        data-tip-title="Auto insight"
+        data-tip="Auto-updates to reflect the first active metric. Compares the lightest usage group (&lt;1h/day) against the heaviest (&gt;5h/day) to show the percentage increase across the full usage range."></div>
+    </div>
+  </div>
+
+  <!-- ── Demographics ── -->
+  <div class="sec"><span class="sec-lbl">Demographics</span><span class="sec-line"></span></div>
+  <div class="charts-area">
+    <div class="charts-grid">
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title"><i class="ti ti-user-circle cti" aria-hidden="true"></i> Avg mental health score by age group</div>
+            <div class="card-desc">All indicators averaged · 1–5 scale</div>
+          </div>
+          <span class="tip-icon" style="flex-shrink:0"
+            data-tip-title="Mental health by age"
+            data-tip="Average composite mental health score per age group (all indicators, scale 1–5). The 18–24 bracket has the most respondents (309, 64% of sample) and scores highest at 3.27 — driven by the student-heavy demographic.">i</span>
+        </div>
+        <div class="card-canvas" style="height:210px;">
+          <canvas id="chartAge" role="img" aria-label="Bar chart of average mental health score by age group"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title"><i class="ti ti-target cti" aria-hidden="true"></i> Purposeless usage frequency</div>
+            <div class="card-desc">"How often do you scroll without a goal?" — 1–5 scale</div>
+          </div>
+          <span class="tip-icon" style="flex-shrink:0"
+            data-tip-title="Purposeless usage"
+            data-tip="Responses to: &quot;How often do you use social media without a specific purpose?&quot; on a 1–5 scale. 267 of 481 respondents (55%) scored 4 or 5, meaning most usage is habitual rather than intentional.">i</span>
+        </div>
+        <div class="card-canvas" style="height:210px;">
+          <canvas id="chartPurpose" role="img" aria-label="Doughnut chart of purposeless social media usage frequency"></canvas>
+        </div>
+        <div id="purposeLegend" class="gender-legend" style="margin-top:10px;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Platform Adoption ── -->
+  <div class="sec"><span class="sec-lbl">Platform Adoption</span><span class="sec-line"></span></div>
+  <div class="charts-area">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title"><i class="ti ti-device-mobile cti" aria-hidden="true"></i> Platform adoption</div>
+          <div class="card-desc">% of 481 respondents using each platform · one person can use multiple</div>
+        </div>
+        <span class="tip-icon" style="flex-shrink:0"
+          data-tip-title="Platform adoption"
+          data-tip="Percentage of the 481 respondents who use each platform. One person can use multiple platforms, so values sum to more than 100%. Hover individual bars for platform-specific context. Sorted by adoption rate.">i</span>
+      </div>
+      <div class="platform-grid" id="platformBars"></div>
+    </div>
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer class="dash-footer">
+    <span>Data source: Kaggle — Social Media &amp; Mental Health Survey (2022–2023) &nbsp;·&nbsp; n = 481 &nbsp;·&nbsp; Scores on 1–5 Likert scale (1 = never / low, 5 = always / severe)</span>
+    <span style="color:var(--text3)">Interactive Analytics &nbsp;·&nbsp; 2026</span>
+  </footer>
+
+</div><!-- .dash -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+/* ── Chart.js dark-mode globals ── */
+Chart.defaults.color           = '#8B949E';
+Chart.defaults.borderColor     = 'rgba(48,54,61,0.7)';
+Chart.defaults.font.family     = "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif";
+Chart.defaults.plugins.tooltip.backgroundColor = '#21262D';
+Chart.defaults.plugins.tooltip.titleColor      = '#E6EDF3';
+Chart.defaults.plugins.tooltip.bodyColor       = '#8B949E';
+Chart.defaults.plugins.tooltip.borderColor     = '#30363D';
+Chart.defaults.plugins.tooltip.borderWidth     = 1;
+Chart.defaults.plugins.tooltip.padding         = 10;
+Chart.defaults.plugins.tooltip.cornerRadius    = 8;
+Chart.defaults.plugins.tooltip.boxPadding      = 4;
+
+/* ── Scale defaults ── */
+const xScale = { grid:{ display:false }, ticks:{ color:'#8B949E', font:{size:11} }, border:{ color:'rgba(48,54,61,0.6)' } };
+const yScale = { grid:{ color:'rgba(48,54,61,0.55)' }, ticks:{ color:'#8B949E', font:{size:11} }, border:{ color:'rgba(48,54,61,0.4)', dash:[3,3] } };
+const noLegend = { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } } };
+
+/* ── Data ── */
+const TIME_ORDER = ['Less than an Hour','Between 1 and 2 hours','Between 2 and 3 hours','Between 3 and 4 hours','Between 4 and 5 hours','More than 5 hours'];
+const TIME_SHORT = ['< 1 h','1 – 2 h','2 – 3 h','3 – 4 h','4 – 5 h','> 5 h'];
+
+const METRICS = [
+  {key:'distraction', label:'Distraction',       color:'#60A5FA'},
+  {key:'worries',     label:'Worries',            color:'#FB923C'},
+  {key:'depression',  label:'Depression',         color:'#F472B6'},
+  {key:'sleep',       label:'Sleep issues',       color:'#34D399'},
+  {key:'validation',  label:'Validation seeking', color:'#FBBF24'},
+  {key:'comparison',  label:'Social comparison',  color:'#A78BFA'},
+];
+
+const METRIC_TIPS = {
+  distraction: 'How often social media distracts from productive activities. Rises from 2.06 (under 1h/day) to 3.75 (over 5h/day) — one of the sharpest increases of all tracked metrics. Click to toggle on/off.',
+  worries:     'Self-reported worry or anxiety linked to social media. Shows the steepest overall increase across usage tiers, reaching 4.0/5 for heavy users. Click to toggle on/off.',
+  depression:  'Indicator of depressive symptoms associated with usage. Closely mirrors distraction scores; heaviest users average 3.77/5. Click to toggle on/off.',
+  sleep:       'Frequency of sleep disruption attributed to social media. Moderate and heavy users (2–5h brackets) show similar scores around 3.1–3.5. Click to toggle on/off.',
+  validation:  'How much respondents rely on social media approval (likes, comments). Comparatively flat across usage tiers — only rises from 2.06 to 2.60/5. Click to toggle on/off.',
+  comparison:  'Tendency to compare oneself to others seen on social media. Jumps notably at the 3–4 hour bracket, suggesting a threshold effect at mid-range usage. Click to toggle on/off.'
+};
+
+const PLAT_TIPS = {
+  YouTube:  'Used by 412 of 481 respondents (85.7%) — the most-used platform. High passive consumption through long-form video and Shorts.',
+  Facebook: 'Used by 407 respondents (84.6%). Second most adopted; tends to skew toward slightly older demographics in the sample.',
+  Instagram:'Used by 359 respondents (74.6%). Strongly associated with social comparison behavior in the survey data.',
+  Discord:  'Used by 198 respondents (41.2%). Community-oriented chat platform; popular among university students in the sample.',
+  Snapchat: 'Used by 181 respondents (37.6%). Ephemeral messaging and stories format.',
+  Pinterest:'Used by 145 respondents (30.1%). Visual discovery and bookmarking platform.',
+  Twitter:  'Used by 131 respondents (27.2%). Microblogging and real-time discussion.',
+  Reddit:   'Used by 126 respondents (26.2%). Forum-based anonymous discussion and content consumption.',
+  TikTok:   'Used by 94 respondents (19.5%). Lowest adoption but strongly associated with high purposeless scrolling behavior.'
+};
+
+const PRECOMPUTED = {
+  usageCounts: [34,70,101,93,67,116],
+  byTime: {
+    'Less than an Hour':     {distraction:2.06,worries:2.35,depression:2.0, sleep:2.56,validation:2.06,comparison:2.15},
+    'Between 1 and 2 hours': {distraction:2.93,worries:3.06,depression:2.8, sleep:2.87,validation:2.31,comparison:2.44},
+    'Between 2 and 3 hours': {distraction:3.31,worries:3.41,depression:3.18,sleep:3.12,validation:2.46,comparison:2.62},
+    'Between 3 and 4 hours': {distraction:3.47,worries:3.9, depression:3.37,sleep:3.28,validation:2.42,comparison:3.15},
+    'Between 4 and 5 hours': {distraction:3.64,worries:3.69,depression:3.45,sleep:3.46,validation:2.6, comparison:3.03},
+    'More than 5 hours':     {distraction:3.75,worries:4.0, depression:3.77,sleep:3.45,validation:2.6, comparison:3.08}
+  },
+  ageMH:     {'13-17':2.94,'18-24':3.27,'25-34':3.12,'35-44':2.38,'45+':2.5},
+  ageCounts: {'13-17':19,  '18-24':309, '25-34':76,  '35-44':24,  '45+':52},
+  genderMH:  {Male:3.0, Female:3.19},
+  purposeless:{1:20,2:65,3:129,4:163,5:104},
+  total: 481,
+  platforms:{YouTube:412,Facebook:407,Instagram:359,Discord:198,Snapchat:181,Pinterest:145,Twitter:131,Reddit:126,TikTok:94},
+  /* extra fields used as S fallback */
+  genderRows: { male:[3.0,3.3,3.0,3.1,2.3,2.6], female:[3.3,3.6,3.3,3.3,2.5,2.8], maleAvg:3.0, femaleAvg:3.19 },
+  heavy: 116, purposelessHigh: 267, avgDepression: 3.10, avgSleep: 3.14
+};
+
+const DATASET = [
+  {age:21,gender:'Male',  rel:'In a relationship',occ:'University Student',time:'Between 2 and 3 hours',purposeless:5,distraction:5,comparison:2,worries:2,concentration:5,validation:2,depression:5,fluctuation:4,sleep:5},
+  {age:21,gender:'Female',rel:'Single',           occ:'University Student',time:'More than 5 hours',    purposeless:4,distraction:4,comparison:5,worries:4,concentration:5,validation:1,depression:5,fluctuation:4,sleep:5},
+  {age:21,gender:'Female',rel:'Single',           occ:'University Student',time:'Between 3 and 4 hours',purposeless:3,distraction:2,comparison:3,worries:5,concentration:2,validation:1,depression:4,fluctuation:2,sleep:5},
+  {age:21,gender:'Female',rel:'Single',           occ:'University Student',time:'More than 5 hours',    purposeless:4,distraction:3,comparison:5,worries:5,concentration:3,validation:2,depression:4,fluctuation:3,sleep:2},
+  {age:21,gender:'Female',rel:'Single',           occ:'University Student',time:'Between 2 and 3 hours',purposeless:3,distraction:4,comparison:3,worries:5,concentration:4,validation:3,depression:4,fluctuation:4,sleep:1},
+  {age:22,gender:'Female',rel:'Single',           occ:'University Student',time:'Between 2 and 3 hours',purposeless:4,distraction:3,comparison:4,worries:4,concentration:3,validation:3,depression:3,fluctuation:2,sleep:4},
+  {age:21,gender:'Female',rel:'Married',          occ:'University Student',time:'Between 3 and 4 hours',purposeless:4,distraction:2,comparison:3,worries:4,concentration:2,validation:4,depression:5,fluctuation:5,sleep:3},
+  {age:21,gender:'Female',rel:'In a relationship',occ:'University Student',time:'More than 5 hours',    purposeless:5,distraction:3,comparison:3,worries:3,concentration:1,validation:1,depression:5,fluctuation:5,sleep:1},
+  {age:20,gender:'Male',  rel:'Single',           occ:'University Student',time:'Less than an Hour',    purposeless:1,distraction:1,comparison:1,worries:1,concentration:1,validation:1,depression:1,fluctuation:1,sleep:1},
+  {age:24,gender:'Male',  rel:'Single',           occ:'University Student',time:'Between 2 and 3 hours',purposeless:5,distraction:4,comparison:4,worries:3,concentration:5,validation:4,depression:5,fluctuation:4,sleep:5},
+  {age:21,gender:'Female',rel:'Single',           occ:'University Student',time:'Between 3 and 4 hours',purposeless:4,distraction:5,comparison:2,worries:3,concentration:2,validation:2,depression:3,fluctuation:4,sleep:2},
+  {age:22,gender:'Female',rel:'Single',           occ:'University Student',time:'Between 3 and 4 hours',purposeless:3,distraction:4,comparison:2,worries:4,concentration:4,validation:1,depression:3,fluctuation:1,sleep:5},
+  {age:21,gender:'Female',rel:'Single',           occ:'University Student',time:'Between 3 and 4 hours',purposeless:5,distraction:1,comparison:3,worries:4,concentration:2,validation:2,depression:3,fluctuation:3,sleep:3},
+  {age:22,gender:'Male',  rel:'Single',           occ:'University Student',time:'More than 5 hours',    purposeless:5,distraction:5,comparison:5,worries:5,concentration:5,validation:5,depression:5,fluctuation:5,sleep:5},
+  {age:23,gender:'Male',  rel:'In a relationship',occ:'University Student',time:'Between 1 and 2 hours',purposeless:3,distraction:3,comparison:2,worries:4,concentration:3,validation:2,depression:3,fluctuation:4,sleep:2},
+  {age:21,gender:'Male',  rel:'Single',           occ:'University Student',time:'Less than an Hour',    purposeless:2,distraction:2,comparison:1,worries:4,concentration:2,validation:1,depression:4,fluctuation:1,sleep:3},
+  {age:25,gender:'Male',  rel:'Single',           occ:'School Student',    time:'Between 4 and 5 hours',purposeless:5,distraction:4,comparison:4,worries:3,concentration:4,validation:2,depression:2,fluctuation:2,sleep:2},
+  {age:28,gender:'Male',  rel:'Single',           occ:'University Student',time:'Between 1 and 2 hours',purposeless:3,distraction:4,comparison:2,worries:5,concentration:4,validation:1,depression:3,fluctuation:3,sleep:1},
+  {age:34,gender:'Male',  rel:'Divorced',         occ:'Salaried Worker',   time:'Between 1 and 2 hours',purposeless:2,distraction:3,comparison:3,worries:4,concentration:1,validation:5,depression:2,fluctuation:2,sleep:2},
+  {age:22,gender:'Male',  rel:'In a relationship',occ:'University Student',time:'Between 2 and 3 hours',purposeless:4,distraction:3,comparison:2,worries:3,concentration:2,validation:1,depression:2,fluctuation:3,sleep:2},
+  {age:23,gender:'Male',  rel:'Single',           occ:'University Student',time:'More than 5 hours',    purposeless:3,distraction:2,comparison:4,worries:4,concentration:5,validation:1,depression:3,fluctuation:3,sleep:1},
+  {age:26,gender:'Female',rel:'Single',           occ:'University Student',time:'Between 3 and 4 hours',purposeless:3,distraction:3,comparison:3,worries:4,concentration:4,validation:3,depression:4,fluctuation:4,sleep:4},
+  {age:23,gender:'Female',rel:'Married',          occ:'University Student',time:'Between 1 and 2 hours',purposeless:3,distraction:4,comparison:2,worries:4,concentration:3,validation:3,depression:4,fluctuation:4,sleep:1},
+  {age:23,gender:'Male',  rel:'Single',           occ:'University Student',time:'Between 3 and 4 hours',purposeless:3,distraction:5,comparison:5,worries:5,concentration:5,validation:3,depression:3,fluctuation:5,sleep:5},
+  {age:35,gender:'Female',rel:'Married',          occ:'Salaried Worker',   time:'Between 3 and 4 hours',purposeless:4,distraction:3,comparison:3,worries:3,concentration:4,validation:4,depression:4,fluctuation:2,sleep:2},
+  {age:20,gender:'Male',  rel:'Single',           occ:'University Student',time:'Between 3 and 4 hours',purposeless:4,distraction:3,comparison:3,worries:3,concentration:2,validation:3,depression:4,fluctuation:3,sleep:4},
+  {age:35,gender:'Male',  rel:'Married',          occ:'Salaried Worker',   time:'Between 2 and 3 hours',purposeless:2,distraction:4,comparison:4,worries:4,concentration:4,validation:4,depression:4,fluctuation:4,sleep:5},
+  {age:22,gender:'Female',rel:'In a relationship',occ:'University Student',time:'Between 4 and 5 hours',purposeless:3,distraction:4,comparison:3,worries:5,concentration:4,validation:2,depression:4,fluctuation:4,sleep:1},
+  {age:20,gender:'Female',rel:'Single',           occ:'University Student',time:'Between 3 and 4 hours',purposeless:4,distraction:3,comparison:2,worries:3,concentration:2,validation:2,depression:3,fluctuation:3,sleep:3},
+  {age:21,gender:'Male',  rel:'Single',           occ:'University Student',time:'Between 2 and 3 hours',purposeless:4,distraction:4,comparison:2,worries:2,concentration:2,validation:1,depression:2,fluctuation:3,sleep:2}
+];
+
+/* ── Helpers ── */
+function esc(s) { return String(s).replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function avg(arr) { return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0; }
+function avgMH(d) { return avg([d.distraction,d.worries,d.comparison,d.validation,d.depression,d.sleep]); }
+
+/* compute live stats from any subset of DATASET rows */
+function computeStats(data) {
+  if (!data.length) return PRECOMPUTED;
+  const usageCounts = TIME_ORDER.map(t => data.filter(d => d.time === t).length);
+  const byTime = {};
+  TIME_ORDER.forEach(bracket => {
+    const g = data.filter(d => d.time === bracket);
+    const obj = {};
+    METRICS.forEach(m => { obj[m.key] = g.length ? avg(g.map(d => d[m.key])) : 0; });
+    byTime[bracket] = obj;
+  });
+  const ageBands = [
+    ['13-17', d => d.age <= 17],
+    ['18-24', d => d.age >= 18 && d.age <= 24],
+    ['25-34', d => d.age >= 25 && d.age <= 34],
+    ['35-44', d => d.age >= 35 && d.age <= 44],
+    ['45+',   d => d.age >= 45],
+  ];
+  const ageMH = {};
+  ageBands.forEach(([k, fn]) => { const g = data.filter(fn); ageMH[k] = g.length ? avg(g.map(avgMH)) : 0; });
+  const males   = data.filter(d => d.gender === 'Male');
+  const females = data.filter(d => d.gender === 'Female');
+  const genderRows = {
+    male:      METRICS.map(m => males.length   ? avg(males.map(d => d[m.key]))   : 0),
+    female:    METRICS.map(m => females.length ? avg(females.map(d => d[m.key])) : 0),
+    maleAvg:   males.length   ? avg(males.map(avgMH)) : 0,
+    femaleAvg: females.length ? avg(females.map(avgMH)) : 0,
+  };
+  const purposeless = {};
+  [1,2,3,4,5].forEach(i => { purposeless[i] = data.filter(d => d.purposeless === i).length; });
+  const heavy = usageCounts[5];
+  const purposelessHigh = (purposeless[4]||0) + (purposeless[5]||0);
+  const validBrackets = Object.values(byTime).filter(v => v.depression > 0);
+  const avgDepression = validBrackets.length ? avg(validBrackets.map(v => v.depression)) : 0;
+  const avgSleep      = validBrackets.length ? avg(validBrackets.map(v => v.sleep))      : 0;
+  return { usageCounts, byTime, ageMH, genderRows, purposeless, platforms: PRECOMPUTED.platforms,
+           total: data.length, heavy, purposelessHigh, avgDepression, avgSleep };
+}
+
+function getFilteredData() {
+  const g = document.getElementById('filterGender').value;
+  const o = document.getElementById('filterOcc').value;
+  const r = document.getElementById('filterRel').value;
+  return DATASET.filter(d =>
+    (g==='all'||d.gender===g) && (o==='all'||d.occ===o) && (r==='all'||d.rel===r)
+  );
+}
+
+function resetFilters() {
+  document.getElementById('filterGender').value = 'all';
+  document.getElementById('filterOcc').value    = 'all';
+  document.getElementById('filterRel').value    = 'all';
+  applyFilters();
+}
+
+/* ── KPIs — reads from live S ── */
+function updateKPIs() {
+  const heavyPct       = S.total ? Math.round(S.heavy           / S.total * 100) : 0;
+  const purposelessPct = S.total ? Math.round(S.purposelessHigh / S.total * 100) : 0;
+  const isFiltered     = S.total !== PRECOMPUTED.total;
+  const kpis = [
+    { label:'Respondents',          ico:'👥', accent:'--blue',   accentBg:'--blue-bg',
+      val: S.total,
+      sub: isFiltered ? 'filtered from 481' : 'total in survey',
+      tip:'Count of respondents matching the current filters. Change any filter above to narrow this down — all charts update to reflect only this subset.' },
+    { label:'Heavy users (>5h/day)',ico:'⚡', accent:'--red',    accentBg:'--red-bg',
+      val: heavyPct + '%',
+      sub: S.heavy + ' respondents',
+      tip:'Share using social media more than 5 hours daily — the most time-intensive bracket. This group consistently records the highest distraction and depression scores.' },
+    { label:'Purposeless usage',    ico:'🎯', accent:'--orange', accentBg:'--orange-bg',
+      val: purposelessPct + '%',
+      sub: 'score 4–5 on scale',
+      tip:'Share scoring 4 or 5 on: "How often do you use social media without a specific purpose?" Indicates habitual, non-intentional scrolling behavior.' },
+    { label:'Avg depression score', ico:'🧠', accent:'--purple', accentBg:'--purple-bg',
+      val: S.avgDepression.toFixed(1) + ' / 5',
+      sub: 'across usage brackets',
+      tip:'Mean depression indicator score (1–5 scale) averaged across daily usage time brackets for the filtered group. Higher = more reported depressive symptoms.' },
+    { label:'Avg sleep disruption', ico:'😴', accent:'--teal',   accentBg:'--teal-bg',
+      val: S.avgSleep.toFixed(1) + ' / 5',
+      sub: 'across usage brackets',
+      tip:'Average sleep disruption score (1–5 scale) across all usage brackets in the filtered group. Sleep problems rise with screen time.' },
+    { label:'Most used platform',   ico:'📱', accent:'--green',  accentBg:'--green-bg',
+      val: 'YouTube',
+      sub: '85.7% adoption · 412 users',
+      tip:'YouTube tops platform adoption at 85.7% (412 of 481 respondents). Platform data comes from the full survey and is not affected by the current filters.' },
+  ];
+  document.getElementById('kpiGrid').innerHTML = kpis.map(k =>
+    `<div class="kpi" style="--kpi-accent:var(${k.accent});--kpi-accent-bg:var(${k.accentBg});">
+      <div class="kpi-top">
+        <div class="kpi-ico">${k.ico}</div>
+        <span class="tip-icon" data-tip-title="${esc(k.label)}" data-tip="${esc(k.tip)}">i</span>
+      </div>
+      <div class="kpi-val">${k.val}</div>
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-sub">${k.sub}</div>
+    </div>`
+  ).join('');
+  if (window.bindTips) window.bindTips();
+}
+
+/* ── Live stats state ── */
+let S = PRECOMPUTED; // updated on every filter change
+
+/* ── Metric toggles ── */
+let activeMetrics = new Set(['distraction','depression','sleep']);
+let chartLine, chartUsage, chartGender, chartAge, chartPurpose;
+
+function initMetricToggles() {
+  document.getElementById('metricToggle').innerHTML = METRICS.map(m =>
+    `<button class="mtbtn ${activeMetrics.has(m.key)?'active':''}"
+      onclick="toggleMetric('${m.key}',this)"
+      data-tip-title="${esc(m.label)}"
+      data-tip="${esc(METRIC_TIPS[m.key])}">${m.label}</button>`
+  ).join('');
+}
+
+function toggleMetric(key, btn) {
+  if (activeMetrics.has(key)) {
+    if (activeMetrics.size > 1) { activeMetrics.delete(key); btn.classList.remove('active'); }
+  } else {
+    activeMetrics.add(key); btn.classList.add('active');
+  }
+  updateLineChart();
+}
+
+/* ── Line chart ── */
+function buildLineDatasets() {
+  return METRICS.filter(m => activeMetrics.has(m.key)).map(m => ({
+    label: m.label,
+    data:  TIME_ORDER.map(t => (S.byTime[t] && S.byTime[t][m.key]) || 0),
+    borderColor:      m.color,
+    backgroundColor:  m.color + '18',
+    borderWidth: 2,
+    pointRadius: 4,
+    pointHoverRadius: 6,
+    pointBackgroundColor: m.color,
+    pointBorderColor: '#0D1117',
+    pointBorderWidth: 1.5,
+    tension: 0.38,
+    fill: 'origin'
+  }));
+}
+
+function updateLineChart() {
+  const ds = buildLineDatasets();
+  if (chartLine) { chartLine.data.datasets = ds; chartLine.update(); }
+  document.getElementById('lineChartLegend').innerHTML =
+    METRICS.filter(m => activeMetrics.has(m.key)).map(m =>
+      `<span><span class="ldot" style="background:${m.color}"></span>${m.label}</span>`
+    ).join('');
+  const key = [...activeMetrics][0];
+  const met = METRICS.find(m => m.key === key);
+  const lo  = (S.byTime['Less than an Hour']    && S.byTime['Less than an Hour'][key])    || 0;
+  const hi  = (S.byTime['More than 5 hours']    && S.byTime['More than 5 hours'][key])    || 0;
+  const pct = lo ? Math.round((hi - lo) / lo * 100) : 0;
+  document.getElementById('insightBar').textContent =
+    `📈  ${met.label} rises ${pct}% from users spending <1h to >5h daily on social media  (${lo.toFixed(1)} → ${hi.toFixed(1)} / 5)`;
+}
+
+/* ── Charts init ── */
+function initCharts() {
+
+  /* Usage distribution */
+  chartUsage = new Chart(document.getElementById('chartUsage'), {
+    type: 'bar',
+    data: {
+      labels: TIME_SHORT,
+      datasets: [{
+        data: PRECOMPUTED.usageCounts,
+        backgroundColor: ['#0D2D4A','#1A4A7A','#1D6FCC','#2B80E8','#388BFD','#60A5FA'],
+        borderRadius: 5,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      ...noLegend,
+      plugins: { ...noLegend.plugins, tooltip:{ callbacks:{
+        title: ctx => ctx[0].label + ' / day',
+        label: ctx => '  ' + ctx.raw + ' respondents (' + Math.round(ctx.raw/481*100) + '%)'
+      }}},
+      scales: {
+        x: { ...xScale },
+        y: { ...yScale, ticks:{ ...yScale.ticks, stepSize:20 } }
+      }
+    }
+  });
+
+  /* Gender */
+  const gLabels = ['Distraction','Worries','Depression','Sleep','Validation','Comparison'];
+  chartGender = new Chart(document.getElementById('chartGender'), {
+    type: 'bar',
+    data: {
+      labels: gLabels,
+      datasets: [
+        { label:'Male',   data: S.genderRows.male,   backgroundColor:'#3B82F6', borderRadius:3, borderSkipped:false },
+        { label:'Female', data: S.genderRows.female, backgroundColor:'#EC4899', borderRadius:3, borderSkipped:false }
+      ]
+    },
+    options: {
+      ...noLegend,
+      plugins: { ...noLegend.plugins, tooltip:{ callbacks:{
+        label: ctx => '  ' + ctx.dataset.label + ': ' + ctx.raw.toFixed(1) + ' / 5'
+      }}},
+      scales: {
+        x: { ...xScale, ticks:{ ...xScale.ticks, font:{size:9}, maxRotation:28 } },
+        y: { ...yScale, min:0, max:5 }
+      }
+    }
+  });
+  document.getElementById('genderLegend').innerHTML =
+    `<div class="gpill"><span class="gpill-dot" style="background:#3B82F6"></span>Male &nbsp;<strong style="color:#E6EDF3">${S.genderRows.maleAvg.toFixed(1)}</strong><span style="color:#6E7681;font-size:10px">&nbsp;avg</span></div>` +
+    `<div class="gpill"><span class="gpill-dot" style="background:#EC4899"></span>Female &nbsp;<strong style="color:#E6EDF3">${S.genderRows.femaleAvg.toFixed(1)}</strong><span style="color:#6E7681;font-size:10px">&nbsp;avg</span></div>`;
+
+  /* Line chart */
+  chartLine = new Chart(document.getElementById('chartLine'), {
+    type: 'line',
+    data: { labels: TIME_SHORT, datasets: buildLineDatasets() },
+    options: {
+      ...noLegend,
+      interaction: { mode:'index', intersect:false },
+      scales: {
+        x: { ...xScale },
+        y: { ...yScale, min:1, max:5 }
+      }
+    }
+  });
+  updateLineChart();
+
+  /* Age group */
+  const ageLabels  = ['13–17','18–24','25–34','35–44','45+'];
+  const ageKeys    = ['13-17','18-24','25-34','35-44','45+'];
+  const ageColors  = ['#064E3B','#065F46','#047857','#059669','#10B981'];
+  chartAge = new Chart(document.getElementById('chartAge'), {
+    type: 'bar',
+    data: {
+      labels: ageLabels,
+      datasets: [{ data: ageKeys.map(k=>S.ageMH[k]||0), backgroundColor: ageColors, borderRadius:5, borderSkipped:false }]
+    },
+    options: {
+      ...noLegend,
+      plugins: { ...noLegend.plugins, tooltip:{ callbacks:{
+        title: ctx => ctx[0].label + ' age group',
+        label: ctx => '  Avg MH score: ' + ctx.raw.toFixed(2) + ' / 5',
+        afterLabel: ctx => '  n = ' + PRECOMPUTED.ageCounts[ageKeys[ctx.dataIndex]]
+      }}},
+      scales: {
+        x: { ...xScale },
+        y: { ...yScale, min:1, max:5, title:{ display:true, text:'Avg score', color:'#6E7681', font:{size:10} } }
+      }
+    }
+  });
+
+  /* Purposeless doughnut */
+  const purposeColors = ['#0D2D4A','#1A4A7A','#2070B8','#388BFD','#93C5FD'];
+  chartPurpose = new Chart(document.getElementById('chartPurpose'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Never (1)','Rarely (2)','Sometimes (3)','Often (4)','Always (5)'],
+      datasets: [{ data:[20,65,129,163,104], backgroundColor: purposeColors, borderWidth:0, hoverBorderColor:'#0D1117', hoverBorderWidth:2 }]
+    },
+    options: {
+      ...noLegend,
+      cutout: '62%',
+      plugins: { ...noLegend.plugins, tooltip:{ callbacks:{
+        label: ctx => '  ' + ctx.label + ': ' + ctx.raw + ' people (' + Math.round(ctx.raw/481*100) + '%)'
+      }}}
+    }
+  });
+  const purposeLabels = [['#0D2D4A','Never'],['#1A4A7A','Rarely'],['#2070B8','Sometimes'],['#388BFD','Often'],['#93C5FD','Always']];
+  document.getElementById('purposeLegend').innerHTML = purposeLabels.map(([c,l]) =>
+    `<div class="gpill"><span class="gpill-dot" style="background:${c};border:1px solid #30363D"></span>${l}</div>`
+  ).join('');
+
+  /* Platform bars */
+  const platContainer = document.getElementById('platformBars');
+  const platEntries   = Object.entries(PRECOMPUTED.platforms).sort((a,b)=>b[1]-a[1]);
+  platContainer.innerHTML = platEntries.map(([name, count]) => {
+    const pct = Math.round(count / PRECOMPUTED.total * 100);
+    const tip = PLAT_TIPS[name] || `${name}: used by ${count} of 481 respondents (${pct}%).`;
+    return `<div class="pbar-row" data-tip-title="${esc(name)}" data-tip="${esc(tip)}">
+      <div class="pbar-top">
+        <span class="pbar-name">${name}</span>
+        <span class="pbar-meta">
+          <span class="pbar-n">${count} users</span>
+          <span class="pbar-pct">${pct}%</span>
+        </span>
+      </div>
+      <div class="pbar-track"><div class="pbar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+/* ── Sync all charts to current S ── */
+function updateAllCharts() {
+  if (!chartUsage) return;
+
+  chartUsage.data.datasets[0].data = S.usageCounts;
+  chartUsage.update('active');
+
+  chartGender.data.datasets[0].data = S.genderRows.male;
+  chartGender.data.datasets[1].data = S.genderRows.female;
+  chartGender.update('active');
+  document.getElementById('genderLegend').innerHTML =
+    `<div class="gpill"><span class="gpill-dot" style="background:#3B82F6"></span>Male &nbsp;<strong style="color:#E6EDF3">${S.genderRows.maleAvg.toFixed(1)}</strong><span style="color:#6E7681;font-size:10px">&nbsp;avg</span></div>` +
+    `<div class="gpill"><span class="gpill-dot" style="background:#EC4899"></span>Female &nbsp;<strong style="color:#E6EDF3">${S.genderRows.femaleAvg.toFixed(1)}</strong><span style="color:#6E7681;font-size:10px">&nbsp;avg</span></div>`;
+
+  updateLineChart();
+
+  const ageKeys = ['13-17','18-24','25-34','35-44','45+'];
+  chartAge.data.datasets[0].data = ageKeys.map(k => S.ageMH[k] || 0);
+  chartAge.update('active');
+
+  chartPurpose.data.datasets[0].data = [1,2,3,4,5].map(k => S.purposeless[k] || 0);
+  chartPurpose.update('active');
+}
+
+function applyFilters() {
+  const data = getFilteredData();
+  S = computeStats(data.length ? data : DATASET);
+  updateKPIs();
+  updateAllCharts();
+}
+
+/* ── Boot ── */
+initMetricToggles();
+updateKPIs();
+initCharts();
+
+/* ── Tooltip engine ── */
+(function() {
+  const tt  = document.getElementById('tt');
+  let timer;
+  function pos(e) {
+    const gap = 16;
+    let x = e.clientX + gap, y = e.clientY + gap;
+    const tw = tt.offsetWidth || 280, th = tt.offsetHeight || 60;
+    if (x + tw > window.innerWidth  - 8) x = e.clientX - tw - gap;
+    if (y + th > window.innerHeight - 8) y = e.clientY - th - gap;
+    tt.style.left = x + 'px';
+    tt.style.top  = y + 'px';
+  }
+  function show(e) {
+    clearTimeout(timer);
+    const el    = e.currentTarget;
+    const title = el.dataset.tipTitle || '';
+    const body  = el.dataset.tip      || '';
+    tt.innerHTML = (title ? '<div class="tt-title">' + title + '</div>' : '') + '<div>' + body + '</div>';
+    tt.classList.add('visible');
+    pos(e);
+  }
+  function hide()      { clearTimeout(timer); timer = setTimeout(() => tt.classList.remove('visible'), 100); }
+  function move(e)     { if (tt.classList.contains('visible')) pos(e); }
+  window.bindTips = function() {
+    document.querySelectorAll('[data-tip]').forEach(el => {
+      el.removeEventListener('mouseenter', show);
+      el.removeEventListener('mouseleave', hide);
+      el.removeEventListener('mousemove',  move);
+      el.addEventListener('mouseenter', show);
+      el.addEventListener('mouseleave', hide);
+      el.addEventListener('mousemove',  move);
+    });
+  };
+  window.bindTips();
+})();
+</script>

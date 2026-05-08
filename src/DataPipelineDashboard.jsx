@@ -573,6 +573,58 @@ function M4Panel() {
   );
 }
 
+/* ── Milestone 5: Visualisation tab ─────────────────────────────────────── */
+function M5Panel() {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const src  = `${base}/smmh-dashboard/index.html`;
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20 }}>
+        <Kpi label="Output stage"   value="M5"       sub="Visualisation"                color={G}  />
+        <Kpi label="Charts"         value="8+"        sub="interactive panels"           color={B}  />
+        <Kpi label="Dataset"        value="478 rows"  sub="33 features rendered"         color={P}  />
+        <Kpi label="Filters"        value="Live"      sub="gender · age · platform"      color={Y}  />
+      </div>
+
+      <div style={{ fontSize: 10, color: DIM, marginBottom: 14, lineHeight: 1.7 }}>
+        This is the deliverable produced at the end of the pipeline — an interactive analytics dashboard
+        built from the cleaned and engineered dataset. It exposes every major finding from Milestones 2–4
+        through filterable, hoverable charts covering platform reach, mental health scores by gender and
+        age group, correlation heatmaps, and risk-tier breakdowns.
+      </div>
+
+      <div style={{
+        border: `1px solid ${G}44`,
+        borderRadius: 14,
+        overflow: 'hidden',
+        background: '#0D1117',
+        boxShadow: `0 0 40px ${G}18`,
+      }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10,
+          padding: '10px 16px',
+          background: 'rgba(255,255,255,0.03)',
+          borderBottom: `1px solid ${BORDER}`,
+        }}>
+          <span style={{ fontSize: 14 }}>📈</span>
+          <span style={{ fontSize: 12, fontWeight: 600, color: G }}>SMMH Interactive Analytics Dashboard</span>
+          <span style={{ marginLeft: 'auto', fontSize: 10, color: DIM }}>Live · scroll inside to explore</span>
+        </div>
+        <iframe
+          title="SMMH Interactive Analytics Dashboard"
+          src={src}
+          style={{
+            width: '100%',
+            height: '85vh',
+            border: 'none',
+            display: 'block',
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 /* ── Main dashboard ──────────────────────────────────────────────────────── */
 export default function DataPipelineDashboard() {
   const [tab, setTab] = useState(2);
@@ -581,6 +633,7 @@ export default function DataPipelineDashboard() {
     { id: 2, label: 'M2 · Clean',     icon: '🧹', color: Y },
     { id: 3, label: 'M3 · Transform', icon: '⚙️', color: P },
     { id: 4, label: 'M4 · Analyze',   icon: '📊', color: G },
+    { id: 5, label: 'M5 · Visualise', icon: '📈', color: G },
   ];
 
   return (
@@ -590,29 +643,29 @@ export default function DataPipelineDashboard() {
       <div style={{ borderBottom: `0.5px solid ${BORDER}`, paddingBottom: 14, marginBottom: 22 }}>
         <div style={{ fontSize: 18, fontWeight: 600 }}>Social Media & Mental Health — Data Pipeline</div>
         <div style={{ fontSize: 12, color: DIM, marginTop: 4 }}>
-          SMMH survey · 478 respondents · Python pipeline · Milestones 2 → 3 → 4
+          SMMH survey · 478 respondents · Python pipeline · Milestones 2 → 3 → 4 → 5
         </div>
       </div>
 
       {/* Global KPIs */}
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 24 }}>
-        <Kpi label="Respondents"    value="478"     sub="active SM users"      color={B} />
-        <Kpi label="Avg daily use"  value="205 min" sub="3.4 hours/day"        color={Y} />
-        <Kpi label="Avg MH impact"  value="3.12/5"  sub="95% CI [3.05, 3.18]" color={R} />
+        <Kpi label="Respondents"    value="478"     sub="active SM users"        color={B} />
+        <Kpi label="Avg daily use"  value="205 min" sub="3.4 hours/day"          color={Y} />
+        <Kpi label="Avg MH impact"  value="3.12/5"  sub="95% CI [3.05, 3.18]"   color={R} />
         <Kpi label="Features built" value="33"      sub="23 raw + 10 engineered" color={G} />
-        <Kpi label="High-risk users" value="45.6%"  sub="218 of 478"           color={R} />
+        <Kpi label="High-risk users" value="45.6%"  sub="218 of 478"             color={R} />
       </div>
 
       {/* Pipeline flow */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginBottom: 24, overflowX: 'auto', paddingBottom: 4 }}>
         {[
-          { id: 1, stage: 'Ingest',    icon: '📥', color: B  },
-          { id: 2, stage: 'Clean',     icon: '🧹', color: Y  },
-          { id: 3, stage: 'Transform', icon: '⚙️', color: P  },
-          { id: 4, stage: 'Analyse',   icon: '📊', color: G  },
-          { id: 5, stage: 'Output',    icon: '📈', color: G  },
+          { id: 1, stage: 'Ingest',     icon: '📥', color: B },
+          { id: 2, stage: 'Clean',      icon: '🧹', color: Y },
+          { id: 3, stage: 'Transform',  icon: '⚙️', color: P },
+          { id: 4, stage: 'Analyse',    icon: '📊', color: G },
+          { id: 5, stage: 'Visualise',  icon: '📈', color: G },
         ].map((m, i, arr) => {
-          const isTab  = m.id >= 2 && m.id <= 4;
+          const isTab  = m.id >= 2 && m.id <= 5;
           const active = tab === m.id;
           return (
             <React.Fragment key={m.id}>
@@ -640,12 +693,12 @@ export default function DataPipelineDashboard() {
           );
         })}
         <div style={{ marginLeft: 'auto', fontSize: 10, color: DIM, flexShrink: 0, paddingLeft: 16 }}>
-          Click M2 · M3 · M4 to explore
+          Click M2 → M5 to explore
         </div>
       </div>
 
       {/* Tab selector */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 22 }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 22, flexWrap: 'wrap' }}>
         {tabs.map(t => (
           <button
             key={t.id}
@@ -668,6 +721,7 @@ export default function DataPipelineDashboard() {
         {tab === 2 && <M2Panel />}
         {tab === 3 && <M3Panel />}
         {tab === 4 && <M4Panel />}
+        {tab === 5 && <M5Panel />}
       </div>
 
       <style>{`
