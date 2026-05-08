@@ -149,7 +149,7 @@ export default function MpesaTrackerDashboard() {
           <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #0F172A, #1E293B)', border: '1px solid rgba(234,179,8,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>💳</div>
           <div>
             <div style={{ fontSize: 16, fontWeight: 600, color: 'white' }}>M-Pesa Budget Tracker</div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)' }}>Victor · April 2025 · Flutter + Android</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)' }}>Victor · April 2025 · Flutter + Android</div>
           </div>
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
@@ -161,7 +161,7 @@ export default function MpesaTrackerDashboard() {
                 padding: '6px 14px', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: 11,
                 fontWeight: 500, textTransform: 'capitalize', letterSpacing: '0.05em',
                 background: activeTab === tab ? G : 'rgba(255,255,255,0.06)',
-                color: activeTab === tab ? 'white' : 'rgba(255,255,255,0.5)',
+                color: activeTab === tab ? 'white' : 'rgba(255,255,255,0.75)',
                 transition: 'all 0.2s',
               }}
             >
@@ -185,9 +185,9 @@ export default function MpesaTrackerDashboard() {
               <div key={kpi.label} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '14px 16px', transition: 'all 0.25s', cursor: 'default' }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(29,158,117,0.4)'; e.currentTarget.style.background = 'rgba(29,158,117,0.06)'; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; }}>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginBottom: 6 }}>{kpi.label}</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.75)', marginBottom: 6 }}>{kpi.label}</div>
                 <div style={{ fontSize: 22, fontWeight: 600, color: kpi.color }}>{kpi.value}</div>
-                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', marginTop: 4 }}>{kpi.sub}</div>
+                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{kpi.sub}</div>
               </div>
             ))}
           </div>
@@ -197,17 +197,17 @@ export default function MpesaTrackerDashboard() {
             {/* Donut */}
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: 16 }}>
               <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 4 }}>Spending by Category</div>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 12 }}>April 2025 · Ksh {totalSpent.toLocaleString()} total</div>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginBottom: 12 }}>April 2025 · Ksh {totalSpent.toLocaleString()} total</div>
               <div style={{ position: 'relative', height: 180 }}>
                 <canvas ref={donutRef} />
                 <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
                   <div style={{ fontSize: 18, fontWeight: 700, color: Y }}>Ksh {(totalSpent / 1000).toFixed(1)}K</div>
-                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)' }}>total</div>
+                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.7)' }}>total</div>
                 </div>
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 12px', marginTop: 12 }}>
                 {CATEGORIES.map(c => (
-                  <span key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: 'rgba(255,255,255,0.55)' }}>
+                  <span key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: 'rgba(255,255,255,0.8)' }}>
                     <span style={{ width: 8, height: 8, borderRadius: 2, background: c.color, flexShrink: 0 }} />
                     {c.name.split(' ')[0]}
                   </span>
@@ -218,7 +218,7 @@ export default function MpesaTrackerDashboard() {
             {/* Trend */}
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: 16 }}>
               <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 4 }}>Daily Spending — April</div>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 12 }}>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginBottom: 12 }}>
                 <span style={{ color: G }}>▬</span> Normal &nbsp;
                 <span style={{ color: R }}>▬</span> High spend day
               </div>
@@ -242,14 +242,14 @@ export default function MpesaTrackerDashboard() {
                     style={{ transition: 'opacity 0.2s', opacity: hoveredCat && hoveredCat !== cat.name ? 0.45 : 1 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
                       <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)' }}>{cat.icon} {cat.name}</span>
-                      <span style={{ fontSize: 11, color: over ? R : 'rgba(255,255,255,0.45)' }}>
+                      <span style={{ fontSize: 11, color: over ? R : 'rgba(255,255,255,0.75)' }}>
                         {pct}% · Ksh {cat.spent.toLocaleString()}
                       </span>
                     </div>
                     <div style={{ height: 6, borderRadius: 3, background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
                       <div style={{ height: '100%', width: `${Math.min(pct, 100)}%`, borderRadius: 3, background: pct >= 90 ? `linear-gradient(90deg, ${cat.color}, ${R})` : cat.color, transition: 'width 0.6s ease' }} />
                     </div>
-                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.25)', marginTop: 3 }}>Budget: Ksh {cat.budget.toLocaleString()}</div>
+                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', marginTop: 3 }}>Budget: Ksh {cat.budget.toLocaleString()}</div>
                   </div>
                 );
               })}
@@ -261,7 +261,7 @@ export default function MpesaTrackerDashboard() {
       {/* ── TRANSACTIONS TAB ── */}
       {activeTab === 'transactions' && (
         <div>
-          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
             Recent M-Pesa Transactions · April 2025
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -285,7 +285,7 @@ export default function MpesaTrackerDashboard() {
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 13, fontWeight: 500, color: 'white' }}>{txn.name}</div>
-                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>
+                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', marginTop: 2 }}>
                       {txn.id} · {txn.type} · {txn.date}
                     </div>
                   </div>
@@ -304,7 +304,7 @@ export default function MpesaTrackerDashboard() {
 
           {/* Summary Footer */}
           <div style={{ marginTop: 16, padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
-            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>Showing 8 of 28 transactions</span>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)' }}>Showing 8 of 28 transactions</span>
             <span style={{ fontSize: 12, color: G }}>Total shown: Ksh {TRANSACTIONS.reduce((s, t) => s + t.amount, 0).toLocaleString()}</span>
           </div>
         </div>
@@ -314,9 +314,9 @@ export default function MpesaTrackerDashboard() {
       {activeTab === 'live' && (
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 6 }}>How It Works</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 6 }}>How It Works</div>
             <div style={{ fontSize: 22, fontWeight: 600 }}>Real-time M-Pesa Tracking</div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', marginTop: 6 }}>Every payment is captured, parsed, and categorized automatically</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', marginTop: 6 }}>Every payment is captured, parsed, and categorized automatically</div>
           </div>
 
           {/* Step flow */}
@@ -368,7 +368,7 @@ export default function MpesaTrackerDashboard() {
                   <div style={{ height: 8, borderRadius: 4, background: 'rgba(255,255,255,0.08)' }}>
                     <div style={{ height: '100%', width: '84%', borderRadius: 4, background: 'linear-gradient(90deg, #F97316, #EF4444)', transition: 'width 1s ease' }} />
                   </div>
-                  <div style={{ marginTop: 8, fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>Dashboard + notification updated in real time</div>
+                  <div style={{ marginTop: 8, fontSize: 11, color: 'rgba(255,255,255,0.65)' }}>Dashboard + notification updated in real time</div>
                 </div>
               )
             },
@@ -381,7 +381,7 @@ export default function MpesaTrackerDashboard() {
                   <div style={{ width: 30, height: 30, borderRadius: '50%', background: active ? G : 'rgba(255,255,255,0.08)', border: `1px solid ${active ? G : 'rgba(255,255,255,0.1)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0, transition: 'all 0.4s' }}>
                     {active ? icon : <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{step + 1}</span>}
                   </div>
-                  <div style={{ fontSize: 13, fontWeight: 500, color: active ? 'white' : 'rgba(255,255,255,0.3)', transition: 'color 0.4s' }}>{label}</div>
+                  <div style={{ fontSize: 13, fontWeight: 500, color: active ? 'white' : 'rgba(255,255,255,0.5)', transition: 'color 0.4s' }}>{label}</div>
                   {current && <div style={{ marginLeft: 'auto', width: 6, height: 6, borderRadius: '50%', background: G, animation: 'pulse 1s infinite' }} />}
                 </div>
                 {active && (

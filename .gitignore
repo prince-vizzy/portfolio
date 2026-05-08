@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Claude Code
+.claude/
+
+# Local research/findings
+findings/
+
+# Stray browser downloads
+*.html~
+"We All Love to Be Loved*"
+
+# OS
+.DS_Store
+Thumbs.db

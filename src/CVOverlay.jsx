@@ -286,7 +286,7 @@ const CVOverlay = ({ isOpen, onClose, cvUrl }) => {
                   <div className="mt-6 pt-4 border-t border-white/10">
                     <div className="flex items-center justify-center gap-2">
                       <div className="w-2 h-2 bg-[#217522] rounded-full animate-pulse"></div>
-                      <span className="text-white/50 text-[9px] uppercase tracking-wider">Available</span>
+                      <span className="text-white/80 text-[9px] uppercase tracking-wider">Available</span>
                     </div>
                   </div>
 
@@ -371,7 +371,7 @@ const CVOverlay = ({ isOpen, onClose, cvUrl }) => {
           {/* CLOSE HINT */}
           <button
             onClick={onClose}
-            className="absolute bottom-5 md:bottom-10 left-1/2 -translate-x-1/2 z-[150] text-[#217522]/40 hover:text-[#217522] transition-all uppercase text-[8px] tracking-[0.5em] md:tracking-[1em] whitespace-nowrap"
+            className="absolute bottom-5 md:bottom-10 left-1/2 -translate-x-1/2 z-[150] text-[#217522]/75 hover:text-[#217522] transition-all uppercase text-[8px] tracking-[0.5em] md:tracking-[1em] whitespace-nowrap"
           >
             Close Viewer
           </button>

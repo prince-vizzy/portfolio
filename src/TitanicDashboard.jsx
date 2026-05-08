@@ -497,7 +497,7 @@ const TitanicDashboard = ({ onOpenCV }) => {
         }
         .dashboard-title   { font-size: 18px; font-weight: 500; color: white; }
         .dashboard-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); margin-left: 10px; }
-        .dashboard-question { font-size: 12px; color: rgba(255,255,255,0.4); }
+        .dashboard-question { font-size: 12px; color: rgba(255,255,255,0.7); }
 
         /* â”€â”€ KPI Grid with hover effects â”€â”€ */
         .kpi-grid {
@@ -525,7 +525,7 @@ const TitanicDashboard = ({ onOpenCV }) => {
           transform: translateY(-4px) scale(1.02);
           box-shadow: 0 12px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(29,158,117,0.4);
         }
-        .kpi-label { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 4px; transition: color 0.2s ease; }
+        .kpi-label { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 4px; transition: color 0.2s ease; }
         .kpi-card:hover .kpi-label { color: rgba(255,255,255,0.9); }
         .kpi-value { font-size: 22px; font-weight: 500; transition: transform 0.2s ease; }
         .kpi-card:hover .kpi-value { transform: scale(1.05); }
@@ -577,8 +577,8 @@ const TitanicDashboard = ({ onOpenCV }) => {
         .chart-card:hover .chart-subtitle { color: rgba(255,255,255,0.8); }
 
         .chart-title    { font-size: 13px; font-weight: 500; color: white; margin-bottom: 2px; transition: color 0.2s ease; }
-        .chart-subtitle { font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 8px; transition: color 0.2s ease; }
-        .chart-legend   { display: flex; gap: 12px; margin-bottom: 6px; font-size: 11px; color: rgba(255,255,255,0.6); flex-wrap: wrap; }
+        .chart-subtitle { font-size: 11px; color: rgba(255,255,255,0.75); margin-bottom: 8px; transition: color 0.2s ease; }
+        .chart-legend   { display: flex; gap: 12px; margin-bottom: 6px; font-size: 11px; color: rgba(255,255,255,0.8); flex-wrap: wrap; }
         .legend-item    { display: flex; align-items: center; gap: 4px; transition: transform 0.2s ease; }
         .chart-card:hover .legend-item { transform: translateX(2px); }
         .legend-color   { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex-shrink: 0; transition: transform 0.2s ease; }
@@ -607,7 +607,7 @@ const TitanicDashboard = ({ onOpenCV }) => {
           background: rgba(255,255,255,0.03);
           border-radius: 8px;
           font-size: 11px;
-          color: rgba(255,255,255,0.6);
+          color: rgba(255,255,255,0.75);
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -687,7 +687,7 @@ const TitanicDashboard = ({ onOpenCV }) => {
         .overlay-description {
           font-size: 14px;
           line-height: 1.65;
-          color: rgba(255,255,255,0.65);
+          color: rgba(255,255,255,0.85);
           margin-bottom: 20px;
         }
         .overlay-stats {
@@ -705,7 +705,7 @@ const TitanicDashboard = ({ onOpenCV }) => {
           font-size: 10px;
           text-transform: uppercase;
           letter-spacing: 1px;
-          color: rgba(255,255,255,0.45);
+          color: rgba(255,255,255,0.7);
           margin-bottom: 4px;
         }
         .stat-value {

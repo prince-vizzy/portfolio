@@ -7,6 +7,8 @@ import DecryptedText from './DecryptedText';
 import ParticleBackground from './ParticleBackground';
 import TitanicDashboard from './TitanicDashboard';
 import MpesaTrackerDashboard from './MpesaTrackerDashboard';
+import DataPipelineDashboard from './DataPipelineDashboard';
+import GenderPartnersStudyDashboard from './GenderPartnersStudyDashboard';
 
 const assetUrl = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
 
@@ -47,6 +49,8 @@ const Portfolio = () => {
   const [showDartsApp, setShowDartsApp] = useState(false);
   const [showShiiNgapi, setShowShiiNgapi] = useState(false);
   const [showMpesaTracker, setShowMpesaTracker] = useState(false);
+  const [showPipeline, setShowPipeline] = useState(false);
+  const [showGenderStudy, setShowGenderStudy] = useState(false);
   const [skillsDecrypted, setSkillsDecrypted] = useState(false);
   const [closeXHovered, setCloseXHovered] = useState(false);
   const [copiedField, setCopiedField] = useState(null);
@@ -64,7 +68,7 @@ const Portfolio = () => {
   };
 
   useEffect(() => {
-    document.body.style.overflow = (isCVOpen || showTitanicDashboard || showDartsApp || showShiiNgapi || showMpesaTracker) ? 'hidden' : 'unset';
+    document.body.style.overflow = (isCVOpen || showTitanicDashboard || showDartsApp || showShiiNgapi || showMpesaTracker || showPipeline || showGenderStudy) ? 'hidden' : 'unset';
     const timer = setTimeout(() => setSkillsDecrypted(true), 4000);
     return () => clearTimeout(timer);
   }, [isCVOpen, showTitanicDashboard, showDartsApp, showShiiNgapi]);
@@ -77,6 +81,8 @@ const Portfolio = () => {
         setShowDartsApp(false);
         setShowShiiNgapi(false);
         setShowMpesaTracker(false);
+        setShowPipeline(false);
+        setShowGenderStudy(false);
         setIsCVOpen(false);
       }
     };
@@ -125,7 +131,7 @@ const Portfolio = () => {
                 </div>
                 <span
                   style={{ color: social.color }}
-                  className="text-[11px] uppercase tracking-[0.15em] font-medium opacity-80 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
+                  className="text-[11px] uppercase tracking-[0.15em] font-medium opacity-95 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
                 >
                   {social.label}
                 </span>
@@ -148,7 +154,7 @@ const Portfolio = () => {
                 </div>
                 <span
                   style={{ color: social.color }}
-                  className="text-[11px] uppercase tracking-[0.15em] font-medium opacity-80 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
+                  className="text-[11px] uppercase tracking-[0.15em] font-medium opacity-95 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
                 >
                   {social.label}
                 </span>
@@ -170,7 +176,7 @@ const Portfolio = () => {
           </div>
 
           <div className="flex flex-col items-center gap-8 max-w-4xl mt-4">
-            <p className="text-lg md:text-2xl font-light leading-relaxed text-gray-400 max-w-2xl mx-auto">
+            <p className="text-lg md:text-2xl font-light leading-relaxed text-gray-200 max-w-2xl mx-auto">
               I am <span className="text-white font-semibold">Victory Kanake</span>,
               a Data Science student with hands-on exposure to data analysis, automation, and backend systems.
             </p>
@@ -188,7 +194,7 @@ const Portfolio = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mt-24">
           {skillSections.map((section, idx) => (
             <div key={idx} className="p-8 border border-white/5 bg-white/[0.01] backdrop-blur-sm rounded-2xl hover:border-[#217522]/30 transition-all duration-500 group">
-              <h3 className="text-[9px] uppercase tracking-[0.5em] text-[#217522] font-bold mb-6">
+              <h3 className="text-[11px] uppercase tracking-[0.4em] text-[#1D9E75] font-bold mb-6">
                 {!skillsDecrypted ? (
                   <DecryptedText
                     text={section.title}
@@ -206,7 +212,7 @@ const Portfolio = () => {
               </h3>
               <div className="flex flex-wrap gap-x-4 gap-y-2">
                 {section.skills.map((skill, sIdx) => (
-                  <span key={sIdx} className="text-xs font-light text-gray-500 group-hover:text-gray-200 transition-colors">
+                  <span key={sIdx} className="text-xs font-light text-gray-300 group-hover:text-white transition-colors">
                     {!skillsDecrypted ? (
                       <DecryptedText
                         text={skill}
@@ -216,7 +222,7 @@ const Portfolio = () => {
                         revealDirection="start"
                         useOriginalCharsOnly={false}
                         animateOn="view"
-                        className="text-gray-500 group-hover:text-gray-200"
+                        className="text-gray-300 group-hover:text-white"
                         parentClassName="inline-block"
                         encryptedClassName="opacity-30"
                       />
@@ -232,7 +238,7 @@ const Portfolio = () => {
       {/* Work Section */}
       <section id="work" className="py-40 px-12 md:px-24 md:pl-80 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-24 border-b border-white/10 pb-8 gap-4">
-          <h2 className="text-7xl tracking-tighter font-bold opacity-10 uppercase">Work</h2>
+          <h2 className="text-7xl tracking-tighter font-bold opacity-30 uppercase">Work</h2>
           <span className="text-[10px] uppercase tracking-[0.4em] text-[#217522] font-bold">Featured Projects</span>
         </div>
 
@@ -262,18 +268,18 @@ const Portfolio = () => {
                   Data Analysis
                 </span>
               </div>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-md font-light">
+              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 An interactive dashboard investigating survival trends by age, gender, and class.
                 The analysis audits the 62% survival rate of Class 1 passengers and evaluates the
                 demographic disparity between male and female survivors.
               </p>
-              <div className="flex gap-4 text-[10px] text-gray-600 font-mono">
+              <div className="flex gap-4 text-[10px] text-gray-400 font-mono">
                 <span>[ Chart.js ]</span>
                 <span>[ Statistical Analysis ]</span>
                 <span>[ Interactive Dashboard ]</span>
               </div>
               {/* Subtle "click to open" hint */}
-              <p className="text-[10px] text-[#217522]/60 uppercase tracking-widest group-hover:text-[#217522] transition-colors">
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to explore â†'
               </p>
             </div>
@@ -304,16 +310,16 @@ const Portfolio = () => {
                   React App
                 </span>
               </div>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-md font-light">
+              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 A live two-player darts scorer with 501/301 countdown logic, head-to-head history,
                 saved player suggestions, reactive win probability, set momentum, and checkout stats.
               </p>
-              <div className="flex flex-wrap gap-4 text-[10px] text-gray-600 font-mono">
+              <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
                 <span>[ React ]</span>
                 <span>[ Local Storage ]</span>
                 <span>[ Live Scoring ]</span>
               </div>
-              <p className="text-[10px] text-[#217522]/60 uppercase tracking-widest group-hover:text-[#217522] transition-colors">
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to play â†'
               </p>
             </div>
@@ -344,19 +350,103 @@ const Portfolio = () => {
                   Flutter App
                 </span>
               </div>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-md font-light">
+              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 An Android app that intercepts M-Pesa SMS notifications in real time, parses transaction
                 details, auto-categorizes spending by merchant, and tracks budgets with live charts —
                 all stored locally in SQLite with no server required.
               </p>
-              <div className="flex flex-wrap gap-4 text-[10px] text-gray-600 font-mono">
+              <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
                 <span>[ Flutter / Dart ]</span>
                 <span>[ SQLite ]</span>
                 <span>[ Android Native ]</span>
                 <span>[ Chart.js ]</span>
               </div>
-              <p className="text-[10px] text-[#217522]/60 uppercase tracking-widest group-hover:text-[#217522] transition-colors">
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to explore demo →
+              </p>
+            </div>
+          </div>
+
+          {/* Data Pipeline card — opens milestone dashboard */}
+          <div
+            className="group cursor-pointer max-w-2xl w-full"
+            onClick={() => setShowPipeline(true)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && setShowPipeline(true)}
+            aria-label="Open Data Pipeline milestones dashboard"
+          >
+            <TiltedCard
+              imageSrc={assetUrl('/pipeline.png')}
+              altText="End-to-End Data Pipeline"
+              containerHeight="auto"
+              imageWidth="100%"
+              className="aspect-square w-full"
+            />
+            <div className="mt-8 space-y-4">
+              <div className="flex items-center gap-4">
+                <h4 className="text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all">
+                  Data Pipeline
+                </h4>
+                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                  Data Engineering
+                </span>
+              </div>
+              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
+                An end-to-end data pipeline covering ingestion, cleaning, transformation, analysis,
+                visualisation, and deployment — across the Titanic, M-Pesa, and Shii Ngapi datasets.
+                Six tracked milestones from raw CSV to live dashboard.
+              </p>
+              <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+                <span>[ Python ]</span>
+                <span>[ Pandas ]</span>
+                <span>[ Scikit-learn ]</span>
+                <span>[ Docker ]</span>
+              </div>
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+                Click to view milestones →
+              </p>
+            </div>
+          </div>
+
+          {/* Gender & Partners Study card — opens research dashboard */}
+          <div
+            className="group cursor-pointer max-w-2xl w-full"
+            onClick={() => setShowGenderStudy(true)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && setShowGenderStudy(true)}
+            aria-label="Open Gender & Heterosexual Partners research dashboard"
+          >
+            <TiltedCard
+              imageSrc="https://www.psychologicalscience.org/redesign/wp-content/uploads/2024/02/Feb24-Experienced-Love-Featured-1600x1000.jpg"
+              altText="Gender & Change in Heterosexual Partners – Research Dashboard"
+              containerHeight="auto"
+              imageWidth="100%"
+              className="aspect-square w-full"
+            />
+            <div className="mt-8 space-y-4">
+              <div className="flex items-center gap-4">
+                <h4 className="text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all">
+                  Gender &amp; Partners Study
+                </h4>
+                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                  Statistical Research
+                </span>
+              </div>
+              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
+                Cross-sectional analysis of NSSAL survey data (~1999–2001 vs ~2010–2012) testing whether
+                gender is significantly associated with changes in heterosexual partners across the decade.
+                Full hypothesis testing, visualisations, and negative binomial regression.
+              </p>
+              <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+                <span>[ R ]</span>
+                <span>[ Negative Binomial ]</span>
+                <span>[ Non-Parametric Tests ]</span>
+                <span>[ ggplot2 ]</span>
+              </div>
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+                Click to explore findings →
               </p>
             </div>
           </div>
@@ -388,17 +478,17 @@ const Portfolio = () => {
                   Transit App
                 </span>
               </div>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-md font-light">
+              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 A Nairobi matatu journey planner that finds the fastest route between any two points,
                 shows transfer stages, live fare estimates, and renders polylines on a live map.
                 Built with a multi-hop routing engine and Google Maps integration.
               </p>
-              <div className="flex flex-wrap gap-4 text-[10px] text-gray-600 font-mono">
+              <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
                 <span>[ Python / Flask ]</span>
                 <span>[ Routing Engine ]</span>
                 <span>[ GIS / Maps ]</span>
               </div>
-              <p className="text-[10px] text-[#217522]/60 uppercase tracking-widest group-hover:text-[#217522] transition-colors">
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to try demo →
               </p>
             </div>
@@ -407,7 +497,7 @@ const Portfolio = () => {
       </section>
 
       <footer className="py-24 px-12 border-t border-white/5 flex flex-col items-center gap-10 relative z-10">
-        <p className="text-[9px] uppercase tracking-[1em] opacity-20">Victory Kanake â€” JKUAT 2026</p>
+        <p className="text-[9px] uppercase tracking-[1em] opacity-50">Victory Kanake â€” JKUAT 2026</p>
       </footer>
 
       {/* CV Overlay */}
@@ -614,6 +704,116 @@ const Portfolio = () => {
               animation: 'titanicSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           />
+        </div>
+      )}
+
+      {/* Data Pipeline Full-screen Modal */}
+      {showPipeline && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 50,
+            background: 'rgba(3, 3, 3, 0.97)',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
+            overflowY: 'auto',
+            animation: 'titanicFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        >
+          <button
+            onClick={() => setShowPipeline(false)}
+            onMouseEnter={() => setCloseXHovered(true)}
+            onMouseLeave={() => setCloseXHovered(false)}
+            aria-label="Close pipeline dashboard"
+            style={{
+              position: 'fixed',
+              top: '20px',
+              right: '24px',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              background: closeXHovered ? 'rgba(232,72,85,0.15)' : 'rgba(255,255,255,0.07)',
+              border: `1px solid ${closeXHovered ? 'rgba(232,72,85,0.5)' : 'rgba(255,255,255,0.14)'}`,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 60,
+              transform: closeXHovered ? 'rotate(90deg) scale(1.1)' : 'rotate(0deg) scale(1)',
+              transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)',
+              padding: 0,
+              fontSize: 0,
+            }}
+          >
+            <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(45deg)', transition: 'background 0.2s ease' }} />
+            <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(-45deg)', transition: 'background 0.2s ease' }} />
+          </button>
+          <div
+            style={{
+              maxWidth: '1100px',
+              margin: '0 auto',
+              padding: '20px 16px 56px',
+              animation: 'titanicSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            <DataPipelineDashboard />
+          </div>
+        </div>
+      )}
+
+      {/* Gender & Partners Study Full-screen Modal */}
+      {showGenderStudy && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 50,
+            background: 'rgba(3, 3, 3, 0.97)',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
+            overflowY: 'auto',
+            animation: 'titanicFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        >
+          <button
+            onClick={() => setShowGenderStudy(false)}
+            onMouseEnter={() => setCloseXHovered(true)}
+            onMouseLeave={() => setCloseXHovered(false)}
+            aria-label="Close gender study dashboard"
+            style={{
+              position: 'fixed',
+              top: '20px',
+              right: '24px',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              background: closeXHovered ? 'rgba(232,72,85,0.15)' : 'rgba(255,255,255,0.07)',
+              border: `1px solid ${closeXHovered ? 'rgba(232,72,85,0.5)' : 'rgba(255,255,255,0.14)'}`,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 60,
+              transform: closeXHovered ? 'rotate(90deg) scale(1.1)' : 'rotate(0deg) scale(1)',
+              transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)',
+              padding: 0,
+              fontSize: 0,
+            }}
+          >
+            <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(45deg)', transition: 'background 0.2s ease' }} />
+            <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(-45deg)', transition: 'background 0.2s ease' }} />
+          </button>
+          <div
+            style={{
+              maxWidth: '1400px',
+              margin: '0 auto',
+              padding: '0 0 56px',
+              animation: 'titanicSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            <GenderPartnersStudyDashboard />
+          </div>
         </div>
       )}
 
