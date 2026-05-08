@@ -91,9 +91,33 @@ const Portfolio = () => {
   }, []);
 
   const skillSections = [
-    { title: "Languages", skills: ["Python", "Rust", "JavaScript (React)", "Java", "C++", "SQL"] },
-    { title: "Tools & Platforms", skills: ["Excel", "Google Sheets", "Power BI", "Pandas", "Google Analytics", "Streamlit", "AWS"] },
-    { title: "Core Competencies", skills: ["Data Structures & Algorithms", "Data Cleaning & Validation", "Database Design & Export", "Automation Systems"] }
+    {
+      title: "Languages",
+      skills: [
+        "Python", "R", "JavaScript", "React", "Dart (Flutter)",
+        "SQL", "Stata", "HTML / CSS", "Java", "C++", "Rust",
+      ],
+    },
+    {
+      title: "Tools & Libraries",
+      skills: [
+        "Pandas", "NumPy", "Scikit-learn", "SciPy", "NetworkX",
+        "ggplot2", "Flask", "Chart.js", "Streamlit", "SQLite",
+        "Docker", "GitHub Actions", "Power BI", "Excel", "Google Sheets",
+        "Vite", "Tailwind CSS", "Google Analytics", "AWS",
+      ],
+    },
+    {
+      title: "Core Competencies",
+      skills: [
+        "Data Cleaning & Validation", "Feature Engineering",
+        "Statistical Inference & Hypothesis Testing",
+        "Machine Learning & Regression", "Data Visualisation",
+        "Database Design & Management", "Geospatial / GIS Analysis",
+        "Data Structures & Algorithms", "Automation & Data Pipelines",
+        "Research Methods & Survey Analysis", "API Design (REST)",
+      ],
+    },
   ];
 
   return (
