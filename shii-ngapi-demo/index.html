@@ -14,6 +14,7 @@
   --accent:#3ecf6e;--green:#3ecf6e;
   --blue:#60a5fa;--purple:#a78bfa;--orange:#f59e0b;--red:#f87171;
   --r:14px;
+  --panel:300px;
 }
 html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:#000;color:var(--text);overflow:hidden}
 #app{position:relative;width:100vw;height:100dvh;background:#000;overflow:hidden}
@@ -21,7 +22,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:#00
 .leaflet-tile-pane{filter:brightness(0.45) saturate(0.4) hue-rotate(90deg)}
 .leaflet-control-attribution{display:none!important}
 .leaflet-control-zoom{display:none}
-#top-bar{position:absolute;top:0;left:0;right:0;height:56px;padding:0 20px;display:flex;align-items:flex-end;padding-bottom:8px;background:linear-gradient(to bottom,rgba(10,20,12,.92) 0%,transparent 100%);z-index:20}
+#top-bar{position:absolute;top:0;left:var(--panel);right:0;height:56px;padding:0 20px;display:flex;align-items:flex-end;padding-bottom:8px;background:linear-gradient(to bottom,rgba(10,20,12,.92) 0%,transparent 100%);z-index:20}
 #app-title{font-size:.85rem;font-weight:700;letter-spacing:.05em;color:#fff;opacity:.9}
 #demo-tag{margin-left:10px;background:rgba(62,207,110,.15);border:1px solid rgba(62,207,110,.3);border-radius:20px;padding:3px 10px;color:var(--accent);font-size:.65rem;font-weight:700;letter-spacing:.05em}
 #legend{position:absolute;top:64px;right:12px;background:rgba(10,20,12,.85);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:.7rem;backdrop-filter:blur(8px);z-index:20}
@@ -29,31 +30,31 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:#00
 .leg-row:last-child{margin-bottom:0}
 .swatch{width:22px;height:3px;border-radius:2px}
 .swatch.dashed{background:repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 5px,transparent 5px,transparent 10px)}
-#map-info{position:absolute;top:64px;left:12px;background:rgba(10,20,12,.9);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;max-width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);border-left:4px solid var(--green);backdrop-filter:blur(10px);z-index:20}
+#map-info{position:absolute;bottom:20px;right:12px;background:rgba(10,20,12,.9);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;max-width:220px;box-shadow:0 8px 32px rgba(0,0,0,.5);border-left:4px solid var(--green);backdrop-filter:blur(10px);z-index:20}
 #map-info .mi-title{font-size:.72rem;color:var(--green);font-weight:700;margin-bottom:4px}
 #map-info .mi-detail{font-size:.72rem;color:#9ab09e;line-height:1.7}
-#drawer{position:absolute;top:0;bottom:0;left:0;right:0;background:rgba(10,20,12,.93);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top-left-radius:28px;border-top-right-radius:28px;padding:14px 18px 32px;z-index:30;display:flex;flex-direction:column;transition:transform .45s cubic-bezier(.4,0,.2,1)}
-#drawer.collapsed{transform:translateY(calc(100% - 76px))}
-#drawer.half{transform:translateY(50%)}
-#drawer-handle{width:40px;height:4px;background:rgba(255,255,255,.18);background-clip:content-box;border-radius:2px;padding:16px 50px;box-sizing:content-box;margin:0 auto 0;cursor:grab;touch-action:none;user-select:none}
-#mini-card{display:none;align-items:center;gap:10px;padding:0 2px 12px;cursor:grab;touch-action:none;user-select:none}
-#mini-card.show{display:flex}
-#mini-badges{display:flex;gap:6px;flex-wrap:wrap;flex:1}
-#mini-fare{font-size:.82rem;font-weight:700;color:var(--green);white-space:nowrap}
-#mini-meta{font-size:.7rem;color:var(--muted);white-space:nowrap}
-#mini-expand{font-size:.9rem;color:var(--muted)}
-.fields{display:flex;flex-direction:column;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:16px;overflow:visible;margin-bottom:10px}
+#panel{
+  position:absolute;top:0;left:0;bottom:0;width:var(--panel);
+  background:rgba(10,20,12,.93);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-right:1px solid var(--border);
+  padding:64px 16px 24px;
+  z-index:20;
+  display:flex;flex-direction:column;
+  gap:10px;
+}
+.fields{display:flex;flex-direction:column;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:16px;overflow:visible}
 .field-row{display:flex;align-items:center;gap:12px;padding:12px 14px}
 .field-row+.field-row{border-top:1px solid var(--border)}
 .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .dot.from{background:var(--blue)}
 .dot.to{background:var(--red)}
-.field-row input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:16px;font-family:inherit}
+.field-row input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:14px;font-family:inherit}
 .field-divider{position:relative;height:0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;padding-right:14px}
 #btn-swap{display:flex;width:28px;height:28px;background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:50%;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:14px;flex-shrink:0}
-#btn-search{width:100%;padding:14px;background:var(--accent);border:none;border-radius:14px;color:#071a0b;font-size:.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s,transform .1s;letter-spacing:.02em}
+#btn-search{width:100%;padding:12px;background:var(--accent);border:none;border-radius:14px;color:#071a0b;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s,transform .1s;letter-spacing:.02em}
 #btn-search:active{opacity:.85;transform:scale(.98)}
-#results{margin-top:12px;flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:8px;touch-action:pan-y;-webkit-overflow-scrolling:touch}
+#results{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:8px;touch-action:pan-y;-webkit-overflow-scrolling:touch}
 #results::-webkit-scrollbar{display:none}
 .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin-right:6px;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -75,6 +76,11 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:#00
 .user-dot{width:16px;height:16px;background:var(--blue);border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(96,165,250,.3)}
 .dest-dot{width:16px;height:16px;background:var(--red);border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(248,113,113,.3)}
 .stop-dot{width:10px;height:10px;border:2px solid #fff;border-radius:50%}
+@media (max-width:767px){
+  #top-bar{left:0;}
+  #panel{top:auto;left:0;right:0;bottom:0;width:100%;height:52vh;border-right:none;border-top:1px solid var(--border);border-top-left-radius:28px;border-top-right-radius:28px;padding:20px 18px 32px;}
+  #map-info{bottom:calc(52vh + 10px);right:12px;}
+}
 </style>
 </head>
 <body>
@@ -94,14 +100,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:#00
     <div class="mi-title">Best Route &#x2714;</div>
     <div class="mi-detail" id="mi-detail">Board at <b>Kencom</b> &middot; Alight at <b>Westlands</b><br>KSh <b>30</b> &nbsp;&middot;&nbsp; ~18 min</div>
   </div>
-  <div id="drawer" class="half">
-    <div id="drawer-handle"></div>
-    <div id="mini-card">
-      <div id="mini-badges"></div>
-      <span id="mini-meta"></span>
-      <span id="mini-fare"></span>
-      <span id="mini-expand">&#x2303;</span>
-    </div>
+  <div id="panel">
     <div class="fields">
       <div class="field-row">
         <span class="dot from"></span>
@@ -184,7 +183,7 @@ function drawRoute(route){
   makeDot([TO.lat,TO.lng],'dest-dot','Westlands — Destination');
   makeStopDot([fb.lat,fb.lng],route.legs[0].color,fb.name+' (Board)');
   makeStopDot([la.lat,la.lng],route.legs[route.legs.length-1].color,la.name+' (Alight)');
-  map.fitBounds(bounds.pad(0.18),{paddingTopLeft:[20,80],paddingBottomRight:[20,360]});
+  map.fitBounds(bounds.pad(0.18),{paddingTopLeft:[320,80],paddingBottomRight:[20,40]});
   document.getElementById('mi-detail').innerHTML=
     'Board at <b>'+fb.name+'</b> &middot; Alight at <b>'+la.name+'</b><br>KSh <b>'+route.fare+'</b> &nbsp;&middot;&nbsp; '+route.duration;
 }
@@ -215,91 +214,20 @@ function renderCards(){
       document.querySelectorAll('.route-card').forEach(function(c){c.classList.remove('active');});
       card.classList.add('active');
       drawRoute(route);
-      collapseDrawer(route);
     });
     el.appendChild(card);
   });
 }
-
-var _rt=null;
-function fitResults(){
-  var r=document.getElementById('results'); if(!r) return;
-  r.style.maxHeight=Math.max(60,window.innerHeight-r.getBoundingClientRect().top-32)+'px';
-}
-function setDrawer(state){
-  var d=document.getElementById('drawer');
-  d.classList.remove('collapsed','half');
-  if(state==='collapsed') d.classList.add('collapsed');
-  if(state==='half') d.classList.add('half');
-  clearTimeout(_rt); _rt=setTimeout(fitResults,460);
-}
-function getDrawer(){
-  var d=document.getElementById('drawer');
-  if(d.classList.contains('collapsed')) return 'collapsed';
-  if(d.classList.contains('half')) return 'half';
-  return 'full';
-}
-function collapseDrawer(route){
-  document.getElementById('mini-badges').innerHTML=route.legs.map(function(l){
-    return '<span style="padding:2px 8px;border-radius:12px;font-size:.68rem;font-weight:700;color:#fff;background:'+l.color+'">'+l.route+'</span>';
-  }).join('');
-  document.getElementById('mini-meta').textContent=route.duration;
-  document.getElementById('mini-fare').textContent='KSh '+route.fare;
-  document.getElementById('mini-card').classList.add('show');
-  setDrawer('collapsed');
-}
-
-(function(){
-  var drawer=document.getElementById('drawer');
-  var handle=document.getElementById('drawer-handle');
-  var mini=document.getElementById('mini-card');
-  var sy=0,by=0,ly=0,lt=0,active=false;
-  function snapY(s){var h=drawer.offsetHeight;if(s==='collapsed')return h-76;if(s==='half')return h*0.5;return 0;}
-  function begin(y){sy=y;ly=y;lt=Date.now();by=snapY(getDrawer());active=true;drawer.style.transition='none';}
-  function move(y){
-    if(!active)return;
-    drawer.style.transform='translateY('+Math.max(0,Math.min(snapY('collapsed'),by+(y-sy)))+'px)';
-    ly=y;lt=Date.now();
-  }
-  function end(y){
-    if(!active)return;active=false;
-    var ty=Math.max(0,Math.min(snapY('collapsed'),by+(y-sy)));
-    var dt=Date.now()-lt;
-    var vel=dt<200?(y-ly)/Math.max(1,dt):0;
-    drawer.style.transition='';drawer.style.transform='';
-    var cur=getDrawer();
-    if(vel>0.45) setDrawer(cur==='full'?'half':'collapsed');
-    else if(vel<-0.45) setDrawer(cur==='collapsed'?'half':'full');
-    else{
-      var pts=['full','half','collapsed'].map(function(s){return{s:s,d:Math.abs(ty-snapY(s))};});
-      setDrawer(pts.reduce(function(a,b){return b.d<a.d?b:a;}).s);
-    }
-  }
-  function bind(el){
-    el.addEventListener('touchstart',function(e){begin(e.touches[0].clientY);},{passive:true});
-    el.addEventListener('touchmove',function(e){move(e.touches[0].clientY);e.preventDefault();},{passive:false});
-    el.addEventListener('touchend',function(e){end(e.changedTouches[0].clientY);},{passive:true});
-    el.addEventListener('mousedown',function(e){
-      begin(e.clientY);
-      var mm=function(ev){move(ev.clientY);};
-      var mu=function(ev){end(ev.clientY);window.removeEventListener('mousemove',mm);window.removeEventListener('mouseup',mu);};
-      window.addEventListener('mousemove',mm);window.addEventListener('mouseup',mu);e.preventDefault();
-    });
-  }
-  bind(handle);bind(mini);
-  mini.addEventListener('click',function(){if(getDrawer()==='collapsed')setDrawer('half');});
-}());
 
 document.getElementById('btn-search').addEventListener('click',function(){
   var btn=this;
   btn.disabled=true;
   btn.innerHTML='<span class="spinner"></span> Finding routes…';
   document.getElementById('results').innerHTML='<div style="text-align:center;color:var(--muted);font-size:.78rem;padding:8px 0"><span class="spinner"></span> Searching matatu routes…</div>';
-  setDrawer('half');
   setTimeout(function(){
     btn.disabled=false;
     btn.innerHTML='<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg> Search Routes';
-    renderCards();drawRoute(ROUTES[0]);fitResults();
+    renderCards();drawRoute(ROUTES[0]);
   },1400);
 });
 
@@ -308,7 +236,7 @@ document.getElementById('btn-swap').addEventListener('click',function(){
   var tmp=f.value;f.value=t.value;t.value=tmp;
 });
 
-setTimeout(function(){renderCards();drawRoute(ROUTES[0]);fitResults();setDrawer('half');},300);
+setTimeout(function(){renderCards();drawRoute(ROUTES[0]);},300);
 </script>
 </body>
 </html>
