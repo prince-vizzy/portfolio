@@ -4,7 +4,7 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/portfolio/',
+  base: process.env.VERCEL ? '/' : '/portfolio/',
   plugins: [react()],
   resolve: {
     alias: {
