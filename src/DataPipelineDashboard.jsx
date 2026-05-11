@@ -819,99 +819,99 @@ export default function DataPipelineDashboard() {
     { id: 6, label: 'M6 · Model',     icon: '🤖', color: R },
   ];
 
-  return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', color: 'white', background: '#080808', height: '100vh', overflow: 'auto' }}>
+   return (
+     <div style={{ fontFamily: 'system-ui, sans-serif', color: 'white', background: '#080808', height: '100vh', display: 'flex', flexDirection: 'column' }}>
 
-      {/* Header */}
-      <div style={{ borderBottom: `0.5px solid ${BORDER}`, paddingBottom: 14, marginBottom: 22 }}>
-        <div style={{ fontSize: 18, fontWeight: 600 }}>Social Media & Mental Health — Data Pipeline</div>
-        <div style={{ fontSize: 12, color: DIM, marginTop: 4 }}>
-          SMMH survey · 478 respondents · Python pipeline · Milestones 2 → 3 → 4 → 5 → 6
-        </div>
-      </div>
+       {/* Header */}
+       <div style={{ borderBottom: `0.5px solid ${BORDER}`, paddingBottom: 14, marginBottom: 22, flexShrink: 0 }}>
+         <div style={{ fontSize: 18, fontWeight: 600 }}>Social Media & Mental Health — Data Pipeline</div>
+         <div style={{ fontSize: 12, color: DIM, marginTop: 4 }}>
+           SMMH survey · 478 respondents · Python pipeline · Milestones 2 → 3 → 4 → 5 → 6
+         </div>
+       </div>
 
-      {/* Global KPIs */}
-      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 24 }}>
-        <Kpi label="Respondents"    value="478"     sub="active SM users"        color={B} />
-        <Kpi label="Avg daily use"  value="205 min" sub="3.4 hours/day"          color={Y} />
-        <Kpi label="Avg MH impact"  value="3.12/5"  sub="95% CI [3.05, 3.18]"   color={R} />
-        <Kpi label="Features built" value="33"      sub="23 raw + 10 engineered" color={G} />
-        <Kpi label="High-risk users" value="45.6%"  sub="218 of 478"             color={R} />
-      </div>
+       {/* Global KPIs */}
+       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 24, flexShrink: 0 }}>
+         <Kpi label="Respondents"    value="478"     sub="active SM users"        color={B} />
+         <Kpi label="Avg daily use"  value="205 min" sub="3.4 hours/day"          color={Y} />
+         <Kpi label="Avg MH impact"  value="3.12/5"  sub="95% CI [3.05, 3.18]"   color={R} />
+         <Kpi label="Features built" value="33"      sub="23 raw + 10 engineered" color={G} />
+         <Kpi label="High-risk users" value="45.6%"  sub="218 of 478"             color={R} />
+       </div>
 
-      {/* Pipeline flow */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginBottom: 24, overflowX: 'auto', paddingBottom: 4 }}>
-        {[
-          { id: 1, stage: 'Ingest',     icon: '📥', color: B },
-          { id: 2, stage: 'Clean',      icon: '🧹', color: Y },
-          { id: 3, stage: 'Transform',  icon: '⚙️', color: P },
-          { id: 4, stage: 'Analyse',    icon: '📊', color: G },
-          { id: 5, stage: 'Visualise',  icon: '📈', color: G },
-          { id: 6, stage: 'Model',      icon: '🤖', color: R },
-        ].map((m, i, arr) => {
-          const isTab  = m.id >= 2 && m.id <= 6;
-          const active = tab === m.id;
-          return (
-            <React.Fragment key={m.id}>
-              <button
-                onClick={() => isTab && setTab(m.id)}
-                style={{
-                  flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
-                  padding: '8px 14px', borderRadius: 12,
-                  border: `1px solid ${active ? m.color : isTab ? m.color + '44' : BORDER}`,
-                  background: active ? m.color + '20' : isTab ? m.color + '0a' : 'rgba(255,255,255,0.02)',
-                  cursor: isTab ? 'pointer' : 'default', minWidth: 80, transition: 'all 0.2s',
-                }}
-              >
-                <div style={{ fontSize: 18 }}>{m.icon}</div>
-                <div style={{ fontSize: 10, fontWeight: 600, color: active ? m.color : isTab ? m.color + 'cc' : DIM }}>{m.stage}</div>
-                {isTab && <div style={{ fontSize: 8, color: DIM }}>M{m.id}</div>}
-              </button>
-              {i < arr.length - 1 && (
-                <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', padding: '0 2px' }}>
-                  <div style={{ width: 20, height: 1, background: BORDER }} />
-                  <div style={{ width: 0, height: 0, borderTop: '4px solid transparent', borderBottom: '4px solid transparent', borderLeft: `6px solid ${BORDER}` }} />
-                </div>
-              )}
-            </React.Fragment>
-          );
-        })}
-        <div style={{ marginLeft: 'auto', fontSize: 10, color: DIM, flexShrink: 0, paddingLeft: 16 }}>
-          Click M2 → M6 to explore
-        </div>
-      </div>
+       {/* Pipeline flow */}
+       <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginBottom: 24, overflowX: 'auto', paddingBottom: 4, flexShrink: 0 }}>
+         {[
+           { id: 1, stage: 'Ingest',     icon: '📥', color: B },
+           { id: 2, stage: 'Clean',      icon: '🧹', color: Y },
+           { id: 3, stage: 'Transform',  icon: '⚙️', color: P },
+           { id: 4, stage: 'Analyse',    icon: '📊', color: G },
+           { id: 5, stage: 'Visualise',  icon: '📈', color: G },
+           { id: 6, stage: 'Model',      icon: '🤖', color: R },
+         ].map((m, i, arr) => {
+           const isTab  = m.id >= 2 && m.id <= 6;
+           const active = tab === m.id;
+           return (
+             <React.Fragment key={m.id}>
+               <button
+                 onClick={() => isTab && setTab(m.id)}
+                 style={{
+                   flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
+                   padding: '8px 14px', borderRadius: 12,
+                   border: `1px solid ${active ? m.color : isTab ? m.color + '44' : BORDER}`,
+                   background: active ? m.color + '20' : isTab ? m.color + '0a' : 'rgba(255,255,255,0.02)',
+                   cursor: isTab ? 'pointer' : 'default', minWidth: 80, transition: 'all 0.2s',
+                 }}
+               >
+                 <div style={{ fontSize: 18 }}>{m.icon}</div>
+                 <div style={{ fontSize: 10, fontWeight: 600, color: active ? m.color : isTab ? m.color + 'cc' : DIM }}>{m.stage}</div>
+                 {isTab && <div style={{ fontSize: 8, color: DIM }}>M{m.id}</div>}
+               </button>
+               {i < arr.length - 1 && (
+                 <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', padding: '0 2px' }}>
+                   <div style={{ width: 20, height: 1, background: BORDER }} />
+                   <div style={{ width: 0, height: 0, borderTop: '4px solid transparent', borderBottom: '4px solid transparent', borderLeft: `6px solid ${BORDER}` }} />
+                 </div>
+               )}
+             </React.Fragment>
+           );
+         })}
+         <div style={{ marginLeft: 'auto', fontSize: 10, color: DIM, flexShrink: 0, paddingLeft: 16 }}>
+           Click M2 → M6 to explore
+         </div>
+       </div>
 
-      {/* Tab selector */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 22, flexWrap: 'wrap' }}>
-        {tabs.map(t => (
-          <button
-            key={t.id}
-            onClick={() => setTab(t.id)}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 7, padding: '8px 16px',
-              borderRadius: 10, cursor: 'pointer', transition: 'all 0.2s',
-              border: `1px solid ${tab === t.id ? t.color : BORDER}`,
-              background: tab === t.id ? t.color + '18' : 'transparent',
-              color: tab === t.id ? t.color : DIM, fontSize: 12, fontWeight: tab === t.id ? 600 : 400,
-            }}
-          >
-            <span>{t.icon}</span> {t.label}
-          </button>
-        ))}
-      </div>
+       {/* Tab selector */}
+       <div style={{ display: 'flex', gap: 8, marginBottom: 22, flexWrap: 'wrap', flexShrink: 0 }}>
+         {tabs.map(t => (
+           <button
+             key={t.id}
+             onClick={() => setTab(t.id)}
+             style={{
+               display: 'flex', alignItems: 'center', gap: 7, padding: '8px 16px',
+               borderRadius: 10, cursor: 'pointer', transition: 'all 0.2s',
+               border: `1px solid ${tab === t.id ? t.color : BORDER}`,
+               background: tab === t.id ? t.color + '18' : 'transparent',
+               color: tab === t.id ? t.color : DIM, fontSize: 12, fontWeight: tab === t.id ? 600 : 400,
+             }}
+           >
+             <span>{t.icon}</span> {t.label}
+           </button>
+         ))}
+       </div>
 
-      {/* Tab content */}
-      <div key={tab} style={{ animation: 'fadeIn 0.3s ease' }}>
-        {tab === 2 && <M2Panel />}
-        {tab === 3 && <M3Panel />}
-        {tab === 4 && <M4Panel />}
-        {tab === 5 && <M5Panel />}
-        {tab === 6 && <M6Panel />}
-      </div>
+       {/* Tab content - takes remaining space */}
+       <div key={tab} style={{ flexGrow: 1, overflow: 'auto', animation: 'fadeIn 0.3s ease' }}>
+         {tab === 2 && <M2Panel />}
+         {tab === 3 && <M3Panel />}
+         {tab === 4 && <M4Panel />}
+         {tab === 5 && <M5Panel />}
+         {tab === 6 && <M6Panel />}
+       </div>
 
-      <style>{`
-        @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
-      `}</style>
-    </div>
-  );
+       <style>{`
+         @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+       `}</style>
+     </div>
+   );
 }
