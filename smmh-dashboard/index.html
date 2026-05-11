@@ -2,6 +2,7 @@
 
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { margin: 0; min-height: 100%; background: #0D1117; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
 
 .dash {
@@ -144,6 +145,7 @@
 
 .charts-area { padding: 0 24px; }
 .charts-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.charts-grid > .card:only-child { grid-column: 1 / -1; }
 @media (max-width: 660px) { .charts-grid { grid-template-columns: 1fr; } }
 
 .card {
@@ -530,22 +532,6 @@
         </div>
         <div class="card-canvas" style="height:210px;">
           <canvas id="chartUsage" role="img" aria-label="Bar chart of daily social media usage distribution"></canvas>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Mental health by gender</div>
-            <div class="card-desc">6 indicators compared on a 1 to 5 scale (higher = worse)</div>
-          </div>
-          <span class="tip-icon" style="flex-shrink:0"
-            data-tip-title="Mental health by gender"
-            data-tip="Grouped bars comparing 6 mental health indicators for Male vs Female respondents on a 1 to 5 scale. Female respondents score slightly higher across all six dimensions, indicating comparatively greater reported distress.">i</span>
-        </div>
-        <div id="genderLegend" class="gender-legend"></div>
-        <div class="card-canvas" style="height:196px;">
-          <canvas id="chartGender" role="img" aria-label="Grouped bar chart of mental health scores by gender"></canvas>
         </div>
       </div>
 
@@ -1769,7 +1755,7 @@ function updateKPIs() {
 
 let S = PRECOMPUTED;
 let activeMetrics = new Set(['distraction','depression','sleep']);
-let chartLine, chartUsage, chartGender, chartAge, chartPurpose;
+let chartLine, chartUsage, chartAge, chartPurpose;
 
 function initMetricToggles() {
   document.getElementById('metricToggle').innerHTML = METRICS.map(m =>
@@ -1846,31 +1832,6 @@ function initCharts() {
       }
     }
   });
-
-  const gLabels = ['Distraction','Worries','Depression','Sleep','Validation','Comparison'];
-  chartGender = new Chart(document.getElementById('chartGender'), {
-    type: 'bar',
-    data: {
-      labels: gLabels,
-      datasets: [
-        { label:'Male',   data: S.genderRows.male,   backgroundColor:'#3B82F6', borderRadius:3, borderSkipped:false },
-        { label:'Female', data: S.genderRows.female, backgroundColor:'#EC4899', borderRadius:3, borderSkipped:false }
-      ]
-    },
-    options: {
-      ...noLegend,
-      plugins: { ...noLegend.plugins, tooltip:{ callbacks:{
-        label: ctx => '  ' + ctx.dataset.label + ': ' + ctx.raw.toFixed(1) + ' / 5'
-      }}},
-      scales: {
-        x: { ...xScale, ticks:{ ...xScale.ticks, font:{size:9}, maxRotation:28 } },
-        y: { ...yScale, min:0, max:5 }
-      }
-    }
-  });
-  document.getElementById('genderLegend').innerHTML =
-    `<div class="gpill"><span class="gpill-dot" style="background:#3B82F6"></span>Male &nbsp;<strong style="color:#E6EDF3">${S.genderRows.maleAvg.toFixed(1)}</strong><span style="color:#6E7681;font-size:10px">&nbsp;avg</span></div>` +
-    `<div class="gpill"><span class="gpill-dot" style="background:#EC4899"></span>Female &nbsp;<strong style="color:#E6EDF3">${S.genderRows.femaleAvg.toFixed(1)}</strong><span style="color:#6E7681;font-size:10px">&nbsp;avg</span></div>`;
 
   chartLine = new Chart(document.getElementById('chartLine'), {
     type: 'line',
@@ -1958,13 +1919,6 @@ function updateAllCharts() {
 
   chartUsage.data.datasets[0].data = S.usageCounts;
   chartUsage.update('active');
-
-  chartGender.data.datasets[0].data = S.genderRows.male;
-  chartGender.data.datasets[1].data = S.genderRows.female;
-  chartGender.update('active');
-  document.getElementById('genderLegend').innerHTML =
-    `<div class="gpill"><span class="gpill-dot" style="background:#3B82F6"></span>Male &nbsp;<strong style="color:#E6EDF3">${S.genderRows.maleAvg.toFixed(1)}</strong><span style="color:#6E7681;font-size:10px">&nbsp;avg</span></div>` +
-    `<div class="gpill"><span class="gpill-dot" style="background:#EC4899"></span>Female &nbsp;<strong style="color:#E6EDF3">${S.genderRows.femaleAvg.toFixed(1)}</strong><span style="color:#6E7681;font-size:10px">&nbsp;avg</span></div>`;
 
   updateLineChart();
 
