@@ -1,12 +1,9 @@
-﻿
-<h2 class="sr-only">Social Media & Mental Health Interactive Analytics Dashboard — 481 survey respondents, exploring correlations between screen time and wellbeing indicators.</h2>
+<h2 class="sr-only">Social Media and Mental Health Interactive Analytics Dashboard, 481 survey respondents, exploring correlations between screen time and wellbeing indicators.</h2>
 
 <style>
-/* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
 
-/* ── Dark palette & parent override ── */
 .dash {
   --bg:     #0D1117;
   --surf:   #161B22;
@@ -33,7 +30,6 @@
   --text2:  #8B949E;
   --text3:  #6E7681;
 
-  /* Override parent app CSS variables */
   --color-text-primary:         #E6EDF3;
   --color-text-secondary:       #8B949E;
   --color-background-primary:   #161B22;
@@ -50,7 +46,6 @@
   min-height: 100vh;
 }
 
-/* ── Header ── */
 .dash-header {
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 12px;
@@ -81,7 +76,6 @@
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
 .hdr-meta { font-size: 11px; color: var(--text3); }
 
-/* ── Filter bar ── */
 .filter-bar {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   padding: 12px 24px 12px;
@@ -108,7 +102,6 @@
 }
 .reset-btn:hover { border-color: var(--text2); color: var(--text); }
 
-/* ── Section header ── */
 .sec {
   display: flex; align-items: center; gap: 10px;
   padding: 18px 24px 10px;
@@ -116,7 +109,6 @@
 .sec-lbl { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.09em; white-space: nowrap; }
 .sec-line { flex: 1; height: 1px; background: var(--bdr2); }
 
-/* ── KPI grid ── */
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -150,12 +142,10 @@
 .kpi-val   { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.03em; line-height: 1; margin-bottom: 4px; }
 .kpi-sub   { font-size: 10px; color: var(--text3); }
 
-/* ── Charts area ── */
 .charts-area { padding: 0 24px; }
 .charts-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 @media (max-width: 660px) { .charts-grid { grid-template-columns: 1fr; } }
 
-/* ── Card ── */
 .card {
   background: var(--surf); border: 1px solid var(--bdr);
   border-radius: 14px; padding: 16px 18px;
@@ -168,12 +158,10 @@
 .card-desc  { font-size: 11px; color: var(--text3); margin-top: 3px; }
 .card-canvas { position: relative; margin-top: 14px; }
 
-/* ── Legend ── */
 .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; font-size: 11px; color: var(--text2); }
 .legend span { display: flex; align-items: center; gap: 5px; }
 .ldot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
 
-/* ── Metric toggles ── */
 .toggle-lbl { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
 .metric-toggle { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
 .mtbtn {
@@ -185,7 +173,6 @@
 .mtbtn:hover  { border-color: var(--blue); color: var(--blue); background: var(--blue-bg); }
 .mtbtn.active { background: var(--blue-bg); color: var(--blue); border-color: rgba(56,139,253,0.45); }
 
-/* ── Insight bar ── */
 .insight-bar {
   border-left: 2px solid var(--blue);
   background: linear-gradient(90deg, var(--blue-bg) 0%, transparent 100%);
@@ -195,7 +182,6 @@
   margin-top: 14px; cursor: help; line-height: 1.5;
 }
 
-/* ── Platform bars ── */
 .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 24px; margin-top: 8px; }
 @media (max-width: 540px) { .platform-grid { grid-template-columns: 1fr; } }
 .pbar-row {
@@ -212,12 +198,224 @@
 .pbar-track { height: 4px; background: var(--surf3); border-radius: 2px; overflow: hidden; }
 .pbar-fill  { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--blue) 0%, #93C5FD 100%); }
 
-/* ── Stat pills on gender legend ── */
 .gender-legend { display: flex; gap: 14px; margin-top: 8px; margin-bottom: 2px; flex-wrap: wrap; }
 .gpill { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); }
 .gpill-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
 
-/* ── Footer ── */
+.doc-section {
+  margin: 0 24px 0;
+  background: var(--surf);
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  padding: 20px 22px;
+}
+.doc-section h3 {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 660px) { .doc-grid { grid-template-columns: 1fr; } }
+.doc-card {
+  background: var(--surf2);
+  border: 1px solid var(--bdr2);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.doc-card h4 { font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+.doc-card p  { font-size: 11px; color: var(--text2); line-height: 1.6; margin-bottom: 6px; }
+.doc-card p:last-child { margin-bottom: 0; }
+.doc-card ul { padding-left: 14px; }
+.doc-card ul li { font-size: 11px; color: var(--text2); line-height: 1.7; }
+
+.use-case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 0; }
+@media (max-width: 800px) { .use-case-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .use-case-grid { grid-template-columns: 1fr; } }
+.uc-card {
+  background: var(--surf2);
+  border: 1px solid var(--bdr2);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.uc-badge {
+  display: inline-block;
+  font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 2px 8px; border-radius: 20px;
+  background: var(--blue-bg); color: var(--blue);
+  border: 1px solid rgba(56,139,253,0.25);
+  margin-bottom: 8px;
+}
+.uc-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.uc-body  { font-size: 11px; color: var(--text2); line-height: 1.6; }
+.uc-filters {
+  margin-top: 8px;
+  font-size: 10px; color: var(--text3);
+}
+.uc-filters strong { color: var(--orange); }
+
+/* ── Milestone 6: ML Tab System ──────────────────────────────────────── */
+.ml-tab-nav {
+  display: flex; gap: 6px; margin-bottom: 0;
+  border-bottom: 1px solid var(--bdr);
+  padding: 0 0 0 0;
+}
+.ml-tab-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 10px 20px; font-size: 13px; font-weight: 500;
+  color: var(--text2); background: transparent;
+  border: 1px solid transparent; border-bottom: none;
+  border-radius: 8px 8px 0 0; cursor: pointer;
+  transition: all 0.15s; font-family: inherit;
+  position: relative; bottom: -1px;
+}
+.ml-tab-btn:hover { color: var(--text); border-color: var(--bdr); }
+.ml-tab-btn.active {
+  color: var(--purple); background: var(--surf);
+  border-color: var(--bdr); border-bottom-color: var(--surf);
+}
+.ml-tab-panel { display: block; }
+
+/* ── Predictor ─────────────────────────────────────────────────────────── */
+.predictor-grid { padding: 4px 0 12px; }
+.pred-row-usage { padding: 10px 0 14px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--bdr2); margin-bottom: 14px; }
+.pred-usage-sel { flex: 1; max-width: 360px; }
+.pred-q-label {
+  font-size: 12px; color: var(--text2); display: flex; align-items: center; gap: 7px;
+  min-width: 260px;
+}
+.pred-q-num {
+  font-size: 10px; font-weight: 700; color: var(--purple);
+  background: var(--purple-bg); border: 1px solid rgba(188,140,255,0.2);
+  border-radius: 5px; padding: 1px 6px; letter-spacing: 0.04em; flex-shrink: 0;
+}
+.pred-likert-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px;
+}
+@media (max-width: 660px) { .pred-likert-grid { grid-template-columns: 1fr; } }
+.pred-item {
+  background: var(--surf2); border: 1px solid var(--bdr2);
+  border-radius: 10px; padding: 10px 14px;
+  transition: border-color 0.15s;
+}
+.pred-item:hover { border-color: rgba(188,140,255,0.3); }
+.pred-item .pred-q-label { margin-bottom: 8px; font-size: 11.5px; }
+.pred-slider-row { display: flex; align-items: center; gap: 8px; }
+.pred-slider-lbl { font-size: 10px; color: var(--text3); white-space: nowrap; }
+.pred-slider {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; height: 4px; border-radius: 2px;
+  background: var(--bdr); outline: none; cursor: pointer;
+}
+.pred-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--purple); cursor: pointer;
+  border: 2px solid var(--surf); box-shadow: 0 0 0 2px rgba(188,140,255,0.3);
+  transition: box-shadow 0.15s;
+}
+.pred-slider::-webkit-slider-thumb:hover { box-shadow: 0 0 0 4px rgba(188,140,255,0.25); }
+.pred-slider::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--purple); cursor: pointer;
+  border: 2px solid var(--surf);
+}
+.pred-slider-val {
+  font-size: 14px; font-weight: 700; color: var(--purple);
+  min-width: 20px; text-align: center;
+}
+
+/* Result panel */
+.pred-result {
+  margin-top: 20px; border: 1px solid var(--bdr);
+  border-radius: 12px; overflow: hidden;
+}
+.pred-result-inner {
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  padding: 16px 20px; background: var(--surf2);
+}
+.pred-tier-badge {
+  font-size: 15px; font-weight: 700; padding: 8px 18px;
+  border-radius: 20px; white-space: nowrap; letter-spacing: -0.01em;
+  border: 1px solid var(--pred-color, var(--bdr));
+  color: var(--pred-color, var(--text2));
+  background: var(--pred-bg, transparent);
+  transition: all 0.3s;
+}
+.pred-prob-wrap { flex: 1; min-width: 200px; }
+.pred-prob-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+.pred-prob-bar-track {
+  height: 8px; background: var(--surf3); border-radius: 4px; overflow: hidden; margin-bottom: 4px;
+}
+.pred-prob-bar {
+  height: 100%; border-radius: 4px;
+  background: var(--pred-color, var(--bdr));
+  transition: width 0.35s ease, background 0.3s;
+}
+.pred-prob-val { font-size: 13px; font-weight: 600; color: var(--text); }
+.pred-interp { font-size: 12px; color: var(--text2); flex: 1; min-width: 200px; line-height: 1.5; }
+.pred-disclaimer {
+  font-size: 10.5px; color: var(--text3); background: rgba(227,179,65,0.06);
+  border-top: 1px solid rgba(227,179,65,0.15); padding: 8px 16px;
+}
+
+/* ── ML Insights Tab ─────────────────────────────────────────────── */
+.ml-kpi-strip {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;
+}
+.ml-kpi-pill {
+  background: var(--surf); border: 1px solid var(--bdr);
+  border-radius: 10px; padding: 10px 16px; text-align: center;
+  flex: 1; min-width: 90px;
+  border-top: 2px solid var(--acc, var(--blue));
+}
+.ml-kpi-val { font-size: 20px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 4px; }
+.ml-kpi-lbl { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* Confusion matrix */
+.cm-container { padding: 16px; }
+.cm-grid {
+  display: grid;
+  grid-template-columns: 130px 1fr 1fr;
+  gap: 6px; max-width: 600px; margin: 0 auto;
+}
+.cm-spacer {}
+.cm-axis-label { font-size: 11px; color: var(--text2); font-weight: 600; display: flex; align-items: center; justify-content: center; padding: 4px; text-align: center; }
+.cm-row-label { justify-content: flex-end; text-align: right; padding-right: 12px; }
+.cm-cell {
+  border-radius: 10px; padding: 14px 10px; text-align: center;
+  border: 1px solid var(--bdr);
+}
+.cm-tn { background: rgba(63,185,80,0.08); border-color: rgba(63,185,80,0.25); }
+.cm-fp { background: rgba(248,81,73,0.07); border-color: rgba(248,81,73,0.2); }
+.cm-fn { background: rgba(227,179,65,0.07); border-color: rgba(227,179,65,0.2); }
+.cm-tp { background: rgba(56,139,253,0.08); border-color: rgba(56,139,253,0.25); }
+.cm-cell-val { font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
+.cm-cell-tag { font-size: 11px; font-weight: 700; color: var(--text3); margin: 4px 0 6px; letter-spacing: 0.06em; }
+.cm-cell-desc { font-size: 10px; color: var(--text3); line-height: 1.4; }
+.cm-note { font-size: 10.5px; color: var(--text3); text-align: center; margin-top: 14px; }
+
+/* ── Accordion ───────────────────────────────────────────────────── */
+.ml-accordion {
+  background: var(--surf); border: 1px solid var(--bdr);
+  border-radius: 10px; overflow: hidden;
+}
+.ml-accordion-hdr {
+  list-style: none; display: flex; align-items: center; gap: 10px;
+  padding: 13px 16px; cursor: pointer; font-size: 13px;
+  font-weight: 500; color: var(--text2);
+  transition: background 0.15s, color 0.15s;
+  user-select: none;
+}
+.ml-accordion-hdr:hover { background: var(--surf2); color: var(--text); }
+.ml-accordion[open] .ml-accordion-hdr { color: var(--text); border-bottom: 1px solid var(--bdr); }
+.ml-accordion-icon { font-size: 9px; transition: transform 0.2s; flex-shrink: 0; }
+.ml-accordion[open] .ml-accordion-icon { transform: rotate(90deg); }
+.ml-accordion-badge {
+  margin-left: auto; font-size: 10px; color: var(--purple);
+  background: var(--purple-bg); border: 1px solid rgba(188,140,255,0.2);
+  border-radius: 20px; padding: 2px 10px; flex-shrink: 0;
+}
+.ml-accordion-body { padding: 12px 16px 16px; }
+
 .dash-footer {
   margin-top: 6px; padding: 13px 24px;
   border-top: 1px solid var(--bdr2);
@@ -225,10 +423,9 @@
   display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
 }
 
-/* ── Spacer ── */
 .gap12 { height: 12px; }
+.gap20 { height: 20px; }
 
-/* ── Tooltip system ── */
 #tt {
   position: fixed; z-index: 99999;
   background: var(--surf3, #21262D); border: 1px solid var(--bdr, #30363D);
@@ -257,22 +454,20 @@
 
 <div class="dash">
 
-  <!-- ── Header ── -->
   <header class="dash-header">
     <div class="hdr-left">
       <div class="hdr-icon">📊</div>
       <div>
-        <div class="hdr-title">Social Media &amp; Mental Health Analytics</div>
-        <div class="hdr-sub">481 survey respondents &nbsp;·&nbsp; Screen time &amp; wellbeing correlations &nbsp;·&nbsp; Likert scale 1–5</div>
+        <div class="hdr-title">Social Media and Mental Health Analytics</div>
+        <div class="hdr-sub">481 survey respondents · Screen time and wellbeing correlations · Likert scale 1 to 5</div>
       </div>
     </div>
     <div class="hdr-right">
       <div class="live-badge"><span class="live-dot"></span>Survey Data</div>
-      <div class="hdr-meta">2022 – 2023 &nbsp;·&nbsp; n = 481</div>
+      <div class="hdr-meta">2022 to 2023 · n = 481</div>
     </div>
   </header>
 
-  <!-- ── Filter bar ── -->
   <div class="filter-bar">
     <span class="filter-lbl">Filter by</span>
 
@@ -284,7 +479,7 @@
       </select>
       <span class="tip-icon"
         data-tip-title="Gender filter"
-        data-tip="Narrows the KPI summary cards by respondent gender. Select Male or Female to isolate that group — useful for comparing how social media affects each gender differently.">i</span>
+        data-tip="Narrows the KPI summary cards by respondent gender. Select Male or Female to isolate that group, useful for comparing how social media affects each gender differently.">i</span>
     </div>
 
     <div class="fwrap">
@@ -313,14 +508,12 @@
         data-tip="Filters by relationship status. Useful for exploring whether being single, partnered, married, or divorced correlates with different usage habits or mental health scores.">i</span>
     </div>
 
-    <button class="reset-btn" onclick="resetFilters()">↺ Reset</button>
+    <button class="reset-btn" onclick="resetFilters()">Reset</button>
   </div>
 
-  <!-- ── Overview KPIs ── -->
   <div class="sec"><span class="sec-lbl">Overview</span><span class="sec-line"></span></div>
   <div class="kpi-grid" id="kpiGrid"></div>
 
-  <!-- ── Usage Patterns ── -->
   <div class="sec"><span class="sec-lbl">Usage Patterns</span><span class="sec-line"></span></div>
   <div class="charts-area">
     <div class="charts-grid">
@@ -328,12 +521,12 @@
       <div class="card">
         <div class="card-head">
           <div>
-            <div class="card-title"><i class="ti ti-clock cti" aria-hidden="true"></i> Daily usage distribution</div>
+            <div class="card-title">Daily usage distribution</div>
             <div class="card-desc">Respondent count per daily screen time bracket</div>
           </div>
           <span class="tip-icon" style="flex-shrink:0"
             data-tip-title="Daily usage distribution"
-            data-tip="Count of respondents per daily screen time bracket. The distribution skews heavy — 116 people (24%) use social media more than 5 hours daily, the single largest group. Bars darken with usage intensity.">i</span>
+            data-tip="Count of respondents per daily screen time bracket. The distribution skews heavy: 116 people (24%) use social media more than 5 hours daily, the single largest group. Bars darken with usage intensity.">i</span>
         </div>
         <div class="card-canvas" style="height:210px;">
           <canvas id="chartUsage" role="img" aria-label="Bar chart of daily social media usage distribution"></canvas>
@@ -343,12 +536,12 @@
       <div class="card">
         <div class="card-head">
           <div>
-            <div class="card-title"><i class="ti ti-gender-bigender cti" aria-hidden="true"></i> Mental health by gender</div>
-            <div class="card-desc">6 indicators compared on a 1–5 scale (higher = worse)</div>
+            <div class="card-title">Mental health by gender</div>
+            <div class="card-desc">6 indicators compared on a 1 to 5 scale (higher = worse)</div>
           </div>
           <span class="tip-icon" style="flex-shrink:0"
             data-tip-title="Mental health by gender"
-            data-tip="Grouped bars comparing 6 mental health indicators for Male vs Female respondents on a 1–5 scale. Female respondents score slightly higher across all six dimensions, indicating comparatively greater reported distress.">i</span>
+            data-tip="Grouped bars comparing 6 mental health indicators for Male vs Female respondents on a 1 to 5 scale. Female respondents score slightly higher across all six dimensions, indicating comparatively greater reported distress.">i</span>
         </div>
         <div id="genderLegend" class="gender-legend"></div>
         <div class="card-canvas" style="height:196px;">
@@ -359,18 +552,17 @@
     </div>
   </div>
 
-  <!-- ── Mental Health Trends ── -->
   <div class="sec"><span class="sec-lbl">Mental Health Trends</span><span class="sec-line"></span></div>
   <div class="charts-area">
     <div class="card">
       <div class="card-head">
         <div>
-          <div class="card-title"><i class="ti ti-trending-up cti" aria-hidden="true"></i> Mental health scores vs. daily screen time</div>
-          <div class="card-desc">Mean indicator score per usage bracket — toggle metrics to compare</div>
+          <div class="card-title">Mental health scores vs. daily screen time</div>
+          <div class="card-desc">Mean indicator score per usage bracket, toggle metrics to compare</div>
         </div>
         <span class="tip-icon" style="flex-shrink:0"
           data-tip-title="Score trends by screen time"
-          data-tip="Plots average mental health indicator scores across daily usage brackets (x-axis). Each data point is the mean for all respondents in that bracket. Toggle the metric pills to add or remove indicators. All scores are on a 1–5 scale.">i</span>
+          data-tip="Plots average mental health indicator scores across daily usage brackets (x-axis). Each data point is the mean for all respondents in that bracket. Toggle the metric pills to add or remove indicators. All scores are on a 1 to 5 scale.">i</span>
       </div>
       <div class="toggle-lbl">Active metrics</div>
       <div class="metric-toggle" id="metricToggle"></div>
@@ -380,11 +572,10 @@
       </div>
       <div class="insight-bar" id="insightBar"
         data-tip-title="Auto insight"
-        data-tip="Auto-updates to reflect the first active metric. Compares the lightest usage group (&lt;1h/day) against the heaviest (&gt;5h/day) to show the percentage increase across the full usage range."></div>
+        data-tip="Auto-updates to reflect the first active metric. Compares the lightest usage group (less than 1h/day) against the heaviest (more than 5h/day) to show the percentage increase across the full usage range."></div>
     </div>
   </div>
 
-  <!-- ── Demographics ── -->
   <div class="sec"><span class="sec-lbl">Demographics</span><span class="sec-line"></span></div>
   <div class="charts-area">
     <div class="charts-grid">
@@ -392,12 +583,12 @@
       <div class="card">
         <div class="card-head">
           <div>
-            <div class="card-title"><i class="ti ti-user-circle cti" aria-hidden="true"></i> Avg mental health score by age group</div>
-            <div class="card-desc">All indicators averaged · 1–5 scale</div>
+            <div class="card-title">Avg mental health score by age group</div>
+            <div class="card-desc">All indicators averaged · 1 to 5 scale</div>
           </div>
           <span class="tip-icon" style="flex-shrink:0"
             data-tip-title="Mental health by age"
-            data-tip="Average composite mental health score per age group (all indicators, scale 1–5). The 18–24 bracket has the most respondents (309, 64% of sample) and scores highest at 3.27 — driven by the student-heavy demographic.">i</span>
+            data-tip="Average composite mental health score per age group (all indicators, scale 1 to 5). The 18 to 24 bracket has the most respondents (309, 64% of sample) and scores highest at 3.27, driven by the student-heavy demographic.">i</span>
         </div>
         <div class="card-canvas" style="height:210px;">
           <canvas id="chartAge" role="img" aria-label="Bar chart of average mental health score by age group"></canvas>
@@ -407,12 +598,12 @@
       <div class="card">
         <div class="card-head">
           <div>
-            <div class="card-title"><i class="ti ti-target cti" aria-hidden="true"></i> Purposeless usage frequency</div>
-            <div class="card-desc">"How often do you scroll without a goal?" — 1–5 scale</div>
+            <div class="card-title">Purposeless usage frequency</div>
+            <div class="card-desc">"How often do you scroll without a goal?" · 1 to 5 scale</div>
           </div>
           <span class="tip-icon" style="flex-shrink:0"
             data-tip-title="Purposeless usage"
-            data-tip="Responses to: &quot;How often do you use social media without a specific purpose?&quot; on a 1–5 scale. 267 of 481 respondents (55%) scored 4 or 5, meaning most usage is habitual rather than intentional.">i</span>
+            data-tip="Responses to: How often do you use social media without a specific purpose? on a 1 to 5 scale. 267 of 481 respondents (55%) scored 4 or 5, meaning most usage is habitual rather than intentional.">i</span>
         </div>
         <div class="card-canvas" style="height:210px;">
           <canvas id="chartPurpose" role="img" aria-label="Doughnut chart of purposeless social media usage frequency"></canvas>
@@ -423,13 +614,12 @@
     </div>
   </div>
 
-  <!-- ── Platform Adoption ── -->
   <div class="sec"><span class="sec-lbl">Platform Adoption</span><span class="sec-line"></span></div>
   <div class="charts-area">
     <div class="card">
       <div class="card-head">
         <div>
-          <div class="card-title"><i class="ti ti-device-mobile cti" aria-hidden="true"></i> Platform adoption</div>
+          <div class="card-title">Platform adoption</div>
           <div class="card-desc" id="platDesc">% of respondents using each platform · one person can use multiple</div>
         </div>
         <span class="tip-icon" style="flex-shrink:0"
@@ -440,17 +630,468 @@
     </div>
   </div>
 
-  <!-- ── Footer ── -->
+  <div class="sec"><span class="sec-lbl">User Interaction Design Documentation</span><span class="sec-line"></span></div>
+  <div class="doc-section">
+    <div class="doc-grid">
+      <div class="doc-card">
+        <h4>Dashboard Architecture</h4>
+        <p>Built as a single-page web dashboard using Chart.js 4.4.1 for all visualisations. The system is fully client-side with no backend dependency, enabling offline use and rapid deployment.</p>
+        <p>All 481 survey records are embedded inline. Filter operations run in real time using JavaScript array methods, recomputing all derived statistics on each interaction.</p>
+      </div>
+      <div class="doc-card">
+        <h4>Interactive Controls</h4>
+        <ul>
+          <li><strong>Gender slicer</strong> — isolates Male or Female subsets across all charts and KPIs simultaneously.</li>
+          <li><strong>Occupation slicer</strong> — segments by University Student, School Student, Salaried Worker, or Retired.</li>
+          <li><strong>Relationship slicer</strong> — filters by Single, In a relationship, Married, or Divorced.</li>
+          <li><strong>Metric toggles</strong> — add or remove any of 6 mental health indicators from the trend line chart.</li>
+          <li><strong>Reset control</strong> — restores all filters to the full 481-respondent baseline in one click.</li>
+        </ul>
+      </div>
+      <div class="doc-card">
+        <h4>KPI Tracking and Performance Metrics</h4>
+        <ul>
+          <li>Total respondents in current filter scope</li>
+          <li>Heavy usage rate (more than 5h/day) as a percentage</li>
+          <li>Purposeless usage rate (scores 4 to 5 on Likert scale)</li>
+          <li>Average depression score across usage brackets</li>
+          <li>Average sleep disruption score across usage brackets</li>
+          <li>Most adopted platform in current filter scope</li>
+        </ul>
+        <p>All KPIs recalculate live on every filter change.</p>
+      </div>
+      <div class="doc-card">
+        <h4>User-Centred Design Principles</h4>
+        <ul>
+          <li>Every chart and KPI card carries a contextual tooltip (i icon) explaining what the metric means, how to read it, and what the data shows.</li>
+          <li>Colour coding is consistent: blue for neutral data, red for risk indicators, green for adoption metrics.</li>
+          <li>Screen-reader accessible via aria-label attributes on all canvas elements and an sr-only heading.</li>
+          <li>Responsive grid layouts reflow at 960px, 660px, and 540px breakpoints for tablet and mobile support.</li>
+          <li>Hover states on every interactive element provide immediate affordance feedback.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="gap20"></div>
+
+  <div class="sec"><span class="sec-lbl">Decision-Support Use Cases</span><span class="sec-line"></span></div>
+  <div class="charts-area">
+    <div class="use-case-grid">
+      <div class="uc-card">
+        <div class="uc-badge">Use Case 1</div>
+        <div class="uc-title">University Student Mental Health Review</div>
+        <div class="uc-body">A student welfare officer wants to understand which mental health indicators are most elevated among university students. They apply the Occupation filter to isolate this group and toggle all 6 metrics on the trend chart to identify distraction and depression as the highest-scoring concerns at heavy usage levels.</div>
+        <div class="uc-filters">Filter: <strong>Occupation = University Student</strong></div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-badge">Use Case 2</div>
+        <div class="uc-title">Gender-Based Platform Risk Assessment</div>
+        <div class="uc-body">A public health researcher needs to compare how platform usage correlates with social comparison and validation-seeking across genders. They toggle between Male and Female filters while observing the gender bar chart and platform adoption bars to identify whether Instagram usage aligns with elevated comparison scores in female respondents.</div>
+        <div class="uc-filters">Filter: <strong>Gender = Female, then Male</strong></div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-badge">Use Case 3</div>
+        <div class="uc-title">Salaried Worker Productivity Impact</div>
+        <div class="uc-body">An HR analyst wants to assess whether heavy social media use among employed adults correlates with distraction and sleep disruption. Using the Occupation and Relationship filters together, they isolate Salaried Workers and examine distraction and sleep trends in the line chart, supporting a case for digital wellness policies.</div>
+        <div class="uc-filters">Filter: <strong>Occupation = Salaried Worker</strong></div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-badge">Use Case 4</div>
+        <div class="uc-title">Teenage Screen Time Intervention Planning</div>
+        <div class="uc-body">A school counsellor needs data to justify limiting screen time for students aged 13 to 17. They apply the School Student occupation filter, observe the age group bar chart and purposeless usage doughnut, and note that habitual scrolling is prevalent even in younger age bands, supporting intervention proposals.</div>
+        <div class="uc-filters">Filter: <strong>Occupation = School Student</strong></div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-badge">Use Case 5</div>
+        <div class="uc-title">Relationship Status and Social Comparison</div>
+        <div class="uc-body">A clinical psychologist wants to explore whether single individuals report higher social comparison scores than those in relationships. They cycle through the Relationship filter options while keeping the Social Comparison metric active on the trend line, comparing how usage-to-comparison curves differ by relationship status.</div>
+        <div class="uc-filters">Filter: <strong>Relationship = Single vs. In a relationship</strong></div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-badge">Use Case 6</div>
+        <div class="uc-title">Platform Adoption Benchmarking</div>
+        <div class="uc-body">A digital marketing strategist wants to understand platform reach across different demographic segments. They cycle through occupation and gender filters to observe how the platform adoption bars and the top platform KPI shift across segments, informing targeted campaign decisions for YouTube, Instagram, and TikTok.</div>
+        <div class="uc-filters">Filter: <strong>Gender + Occupation combinations</strong></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       MILESTONE 6 INTEGRATION: Risk Predictor Tab + ML Insights Accordion
+  ═══════════════════════════════════════════════════════════════════════ -->
+
+  <div class="sec" style="margin-top:8px;">
+    <span class="sec-lbl" style="color:var(--purple)">🧠 M6 · AI Risk Prediction Engine</span>
+    <span class="sec-line"></span>
+    <span class="tip-icon" style="flex-shrink:0;margin-left:8px"
+      data-tip-title="Milestone 6 Integration"
+      data-tip="This section integrates the trained Logistic Regression model (StandardScaler + LR pipeline, 99% accuracy, AUC 0.999) from Milestone 6 directly into the dashboard. The model weights are hardcoded from the Python pipeline, enabling real-time in-browser prediction with no server required.">i</span>
+  </div>
+
+  <!-- Tab navigation -->
+  <div class="charts-area" style="padding-bottom:0">
+    <div class="ml-tab-nav" id="mlTabNav">
+      <button class="ml-tab-btn active" onclick="switchMLTab('predictor')" id="tab-predictor">
+        <span>⚡</span> Live Risk Screener
+      </button>
+      <button class="ml-tab-btn" onclick="switchMLTab('insights')" id="tab-insights">
+        <span>📊</span> Model Insights
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── TAB 1: Risk Predictor ─────────────────────────────────── -->
+  <div id="mlPanel-predictor" class="ml-tab-panel active">
+    <div class="charts-area">
+      <div class="card" style="border-color:rgba(188,140,255,0.3);box-shadow:0 0 0 1px rgba(188,140,255,0.08)">
+        <div class="card-head">
+          <div>
+            <div class="card-title" style="color:var(--purple)">Mental Health Risk Screener</div>
+            <div class="card-desc">Rate yourself on each question (1 = never/low, 5 = always/severe). The model predicts your risk tier in real time.</div>
+          </div>
+          <span class="tip-icon" style="flex-shrink:0"
+            data-tip-title="How this works"
+            data-tip="This predictor uses the exact coefficients and scaler parameters extracted from the Python Logistic Regression pipeline trained on 382 respondents. Your inputs are normalised using the training set's mean and standard deviation, then passed through the logistic function — the same calculation Python performs, now running in your browser.">i</span>
+        </div>
+
+        <div class="predictor-grid">
+
+          <!-- Daily usage selector -->
+          <div class="pred-row pred-row-usage">
+            <div class="pred-q-label">
+              <span class="pred-q-num">Q8</span>
+              Average daily time on social media
+            </div>
+            <div class="pred-usage-sel">
+              <select id="pred-usage" onchange="runPredictor()" class="fsel" style="width:100%;font-size:13px;padding:7px 30px 7px 10px">
+                <option value="30">Less than 1 hour (~30 min)</option>
+                <option value="90">Between 1 and 2 hours (~90 min)</option>
+                <option value="150" selected>Between 2 and 3 hours (~150 min)</option>
+                <option value="210">Between 3 and 4 hours (~210 min)</option>
+                <option value="270">Between 4 and 5 hours (~270 min)</option>
+                <option value="330">More than 5 hours (~330 min)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 12 Likert sliders -->
+          <div class="pred-likert-grid">
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q9</span> Purposeless social media use</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Never</span>
+                <input type="range" min="1" max="5" value="3" id="sl-purposeless" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">Always</span>
+                <span class="pred-slider-val" id="sv-purposeless">3</span>
+              </div>
+            </div>
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q10</span> Distracted by social media when busy</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Never</span>
+                <input type="range" min="1" max="5" value="3" id="sl-distraction" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">Always</span>
+                <span class="pred-slider-val" id="sv-distraction">3</span>
+              </div>
+            </div>
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q11</span> Restlessness without social media</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Never</span>
+                <input type="range" min="1" max="5" value="3" id="sl-restlessness" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">Always</span>
+                <span class="pred-slider-val" id="sv-restlessness">3</span>
+              </div>
+            </div>
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q12</span> How easily distracted you are generally</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Low</span>
+                <input type="range" min="1" max="5" value="3" id="sl-easily-distracted" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">High</span>
+                <span class="pred-slider-val" id="sv-easily-distracted">3</span>
+              </div>
+            </div>
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q13</span> How much you are bothered by worries</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Rarely</span>
+                <input type="range" min="1" max="5" value="3" id="sl-worries" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">Always</span>
+                <span class="pred-slider-val" id="sv-worries">3</span>
+              </div>
+            </div>
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q14</span> Difficulty concentrating on things</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Rarely</span>
+                <input type="range" min="1" max="5" value="3" id="sl-concentration" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">Always</span>
+                <span class="pred-slider-val" id="sv-concentration">3</span>
+              </div>
+            </div>
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q15</span> Compare yourself to successful people on social media</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Never</span>
+                <input type="range" min="1" max="5" value="3" id="sl-comparison" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">Constantly</span>
+                <span class="pred-slider-val" id="sv-comparison">3</span>
+              </div>
+            </div>
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q16</span> How those comparisons make you feel</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Positive</span>
+                <input type="range" min="1" max="5" value="3" id="sl-comp-feelings" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">Negative</span>
+                <span class="pred-slider-val" id="sv-comp-feelings">3</span>
+              </div>
+            </div>
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q17</span> Seeking validation from social media</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Never</span>
+                <input type="range" min="1" max="5" value="3" id="sl-validation" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">Always</span>
+                <span class="pred-slider-val" id="sv-validation">3</span>
+              </div>
+            </div>
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q18</span> How often you feel depressed or down</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Rarely</span>
+                <input type="range" min="1" max="5" value="3" id="sl-depression" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">Constantly</span>
+                <span class="pred-slider-val" id="sv-depression">3</span>
+              </div>
+            </div>
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q19</span> Interest in daily activities fluctuates</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Rarely</span>
+                <input type="range" min="1" max="5" value="3" id="sl-fluctuation" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">Always</span>
+                <span class="pred-slider-val" id="sv-fluctuation">3</span>
+              </div>
+            </div>
+
+            <div class="pred-item">
+              <div class="pred-q-label"><span class="pred-q-num">Q20</span> Issues with sleep</div>
+              <div class="pred-slider-row">
+                <span class="pred-slider-lbl">Never</span>
+                <input type="range" min="1" max="5" value="3" id="sl-sleep" oninput="syncSlider(this);runPredictor()" class="pred-slider">
+                <span class="pred-slider-lbl">Always</span>
+                <span class="pred-slider-val" id="sv-sleep">3</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Result panel -->
+        <div class="pred-result" id="predResult">
+          <div class="pred-result-inner">
+            <div class="pred-tier-badge" id="predBadge">—</div>
+            <div class="pred-prob-wrap">
+              <div class="pred-prob-label">Risk probability</div>
+              <div class="pred-prob-bar-track"><div class="pred-prob-bar" id="predBar" style="width:50%"></div></div>
+              <div class="pred-prob-val" id="predProb">—</div>
+            </div>
+            <div class="pred-interp" id="predInterp">Adjust the sliders above to generate your prediction.</div>
+          </div>
+          <div class="pred-disclaimer">
+            ⚠ This is a research prototype using a logistic regression model (Accuracy 98.9%, AUC 0.999, n=478).
+            Not a clinical tool. Results are illustrative only.
+          </div>
+        </div>
+
+        <!-- Reset button -->
+        <div style="text-align:center;margin-top:12px">
+          <button class="reset-btn" onclick="resetPredictor()" style="padding:7px 20px;font-size:12px">
+            Reset all sliders to midpoint (3)
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TAB 2: ML Insights ───────────────────────────────────── -->
+  <div id="mlPanel-insights" class="ml-tab-panel" style="display:none">
+    <div class="charts-area">
+
+      <!-- Model performance KPIs -->
+      <div class="ml-kpi-strip">
+        <div class="ml-kpi-pill" style="--acc:var(--green)">
+          <div class="ml-kpi-val">98.9%</div><div class="ml-kpi-lbl">Accuracy</div>
+        </div>
+        <div class="ml-kpi-pill" style="--acc:var(--blue)">
+          <div class="ml-kpi-val">0.999</div><div class="ml-kpi-lbl">ROC-AUC</div>
+        </div>
+        <div class="ml-kpi-pill" style="--acc:var(--teal)">
+          <div class="ml-kpi-val">100%</div><div class="ml-kpi-lbl">Precision</div>
+        </div>
+        <div class="ml-kpi-pill" style="--acc:var(--orange)">
+          <div class="ml-kpi-val">98.1%</div><div class="ml-kpi-lbl">Recall</div>
+        </div>
+        <div class="ml-kpi-pill" style="--acc:var(--purple)">
+          <div class="ml-kpi-val">99.1%</div><div class="ml-kpi-lbl">F1 Score</div>
+        </div>
+        <div class="ml-kpi-pill" style="--acc:var(--text2)">
+          <div class="ml-kpi-val">478</div><div class="ml-kpi-lbl">Respondents</div>
+        </div>
+      </div>
+
+      <div class="charts-grid" style="margin-top:12px">
+
+        <!-- Feature Importance -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Feature importance <span style="font-size:10px;color:var(--text3);font-weight:400">(logistic regression coefficients)</span></div>
+              <div class="card-desc">Standardised coefficients — positive = increases High Risk probability</div>
+            </div>
+            <span class="tip-icon" style="flex-shrink:0"
+              data-tip-title="Feature coefficients"
+              data-tip="Logistic regression coefficients after StandardScaler normalisation. Larger positive values mean the feature strongly predicts High Risk classification. Depression Frequency is the strongest single predictor, followed by Validation Seeking and Distraction While Busy.">i</span>
+          </div>
+          <div class="card-canvas" style="height:300px">
+            <canvas id="chartFeatureImportance" role="img" aria-label="Horizontal bar chart of logistic regression feature coefficients"></canvas>
+          </div>
+        </div>
+
+        <!-- ROC Curve -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">ROC curve</div>
+              <div class="card-desc">True Positive Rate vs False Positive Rate · AUC = 0.999</div>
+            </div>
+            <span class="tip-icon" style="flex-shrink:0"
+              data-tip-title="ROC curve"
+              data-tip="Receiver Operating Characteristic curve. The area under the curve (AUC = 0.999) measures the model's ability to distinguish High Risk from Low/Moderate Risk respondents across all possible classification thresholds. An AUC of 1.0 is perfect; 0.5 is random.">i</span>
+          </div>
+          <div class="card-canvas" style="height:300px">
+            <canvas id="chartROC" role="img" aria-label="ROC curve for logistic regression classifier"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Confusion Matrix -->
+      <div class="card" style="margin-top:12px">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Confusion matrix <span style="font-size:10px;color:var(--text3);font-weight:400">(test set, n=96)</span></div>
+            <div class="card-desc">Predicted vs actual labels · 80/20 stratified split · threshold = 0.647</div>
+          </div>
+          <span class="tip-icon" style="flex-shrink:0"
+            data-tip-title="Confusion matrix"
+            data-tip="Shows the four outcome types on the 96-respondent test set. TN=43 (correctly Low/Moderate), TP=52 (correctly High/Very High), FP=0 (zero false alarms), FN=1 (one missed High Risk case). The single FN means one high-risk respondent was classified as Low Risk — the only error in the test set.">i</span>
+        </div>
+        <div class="cm-container">
+          <div class="cm-grid">
+            <div class="cm-spacer"></div>
+            <div class="cm-axis-label cm-col-label">Predicted Low/Mod</div>
+            <div class="cm-axis-label cm-col-label">Predicted High</div>
+            <div class="cm-axis-label cm-row-label">Actual Low/Mod</div>
+            <div class="cm-cell cm-tn">
+              <div class="cm-cell-val">43</div>
+              <div class="cm-cell-tag">TN</div>
+              <div class="cm-cell-desc">Correctly predicted Low/Moderate Risk</div>
+            </div>
+            <div class="cm-cell cm-fp">
+              <div class="cm-cell-val">0</div>
+              <div class="cm-cell-tag">FP</div>
+              <div class="cm-cell-desc">False alarms — predicted High but was Low</div>
+            </div>
+            <div class="cm-axis-label cm-row-label">Actual High</div>
+            <div class="cm-cell cm-fn">
+              <div class="cm-cell-val">1</div>
+              <div class="cm-cell-tag">FN</div>
+              <div class="cm-cell-desc">Missed High Risk case</div>
+            </div>
+            <div class="cm-cell cm-tp">
+              <div class="cm-cell-val">52</div>
+              <div class="cm-cell-tag">TP</div>
+              <div class="cm-cell-desc">Correctly predicted High/Very High Risk</div>
+            </div>
+          </div>
+          <div class="cm-note">Model: Logistic Regression · L2 penalty · C=1.0 · StandardScaler normalisation · 10-fold CV mean accuracy 98.5%</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── ML Insights Accordion (bottom) — collapsed by default ──── -->
+  <div style="padding:0 24px 4px;margin-top:16px">
+    <details class="ml-accordion" id="mlAccordion">
+      <summary class="ml-accordion-hdr">
+        <span class="ml-accordion-icon">▶</span>
+        <span>Model Technical Details &amp; Methodology (M6 Documentation)</span>
+        <span class="ml-accordion-badge">Logistic Regression · L2 · AUC 0.999</span>
+      </summary>
+      <div class="ml-accordion-body">
+        <div class="doc-grid" style="margin-top:12px">
+          <div class="doc-card">
+            <h4>Pipeline Architecture</h4>
+            <p><strong>Step 1 — StandardScaler:</strong> Each of the 13 features is normalised to zero mean and unit variance using parameters fitted only on the training set (382 respondents), preventing data leakage into evaluation.</p>
+            <p style="margin-top:8px"><strong>Step 2 — LogisticRegression:</strong> L2 (Ridge) penalty with C=1.0 shrinks coefficients to reduce overfitting. Solver: lbfgs. Max iterations: 1000.</p>
+          </div>
+          <div class="doc-card">
+            <h4>Feature Selection Rationale</h4>
+            <p>Only the 12 raw Likert-scale survey items (Q9–Q20) plus Daily Minutes (Q8) are used as predictors. Composite scores (Addiction Score, MH Impact Score, etc.) are deliberately excluded to avoid data leakage — the binary target is derived from those same composites.</p>
+          </div>
+          <div class="doc-card">
+            <h4>Target Encoding</h4>
+            <p>The four-tier MH Risk label is collapsed to binary: <strong>High Risk + Very High Risk → 1</strong>, Low Risk + Moderate Risk → 0. This corresponds to a MH Impact Score above 3.0/5 and represents the clinically meaningful intervention threshold.</p>
+            <p style="margin-top:8px">Class balance: ~55% High Risk, ~45% Low/Moderate Risk — approximately balanced, no oversampling required.</p>
+          </div>
+          <div class="doc-card">
+            <h4>Validation Strategy</h4>
+            <p>Hold-out test set: 20% stratified split (96 respondents). Stratification preserves the original class ratio in both train and test splits.</p>
+            <p style="margin-top:8px">10-fold stratified cross-validation on the full dataset confirms stability: mean accuracy 98.5% (±1.2%), mean AUC 0.999 (±0.001).</p>
+          </div>
+          <div class="doc-card">
+            <h4>Dashboard Integration Method</h4>
+            <p>Model parameters (13 coefficients, intercept, scaler means/stds) are extracted from the trained Python pipeline and hardcoded as JavaScript constants. The browser replicates the exact same sigmoid calculation: <em>P = 1 / (1 + exp(−z))</em> where <em>z = intercept + Σ(coefᵢ × (xᵢ − μᵢ) / σᵢ)</em>.</p>
+            <p style="margin-top:8px">Optimal classification threshold: 0.647 (Youden index from ROC curve).</p>
+          </div>
+          <div class="doc-card">
+            <h4>Key Findings</h4>
+            <p>Top predictors of High Risk classification (by coefficient magnitude): <strong>Depression Frequency (+1.78)</strong>, Validation Seeking (+1.68), Distraction While Busy (+1.54), Social Comparison (+1.47). Daily Minutes has the weakest effect (+0.38), replicating the M4 regression finding that behavioural quality matters more than raw screen time.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="gap12"></div>
+
   <footer class="dash-footer">
-    <span>Data source: Kaggle — Social Media &amp; Mental Health Survey (2022–2023) &nbsp;·&nbsp; n = 481 &nbsp;·&nbsp; Scores on 1–5 Likert scale (1 = never / low, 5 = always / severe)</span>
-    <span style="color:var(--text3)">Interactive Analytics &nbsp;·&nbsp; 2026</span>
+    <span>Data source: Kaggle, Social Media and Mental Health Survey (2022 to 2023) · n = 481 · Scores on 1 to 5 Likert scale (1 = never / low, 5 = always / severe) · Built as a web dashboard (Milestone 5, Interactive Visual Analytics System)</span>
+    <span style="color:var(--text3)">Interactive Analytics · 2026</span>
   </footer>
 
-</div><!-- .dash -->
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-/* ── Chart.js dark-mode globals ── */
 Chart.defaults.color           = '#8B949E';
 Chart.defaults.borderColor     = 'rgba(48,54,61,0.7)';
 Chart.defaults.font.family     = "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif";
@@ -463,14 +1104,12 @@ Chart.defaults.plugins.tooltip.padding         = 10;
 Chart.defaults.plugins.tooltip.cornerRadius    = 8;
 Chart.defaults.plugins.tooltip.boxPadding      = 4;
 
-/* ── Scale defaults ── */
 const xScale = { grid:{ display:false }, ticks:{ color:'#8B949E', font:{size:11} }, border:{ color:'rgba(48,54,61,0.6)' } };
 const yScale = { grid:{ color:'rgba(48,54,61,0.55)' }, ticks:{ color:'#8B949E', font:{size:11} }, border:{ color:'rgba(48,54,61,0.4)', dash:[3,3] } };
 const noLegend = { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } } };
 
-/* ── Data ── */
 const TIME_ORDER = ['Less than an Hour','Between 1 and 2 hours','Between 2 and 3 hours','Between 3 and 4 hours','Between 4 and 5 hours','More than 5 hours'];
-const TIME_SHORT = ['< 1 h','1 – 2 h','2 – 3 h','3 – 4 h','4 – 5 h','> 5 h'];
+const TIME_SHORT = ['< 1 h','1 to 2 h','2 to 3 h','3 to 4 h','4 to 5 h','> 5 h'];
 const PLAT_DECODE = {Y:'YouTube',F:'Facebook',I:'Instagram',D:'Discord',S:'Snapchat',P:'Pinterest',T:'Twitter',R:'Reddit',K:'TikTok'};
 
 const METRICS = [
@@ -483,16 +1122,16 @@ const METRICS = [
 ];
 
 const METRIC_TIPS = {
-  distraction: 'How often social media distracts from productive activities. Rises from 2.06 (under 1h/day) to 3.75 (over 5h/day) — one of the sharpest increases of all tracked metrics. Click to toggle on/off.',
+  distraction: 'How often social media distracts from productive activities. Rises from 2.06 (under 1h/day) to 3.75 (over 5h/day), one of the sharpest increases of all tracked metrics. Click to toggle on/off.',
   worries:     'Self-reported worry or anxiety linked to social media. Shows the steepest overall increase across usage tiers, reaching 4.0/5 for heavy users. Click to toggle on/off.',
   depression:  'Indicator of depressive symptoms associated with usage. Closely mirrors distraction scores; heaviest users average 3.77/5. Click to toggle on/off.',
-  sleep:       'Frequency of sleep disruption attributed to social media. Moderate and heavy users (2–5h brackets) show similar scores around 3.1–3.5. Click to toggle on/off.',
-  validation:  'How much respondents rely on social media approval (likes, comments). Comparatively flat across usage tiers — only rises from 2.06 to 2.60/5. Click to toggle on/off.',
-  comparison:  'Tendency to compare oneself to others seen on social media. Jumps notably at the 3–4 hour bracket, suggesting a threshold effect at mid-range usage. Click to toggle on/off.'
+  sleep:       'Frequency of sleep disruption attributed to social media. Moderate and heavy users (2 to 5h brackets) show similar scores around 3.1 to 3.5. Click to toggle on/off.',
+  validation:  'How much respondents rely on social media approval (likes, comments). Comparatively flat across usage tiers, only rises from 2.06 to 2.60/5. Click to toggle on/off.',
+  comparison:  'Tendency to compare oneself to others seen on social media. Jumps notably at the 3 to 4 hour bracket, suggesting a threshold effect at mid-range usage. Click to toggle on/off.'
 };
 
 const PLAT_TIPS = {
-  YouTube:  'Used by 412 of 481 respondents (85.7%) — the most-used platform. High passive consumption through long-form video and Shorts.',
+  YouTube:  'Used by 412 of 481 respondents (85.7%), the most-used platform. High passive consumption through long-form video and Shorts.',
   Facebook: 'Used by 407 respondents (84.6%). Second most adopted; tends to skew toward slightly older demographics in the sample.',
   Instagram:'Used by 359 respondents (74.6%). Strongly associated with social comparison behavior in the survey data.',
   Discord:  'Used by 198 respondents (41.2%). Community-oriented chat platform; popular among university students in the sample.',
@@ -520,7 +1159,6 @@ const PRECOMPUTED = {
   total: 481,
   platforms:{YouTube:412,Facebook:407,Instagram:359,Discord:198,Snapchat:181,Pinterest:145,Twitter:131,Reddit:126,TikTok:94},
   topPlatform:{name:'YouTube',count:412,pct:86},
-  /* extra fields used as S fallback */
   genderRows: { male:[3.0,3.3,3.0,3.1,2.3,2.6], female:[3.3,3.6,3.3,3.3,2.5,2.8], maleAvg:3.0, femaleAvg:3.19 },
   heavy: 116, purposelessHigh: 267, avgDepression: 3.10, avgSleep: 3.14
 };
@@ -1009,14 +1647,10 @@ const DATASET = [
   {age:53,gender:'Male',rel:'Married',occ:'Salaried Worker',time:'Less than an Hour',plat:'FY',purposeless:2,distraction:3,worries:1,concentration:1,comparison:3,validation:2,depression:2,fluctuation:2,sleep:3}
 ];
 
-
-
-/* ── Helpers ── */
 function esc(s) { return String(s).replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function avg(arr) { return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0; }
 function avgMH(d) { return avg([d.distraction,d.worries,d.comparison,d.validation,d.depression,d.sleep]); }
 
-/* compute live stats from any subset of DATASET rows */
 function computeStats(data) {
   if (!data.length) {
     const emptyByTime = {};
@@ -1025,7 +1659,7 @@ function computeStats(data) {
       usageCounts: [0,0,0,0,0,0], byTime: emptyByTime,
       ageMH: {'13-17':0,'18-24':0,'25-34':0,'35-44':0,'45+':0},
       genderRows: { male:[0,0,0,0,0,0], female:[0,0,0,0,0,0], maleAvg:0, femaleAvg:0 },
-      purposeless: {1:0,2:0,3:0,4:0,5:0}, platforms: {}, topPlatform: {name:'—', count:0, pct:0},
+      purposeless: {1:0,2:0,3:0,4:0,5:0}, platforms: {}, topPlatform: {name:'none', count:0, pct:0},
       total:0, heavy:0, purposelessHigh:0, avgDepression:0, avgSleep:0
     };
   }
@@ -1064,7 +1698,7 @@ function computeStats(data) {
   const platforms = {};
   data.forEach(d => { if (d.plat) [...d.plat].forEach(c => { const n = PLAT_DECODE[c]; if (n) platforms[n] = (platforms[n]||0) + 1; }); });
   const topEntry = Object.entries(platforms).sort((a,b)=>b[1]-a[1])[0];
-  const topPlatform = topEntry ? { name: topEntry[0], count: topEntry[1], pct: Math.round(topEntry[1] / data.length * 100) } : {name:'—',count:0,pct:0};
+  const topPlatform = topEntry ? { name: topEntry[0], count: topEntry[1], pct: Math.round(topEntry[1] / data.length * 100) } : {name:'none',count:0,pct:0};
   return { usageCounts, byTime, ageMH, genderRows, purposeless, platforms, topPlatform,
            total: data.length, heavy, purposelessHigh, avgDepression, avgSleep };
 }
@@ -1085,7 +1719,6 @@ function resetFilters() {
   applyFilters();
 }
 
-/* ── KPIs — reads from live S ── */
 function updateKPIs() {
   const heavyPct       = S.total ? Math.round(S.heavy           / S.total * 100) : 0;
   const purposelessPct = S.total ? Math.round(S.purposelessHigh / S.total * 100) : 0;
@@ -1094,27 +1727,27 @@ function updateKPIs() {
     { label:'Respondents',          ico:'👥', accent:'--blue',   accentBg:'--blue-bg',
       val: S.total,
       sub: S.total === 0 ? 'no match in sample' : isFiltered ? 'filtered from 481' : 'total in survey',
-      tip:'Count of respondents matching the current filters. Change any filter above to narrow this down — all charts update to reflect only this subset.' },
+      tip:'Count of respondents matching the current filters. Change any filter above to narrow this down; all charts update to reflect only this subset.' },
     { label:'Heavy users (>5h/day)',ico:'⚡', accent:'--red',    accentBg:'--red-bg',
       val: heavyPct + '%',
       sub: S.heavy + ' respondents',
-      tip:'Share using social media more than 5 hours daily — the most time-intensive bracket. This group consistently records the highest distraction and depression scores.' },
+      tip:'Share using social media more than 5 hours daily, the most time-intensive bracket. This group consistently records the highest distraction and depression scores.' },
     { label:'Purposeless usage',    ico:'🎯', accent:'--orange', accentBg:'--orange-bg',
       val: purposelessPct + '%',
-      sub: 'score 4–5 on scale',
-      tip:'Share scoring 4 or 5 on: "How often do you use social media without a specific purpose?" Indicates habitual, non-intentional scrolling behavior.' },
+      sub: 'score 4 to 5 on scale',
+      tip:'Share scoring 4 or 5 on: How often do you use social media without a specific purpose? Indicates habitual, non-intentional scrolling behavior.' },
     { label:'Avg depression score', ico:'🧠', accent:'--purple', accentBg:'--purple-bg',
       val: S.avgDepression.toFixed(1) + ' / 5',
       sub: 'across usage brackets',
-      tip:'Mean depression indicator score (1–5 scale) averaged across daily usage time brackets for the filtered group. Higher = more reported depressive symptoms.' },
+      tip:'Mean depression indicator score (1 to 5 scale) averaged across daily usage time brackets for the filtered group. Higher = more reported depressive symptoms.' },
     { label:'Avg sleep disruption', ico:'😴', accent:'--teal',   accentBg:'--teal-bg',
       val: S.avgSleep.toFixed(1) + ' / 5',
       sub: 'across usage brackets',
-      tip:'Average sleep disruption score (1–5 scale) across all usage brackets in the filtered group. Sleep problems rise with screen time.' },
+      tip:'Average sleep disruption score (1 to 5 scale) across all usage brackets in the filtered group. Sleep problems rise with screen time.' },
     { label:'Most used platform',   ico:'📱', accent:'--green',  accentBg:'--green-bg',
       val: S.topPlatform.name,
-      sub: S.total ? `${S.topPlatform.pct}% adoption · ${S.topPlatform.count} users` : 'no data',
-      tip:`Top platform by adoption rate among the currently filtered group. Updates whenever Gender, Occupation or Relationship filters change.` },
+      sub: S.total ? `${S.topPlatform.pct}% adoption, ${S.topPlatform.count} users` : 'no data',
+      tip:'Top platform by adoption rate among the currently filtered group. Updates whenever Gender, Occupation or Relationship filters change.' },
   ];
   document.getElementById('kpiGrid').innerHTML = kpis.map(k =>
     `<div class="kpi" style="--kpi-accent:var(${k.accent});--kpi-accent-bg:var(${k.accentBg});">
@@ -1129,15 +1762,12 @@ function updateKPIs() {
   ).join('');
   const platDesc = document.getElementById('platDesc');
   if (platDesc) platDesc.textContent = S.total === PRECOMPUTED.total
-    ? `% of 481 respondents using each platform · one person can use multiple`
-    : `% of ${S.total} filtered respondents using each platform · one person can use multiple`;
+    ? '% of 481 respondents using each platform, one person can use multiple'
+    : '% of ' + S.total + ' filtered respondents using each platform, one person can use multiple';
   if (window.bindTips) window.bindTips();
 }
 
-/* ── Live stats state ── */
-let S = PRECOMPUTED; // updated on every filter change
-
-/* ── Metric toggles ── */
+let S = PRECOMPUTED;
 let activeMetrics = new Set(['distraction','depression','sleep']);
 let chartLine, chartUsage, chartGender, chartAge, chartPurpose;
 
@@ -1159,7 +1789,6 @@ function toggleMetric(key, btn) {
   updateLineChart();
 }
 
-/* ── Line chart ── */
 function buildLineDatasets() {
   return METRICS.filter(m => activeMetrics.has(m.key)).map(m => ({
     label: m.label,
@@ -1190,13 +1819,10 @@ function updateLineChart() {
   const hi  = (S.byTime['More than 5 hours']    && S.byTime['More than 5 hours'][key])    || 0;
   const pct = lo ? Math.round((hi - lo) / lo * 100) : 0;
   document.getElementById('insightBar').textContent =
-    `📈  ${met.label} rises ${pct}% from users spending <1h to >5h daily on social media  (${lo.toFixed(1)} → ${hi.toFixed(1)} / 5)`;
+    met.label + ' rises ' + pct + '% from users spending less than 1h to more than 5h daily on social media (' + lo.toFixed(1) + ' to ' + hi.toFixed(1) + ' / 5)';
 }
 
-/* ── Charts init ── */
 function initCharts() {
-
-  /* Usage distribution */
   chartUsage = new Chart(document.getElementById('chartUsage'), {
     type: 'bar',
     data: {
@@ -1221,7 +1847,6 @@ function initCharts() {
     }
   });
 
-  /* Gender */
   const gLabels = ['Distraction','Worries','Depression','Sleep','Validation','Comparison'];
   chartGender = new Chart(document.getElementById('chartGender'), {
     type: 'bar',
@@ -1247,7 +1872,6 @@ function initCharts() {
     `<div class="gpill"><span class="gpill-dot" style="background:#3B82F6"></span>Male &nbsp;<strong style="color:#E6EDF3">${S.genderRows.maleAvg.toFixed(1)}</strong><span style="color:#6E7681;font-size:10px">&nbsp;avg</span></div>` +
     `<div class="gpill"><span class="gpill-dot" style="background:#EC4899"></span>Female &nbsp;<strong style="color:#E6EDF3">${S.genderRows.femaleAvg.toFixed(1)}</strong><span style="color:#6E7681;font-size:10px">&nbsp;avg</span></div>`;
 
-  /* Line chart */
   chartLine = new Chart(document.getElementById('chartLine'), {
     type: 'line',
     data: { labels: TIME_SHORT, datasets: buildLineDatasets() },
@@ -1262,8 +1886,7 @@ function initCharts() {
   });
   updateLineChart();
 
-  /* Age group */
-  const ageLabels  = ['13–17','18–24','25–34','35–44','45+'];
+  const ageLabels  = ['13 to 17','18 to 24','25 to 34','35 to 44','45+'];
   const ageKeys    = ['13-17','18-24','25-34','35-44','45+'];
   const ageColors  = ['#064E3B','#065F46','#047857','#059669','#10B981'];
   chartAge = new Chart(document.getElementById('chartAge'), {
@@ -1286,7 +1909,6 @@ function initCharts() {
     }
   });
 
-  /* Purposeless doughnut */
   const purposeColors = ['#0D2D4A','#1A4A7A','#2070B8','#388BFD','#93C5FD'];
   chartPurpose = new Chart(document.getElementById('chartPurpose'), {
     type: 'doughnut',
@@ -1316,7 +1938,7 @@ function updatePlatformBars() {
   const platEntries = Object.entries(S.platforms).sort((a,b)=>b[1]-a[1]);
   platContainer.innerHTML = platEntries.length ? platEntries.map(([name, count]) => {
     const pct = S.total ? Math.round(count / S.total * 100) : 0;
-    const tip = `${name}: used by ${count} of ${S.total} respondents in this group (${pct}%)` + (PLAT_TIPS[name] ? ' — ' + PLAT_TIPS[name].replace(/^Used by \d+ of \d+ respondents \(\d+\.?\d*%\)\s*[–—-]\s*/,'') : '.');
+    const tip = name + ': used by ' + count + ' of ' + S.total + ' respondents in this group (' + pct + '%)' + (PLAT_TIPS[name] ? ' -- ' + PLAT_TIPS[name].replace(/^Used by \d+ of \d+ respondents \(\d+\.?\d*%\)\s*[^a-zA-Z]*/,'') : '.');
     return `<div class="pbar-row" data-tip-title="${esc(name)}" data-tip="${esc(tip)}">
       <div class="pbar-top">
         <span class="pbar-name">${name}</span>
@@ -1331,7 +1953,6 @@ function updatePlatformBars() {
   if (window.bindTips) window.bindTips();
 }
 
-/* ── Sync all charts to current S ── */
 function updateAllCharts() {
   if (!chartUsage) return;
 
@@ -1364,12 +1985,10 @@ function applyFilters() {
   updateAllCharts();
 }
 
-/* ── Boot ── */
 initMetricToggles();
 updateKPIs();
 initCharts();
 
-/* ── Tooltip engine ── */
 (function() {
   const tt  = document.getElementById('tt');
   let timer;
@@ -1405,4 +2024,242 @@ initCharts();
   };
   window.bindTips();
 })();
+
+
+// ══════════════════════════════════════════════════════════════════════════
+// MILESTONE 6: ML MODEL PARAMETERS (extracted from Python pipeline)
+// StandardScaler + LogisticRegression (L2, C=1.0) — trained on n=382
+// ══════════════════════════════════════════════════════════════════════════
+
+const ML_FEATURES = [
+  'Daily_Minutes','Purposeless_Usage','Distraction_While_Busy','Restlessness',
+  'Easily_Distracted','Bothered_By_Worries','Concentration_Difficulty',
+  'Social_Comparison','Comparison_Feelings','Validation_Seeking',
+  'Depression_Frequency','Interest_Fluctuation','Sleep_Issues'
+];
+
+// StandardScaler parameters (fitted on training set only)
+const SCALER_MEANS = [
+  205.287958, 3.568063, 3.350785, 2.604712,
+  3.329843,   3.562827, 3.222513, 2.803665,
+  2.764398,   2.460733, 3.282723, 3.185864, 3.227749
+];
+const SCALER_STDS = [
+  95.691453, 1.101796, 1.321385, 1.275331,
+  1.178383,  1.278080, 1.324444, 1.395838,
+  1.047055,  1.252130, 1.319870, 1.279933, 1.485696
+];
+
+// Logistic Regression coefficients (one per feature, same order)
+const LR_COEFS = [
+  0.380574, 1.369327, 1.538688, 1.078320,
+  0.905739, 1.418306, 1.301585, 1.471979,
+  1.041709, 1.676473, 1.781034, 1.455052, 1.437183
+];
+const LR_INTERCEPT  = 0.943937;
+const LR_THRESHOLD  = 0.6473;   // Youden-optimal from ROC curve
+
+// Feature importance display labels (friendly names)
+const FEAT_LABELS = [
+  'Daily Minutes', 'Purposeless Usage', 'Distraction While Busy', 'Restlessness',
+  'Easily Distracted', 'Bothered by Worries', 'Concentration Difficulty',
+  'Social Comparison', 'Comparison Feelings', 'Validation Seeking',
+  'Depression Frequency', 'Interest Fluctuation', 'Sleep Issues'
+];
+
+// ROC curve data (from Python evaluation)
+const ROC_DATA = [
+  {fpr:0.0,    tpr:0.0},
+  {fpr:0.0,    tpr:0.0189},
+  {fpr:0.0,    tpr:0.9811},
+  {fpr:0.0465, tpr:0.9811},
+  {fpr:0.0465, tpr:1.0},
+  {fpr:1.0,    tpr:1.0}
+];
+
+// ── Sigmoid function (same as logistic regression) ──────────────────────
+function sigmoid(z) { return 1 / (1 + Math.exp(-z)); }
+
+// ── ML Tab switcher ─────────────────────────────────────────────────────
+function switchMLTab(tab) {
+  document.querySelectorAll('.ml-tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelectorAll('.ml-tab-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('mlPanel-' + tab).style.display = 'block';
+  if (tab === 'insights' && !window._mlInsightsInit) {
+    initMLInsightCharts();
+    window._mlInsightsInit = true;
+  }
+}
+
+// ── Slider sync (display value) ─────────────────────────────────────────
+function syncSlider(el) {
+  const key = el.id.replace('sl-','sv-');
+  document.getElementById(key).textContent = el.value;
+}
+
+// ── Collect predictor inputs ────────────────────────────────────────────
+function getPredictorInputs() {
+  return [
+    parseFloat(document.getElementById('pred-usage').value),
+    parseFloat(document.getElementById('sl-purposeless').value),
+    parseFloat(document.getElementById('sl-distraction').value),
+    parseFloat(document.getElementById('sl-restlessness').value),
+    parseFloat(document.getElementById('sl-easily-distracted').value),
+    parseFloat(document.getElementById('sl-worries').value),
+    parseFloat(document.getElementById('sl-concentration').value),
+    parseFloat(document.getElementById('sl-comparison').value),
+    parseFloat(document.getElementById('sl-comp-feelings').value),
+    parseFloat(document.getElementById('sl-validation').value),
+    parseFloat(document.getElementById('sl-depression').value),
+    parseFloat(document.getElementById('sl-fluctuation').value),
+    parseFloat(document.getElementById('sl-sleep').value)
+  ];
+}
+
+// ── Core prediction function ────────────────────────────────────────────
+function runPredictor() {
+  const inputs = getPredictorInputs();
+
+  // Step 1: StandardScaler normalisation
+  const scaled = inputs.map((x, i) => (x - SCALER_MEANS[i]) / SCALER_STDS[i]);
+
+  // Step 2: Logistic regression dot product + intercept
+  const z = LR_INTERCEPT + scaled.reduce((sum, s, i) => sum + LR_COEFS[i] * s, 0);
+
+  // Step 3: Sigmoid → probability of High Risk
+  const prob = sigmoid(z);
+
+  // Step 4: Classify using optimal threshold
+  const isHighRisk = prob >= LR_THRESHOLD;
+
+  // Step 5: Map to tier label
+  let tier, color, bg, interp;
+  if (prob < 0.30) {
+    tier = '🟢 Low Risk';
+    color = 'var(--green)'; bg = 'rgba(63,185,80,0.12)';
+    interp = 'Your responses suggest a low probability of adverse mental health impact from social media use. Maintain healthy usage habits.';
+  } else if (prob < LR_THRESHOLD) {
+    tier = '🟡 Moderate Risk';
+    color = 'var(--orange)'; bg = 'rgba(227,179,65,0.12)';
+    interp = 'Your responses suggest a moderate risk level. Some indicators — such as distraction or worry — appear elevated. Consider monitoring your usage patterns.';
+  } else if (prob < 0.85) {
+    tier = '🔴 High Risk';
+    color = 'var(--red)'; bg = 'rgba(248,81,73,0.12)';
+    interp = 'Your responses indicate a high probability of mental health impact. Key drivers in your responses include one or more of: depression, validation-seeking, distraction, or social comparison.';
+  } else {
+    tier = '🔴 Very High Risk';
+    color = '#FF6B6B'; bg = 'rgba(255,107,107,0.14)';
+    interp = 'Your responses strongly indicate elevated mental health impact. Multiple risk indicators are at high levels. Consider speaking with a mental health professional.';
+  }
+
+  // Render
+  const badge = document.getElementById('predBadge');
+  const bar   = document.getElementById('predBar');
+  const probEl= document.getElementById('predProb');
+  const interpEl = document.getElementById('predInterp');
+
+  badge.textContent = tier;
+  badge.style.setProperty('--pred-color', color);
+  badge.style.setProperty('--pred-bg', bg);
+
+  const pct = Math.round(prob * 100);
+  bar.style.width = pct + '%';
+  bar.style.setProperty('--pred-color', color);
+
+  probEl.textContent = pct + '% probability of High Risk';
+  interpEl.textContent = interp;
+}
+
+// ── Reset predictor ─────────────────────────────────────────────────────
+function resetPredictor() {
+  ['sl-purposeless','sl-distraction','sl-restlessness','sl-easily-distracted',
+   'sl-worries','sl-concentration','sl-comparison','sl-comp-feelings',
+   'sl-validation','sl-depression','sl-fluctuation','sl-sleep'].forEach(id => {
+    const el = document.getElementById(id);
+    el.value = 3;
+    syncSlider(el);
+  });
+  document.getElementById('pred-usage').value = 150;
+  runPredictor();
+}
+
+// ── ML Insight Charts ───────────────────────────────────────────────────
+function initMLInsightCharts() {
+
+  // Feature Importance (horizontal bar)
+  const sortIdx = LR_COEFS.map((v,i)=>i).sort((a,b)=>LR_COEFS[a]-LR_COEFS[b]);
+  const sortedLabels = sortIdx.map(i => FEAT_LABELS[i]);
+  const sortedCoefs  = sortIdx.map(i => LR_COEFS[i]);
+  const barColors    = sortedCoefs.map(c => c < 0.5 ? '#4CC9F0' : c < 1.2 ? '#7048D0' : '#BC8CFF');
+
+  new Chart(document.getElementById('chartFeatureImportance'), {
+    type: 'bar',
+    data: {
+      labels: sortedLabels,
+      datasets: [{
+        data: sortedCoefs,
+        backgroundColor: barColors,
+        borderRadius: 4,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: {
+          label: ctx => `  Coefficient: ${ctx.raw.toFixed(3)}  (${ctx.raw > 0 ? 'increases' : 'decreases'} High Risk probability)`
+        }}
+      },
+      scales: {
+        x: { ...yScale, min: 0, title: { display: true, text: 'Standardised Coefficient', color: '#6E7681', font: { size: 10 } } },
+        y: { ...xScale, ticks: { color: '#8B949E', font: { size: 10 } } }
+      }
+    }
+  });
+
+  // ROC Curve
+  new Chart(document.getElementById('chartROC'), {
+    type: 'line',
+    data: {
+      datasets: [
+        {
+          label: 'Logistic Regression (AUC = 0.999)',
+          data: ROC_DATA.map(d => ({x: d.fpr, y: d.tpr})),
+          borderColor: '#4292E5', backgroundColor: 'rgba(66,146,229,0.08)',
+          borderWidth: 2.5, fill: true, tension: 0, pointRadius: 4,
+          pointBackgroundColor: '#4292E5'
+        },
+        {
+          label: 'Random Classifier (AUC = 0.500)',
+          data: [{x:0,y:0},{x:1,y:1}],
+          borderColor: '#7F9EBA', borderWidth: 1.5,
+          borderDash: [5,4], fill: false, tension: 0, pointRadius: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'bottom',
+          labels: { color: '#8B949E', font: { size: 10 }, boxWidth: 20, padding: 12 }
+        },
+        tooltip: { callbacks: {
+          label: ctx => `  TPR: ${ctx.parsed.y.toFixed(3)}, FPR: ${ctx.parsed.x.toFixed(3)}`
+        }}
+      },
+      scales: {
+        x: { ...yScale, min: 0, max: 1, title: { display: true, text: 'False Positive Rate', color: '#6E7681', font: { size: 10 } } },
+        y: { ...yScale, min: 0, max: 1, title: { display: true, text: 'True Positive Rate', color: '#6E7681', font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+// ── Init on load ────────────────────────────────────────────────────────
+runPredictor();
+if (window.bindTips) window.bindTips();
+
 </script>
