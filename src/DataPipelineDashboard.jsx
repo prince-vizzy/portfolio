@@ -578,25 +578,27 @@ function M5Panel() {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const src  = `${base}/smmh-dashboard/index.html`;
   return (
-    <div>
-      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
+      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20, flexShrink: 0 }}>
         <Kpi label="Output stage"   value="M5"       sub="Visualisation"           color={G} />
         <Kpi label="Charts"         value="8+"        sub="interactive panels"      color={B} />
         <Kpi label="Dataset"        value="478 rows"  sub="33 features rendered"    color={P} />
         <Kpi label="Filters"        value="Live"      sub="gender · age · platform" color={Y} />
       </div>
-
-       <iframe
-         title="Social Media Usage vs Mental Health Dashboard"
-         src={src}
-         style={{
-           width: '100%',
-           height: '100%',
-           border: 'none',
-           display: 'block',
-           background: 'transparent',
-         }}
-       />
+      
+      <iframe
+        title="Social Media Usage vs Mental Health Dashboard"
+        src={src}
+        style={{
+          width: '100%',
+          height: 'clamp(720px, calc(100vh - 56px), 980px)',
+          minHeight: 720,
+          border: `1px solid ${BORDER}`,
+          borderRadius: 12,
+          display: 'block',
+          background: '#0D1117',
+        }}
+      />
     </div>
   );
 }
