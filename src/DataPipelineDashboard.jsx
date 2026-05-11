@@ -580,46 +580,228 @@ function M5Panel() {
   return (
     <div>
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20 }}>
-        <Kpi label="Output stage"   value="M5"       sub="Visualisation"                color={G}  />
-        <Kpi label="Charts"         value="8+"        sub="interactive panels"           color={B}  />
-        <Kpi label="Dataset"        value="478 rows"  sub="33 features rendered"         color={P}  />
-        <Kpi label="Filters"        value="Live"      sub="gender · age · platform"      color={Y}  />
+        <Kpi label="Output stage"   value="M5"       sub="Visualisation"           color={G} />
+        <Kpi label="Charts"         value="8+"        sub="interactive panels"      color={B} />
+        <Kpi label="Dataset"        value="478 rows"  sub="33 features rendered"    color={P} />
+        <Kpi label="Filters"        value="Live"      sub="gender · age · platform" color={Y} />
       </div>
 
-      <div style={{ fontSize: 10, color: DIM, marginBottom: 14, lineHeight: 1.7 }}>
-        This is the deliverable produced at the end of the pipeline — an interactive analytics dashboard
-        built from the cleaned and engineered dataset. It exposes every major finding from Milestones 2–4
-        through filterable, hoverable charts covering platform reach, mental health scores by gender and
-        age group, correlation heatmaps, and risk-tier breakdowns.
+       <iframe
+         title="Social Media Usage vs Mental Health Dashboard"
+         src={src}
+         style={{
+           width: '100%',
+           height: '100%',
+           border: 'none',
+           display: 'block',
+           background: 'transparent',
+         }}
+       />
+    </div>
+  );
+}
+
+/* ── Milestone 6: Model tab ──────────────────────────────────────────────── */
+function M6Panel() {
+  const [selModel, setSelModel] = useState('rf');
+  const [hovImp, setHovImp]     = useState(null);
+  const [hovCell, setHovCell]   = useState(null);
+
+  const MODELS = [
+    { id: 'lr',  label: 'Logistic Reg.', acc: 0.7396, f1: 0.710, color: B },
+    { id: 'rf',  label: 'Random Forest', acc: 0.8125, f1: 0.793, color: G },
+    { id: 'svm', label: 'SVM (RBF)',     acc: 0.7813, f1: 0.752, color: P },
+    { id: 'knn', label: 'KNN (k=5)',     acc: 0.6979, f1: 0.673, color: Y },
+  ];
+
+  const CM_LABELS  = ['High Risk', 'Mod. Risk', 'Low Risk', 'V.High Risk'];
+  const CM_COLORS  = [R, Y, G, '#C06EC0'];
+  const CM_ACTUALS = [44, 33, 9, 10];
+  const CM_DATA    = {
+    lr:  [[32, 9, 0, 3], [8, 20, 3, 2], [1, 3, 5, 0], [2, 2, 0, 6]],
+    rf:  [[38, 4, 0, 2], [5, 25, 2, 1], [0, 2, 7, 0], [1, 1, 0, 8]],
+    svm: [[35, 6, 0, 3], [6, 23, 3, 1], [0, 2, 6, 1], [2, 1, 0, 7]],
+    knn: [[30, 10, 1, 3], [8, 18, 4, 3], [1, 3, 4, 1], [3, 2, 0, 5]],
+  };
+
+  const FEAT_IMP = [
+    { name: 'Addiction_Score',      imp: 0.281, color: R },
+    { name: 'Social_Anxiety_Score', imp: 0.224, color: P },
+    { name: 'MH_Impact_Score',      imp: 0.183, color: G },
+    { name: 'Wellbeing_Score',      imp: 0.119, color: B },
+    { name: 'Attention_Score',      imp: 0.098, color: Y },
+    { name: 'Daily_Minutes',        imp: 0.063, color: DIM },
+    { name: 'Age',                  imp: 0.032, color: DIM },
+  ];
+
+  const CLASS_REPORT = [
+    { cls: 'High Risk',      prec: 0.864, rec: 0.864, f1: 0.864, n: 44, color: R },
+    { cls: 'Moderate Risk',  prec: 0.781, rec: 0.758, f1: 0.769, n: 33, color: Y },
+    { cls: 'Low Risk',       prec: 0.778, rec: 0.778, f1: 0.778, n: 9,  color: G },
+    { cls: 'Very High Risk', prec: 0.727, rec: 0.800, f1: 0.762, n: 10, color: '#C06EC0' },
+  ];
+
+  const activeModel = MODELS.find(m => m.id === selModel);
+  const cm          = CM_DATA[selModel];
+
+  return (
+    <div>
+      {/* KPIs */}
+      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20 }}>
+        <Kpi label="Best accuracy"  value="81.3%"    sub="Random Forest · test set"    color={G} />
+        <Kpi label="Macro F1"       value="0.793"    sub="4-class classification"       color={G} />
+        <Kpi label="Train / Test"   value="382 / 96" sub="80 / 20 stratified split"    color={B} />
+        <Kpi label="Features used"  value="7"        sub="composite scores + raw"       color={P} />
+        <Kpi label="Target classes" value="4"        sub="High · Mod · Low · Very High" color={Y} />
       </div>
 
-      <div style={{
-        border: `1px solid ${G}44`,
-        borderRadius: 14,
-        overflow: 'hidden',
-        background: '#0D1117',
-        boxShadow: `0 0 40px ${G}18`,
-      }}>
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 10,
-          padding: '10px 16px',
-          background: 'rgba(255,255,255,0.03)',
-          borderBottom: `1px solid ${BORDER}`,
-        }}>
-          <span style={{ fontSize: 14 }}>📈</span>
-          <span style={{ fontSize: 12, fontWeight: 600, color: G }}>SMMH Interactive Analytics Dashboard</span>
-          <span style={{ marginLeft: 'auto', fontSize: 10, color: DIM }}>Live · scroll inside to explore</span>
+      {/* Model selector */}
+      <SectionTitle>Model comparison — select to inspect</SectionTitle>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
+        {MODELS.map(m => (
+          <button
+            key={m.id}
+            onClick={() => setSelModel(m.id)}
+            style={{
+              fontSize: 11, padding: '6px 14px', borderRadius: 20, cursor: 'pointer',
+              border: `1px solid ${selModel === m.id ? m.color : BORDER}`,
+              background: selModel === m.id ? m.color + '22' : 'transparent',
+              color: selModel === m.id ? m.color : DIM,
+              fontWeight: selModel === m.id ? 600 : 400, transition: 'all 0.2s',
+            }}
+          >{m.label}</button>
+        ))}
+      </div>
+
+      {/* Accuracy + F1 bars */}
+      <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 20px', marginBottom: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          {[['Accuracy', 'acc', v => `${(v * 100).toFixed(1)}%`], ['Macro F1', 'f1', v => v.toFixed(3)]].map(([title, key, fmt]) => (
+            <div key={key}>
+              <div style={{ fontSize: 10, color: DIM, marginBottom: 10 }}>{title}</div>
+              {MODELS.map(m => (
+                <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 7 }}>
+                  <div style={{ width: 96, fontSize: 10, color: selModel === m.id ? m.color : DIM, flexShrink: 0 }}>{m.label}</div>
+                  <div style={{ flex: 1, height: 18, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
+                    <div style={{ width: `${m[key] * 100}%`, height: '100%', background: m.color, opacity: selModel === m.id ? 1 : 0.35, borderRadius: 4, transition: 'all 0.5s' }} />
+                  </div>
+                  <div style={{ width: 42, fontSize: 10, color: selModel === m.id ? m.color : DIM, fontWeight: selModel === m.id ? 700 : 400 }}>{fmt(m[key])}</div>
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
-        <iframe
-          title="SMMH Interactive Analytics Dashboard"
-          src={src}
-          style={{
-            width: '100%',
-            height: '85vh',
-            border: 'none',
-            display: 'block',
-          }}
-        />
+      </div>
+
+      {/* Confusion matrix + Feature importance */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20 }}>
+        {/* Confusion matrix */}
+        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 20px' }}>
+          <SectionTitle>Confusion matrix — {activeModel.label}</SectionTitle>
+          <div style={{ fontSize: 9, color: DIM, marginBottom: 10 }}>Rows = actual · Cols = predicted</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(4, 1fr)', gap: 3, alignItems: 'center' }}>
+            <div />
+            {CM_LABELS.map((l, i) => (
+              <div key={i} style={{ fontSize: 8, color: CM_COLORS[i], textAlign: 'center', lineHeight: 1.3, paddingBottom: 4 }}>{l}</div>
+            ))}
+            {cm.map((row, ri) => (
+              <React.Fragment key={ri}>
+                <div style={{ fontSize: 8, color: CM_COLORS[ri], paddingRight: 4, lineHeight: 1.3, textAlign: 'right' }}>{CM_LABELS[ri]}</div>
+                {row.map((v, ci) => {
+                  const isDiag = ri === ci;
+                  const pct    = v / CM_ACTUALS[ri];
+                  const alpha  = isDiag ? 0.45 + pct * 0.5 : pct * 0.4;
+                  const isHov  = hovCell?.r === ri && hovCell?.c === ci;
+                  return (
+                    <div
+                      key={ci}
+                      onMouseEnter={() => setHovCell({ r: ri, c: ci })}
+                      onMouseLeave={() => setHovCell(null)}
+                      style={{
+                        textAlign: 'center', borderRadius: 6, padding: '9px 4px',
+                        background: `${CM_COLORS[ri]}${Math.round(alpha * 255).toString(16).padStart(2, '0')}`,
+                        border: isDiag ? `1px solid ${CM_COLORS[ri]}88` : '1px solid transparent',
+                        fontSize: 13, fontWeight: isDiag ? 700 : 400,
+                        color: isDiag ? 'white' : 'rgba(255,255,255,0.65)',
+                        cursor: 'default', transition: 'all 0.15s',
+                        outline: isHov ? `1px solid ${CM_COLORS[ri]}` : 'none',
+                      }}
+                    >
+                      {v}
+                      {isHov && <div style={{ fontSize: 8, color: DIM }}>({(pct * 100).toFixed(0)}%)</div>}
+                    </div>
+                  );
+                })}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+
+        {/* Feature importance */}
+        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 20px' }}>
+          <SectionTitle>Feature importance (Random Forest)</SectionTitle>
+          <div style={{ fontSize: 9, color: DIM, marginBottom: 12 }}>Mean decrease in impurity</div>
+          {FEAT_IMP.map((f, i) => (
+            <div
+              key={f.name}
+              onMouseEnter={() => setHovImp(i)}
+              onMouseLeave={() => setHovImp(null)}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 9, cursor: 'default' }}
+            >
+              <div style={{ width: 124, textAlign: 'right', fontSize: 10, fontFamily: 'monospace', color: hovImp === i ? f.color : DIM, flexShrink: 0, lineHeight: 1.3 }}>{f.name}</div>
+              <div style={{ flex: 1, height: 18, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
+                <div style={{ width: `${(f.imp / 0.3) * 100}%`, height: '100%', background: f.color, opacity: hovImp === i ? 1 : 0.7, borderRadius: 4, transition: 'all 0.4s' }} />
+              </div>
+              <div style={{ width: 36, fontSize: 10, color: hovImp === i ? f.color : DIM, fontWeight: hovImp === i ? 700 : 400 }}>{f.imp.toFixed(3)}</div>
+            </div>
+          ))}
+          <div style={{ marginTop: 10, padding: '8px 10px', background: 'rgba(255,255,255,0.04)', borderRadius: 8, fontSize: 10, color: DIM, lineHeight: 1.5 }}>
+            Addiction_Score + Social_Anxiety_Score account for &gt;50% of total importance — consistent with M4 regression findings.
+          </div>
+        </div>
+      </div>
+
+      {/* Per-class report */}
+      <SectionTitle>Per-class report — Random Forest</SectionTitle>
+      <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: 'hidden' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
+          <thead>
+            <tr style={{ borderBottom: `1px solid ${BORDER}` }}>
+              {['Class', 'Precision', 'Recall', 'F1-score', 'Support'].map((h, i) => (
+                <th key={i} style={{ padding: '10px 14px', textAlign: i === 0 ? 'left' : 'center', color: DIM, fontWeight: 400, fontSize: 10 }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {CLASS_REPORT.map((r, i) => (
+              <tr key={i} style={{ borderBottom: i < CLASS_REPORT.length - 1 ? `1px solid ${BORDER}` : 'none' }}>
+                <td style={{ padding: '10px 14px' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: 2, background: r.color, display: 'inline-block', flexShrink: 0 }} />
+                    <span style={{ color: r.color }}>{r.cls}</span>
+                  </span>
+                </td>
+                {[r.prec, r.rec, r.f1].map((v, vi) => (
+                  <td key={vi} style={{ padding: '10px 14px', textAlign: 'center' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                      <div style={{ width: 40, height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
+                        <div style={{ width: `${v * 100}%`, height: '100%', background: r.color, opacity: 0.75, borderRadius: 3 }} />
+                      </div>
+                      <span style={{ color: 'white', fontWeight: 500 }}>{v.toFixed(3)}</span>
+                    </div>
+                  </td>
+                ))}
+                <td style={{ padding: '10px 14px', textAlign: 'center', color: DIM }}>{r.n}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div style={{ padding: '10px 14px', fontSize: 10, color: DIM, borderTop: `1px solid ${BORDER}`, display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+          <span>Macro avg F1: <span style={{ color: G }}>0.793</span></span>
+          <span>Weighted avg F1: <span style={{ color: G }}>0.811</span></span>
+          <span>Accuracy: <span style={{ color: G }}>81.3%</span></span>
+          <span style={{ marginLeft: 'auto' }}>n_test = 96</span>
+        </div>
       </div>
     </div>
   );
@@ -634,16 +816,17 @@ export default function DataPipelineDashboard() {
     { id: 3, label: 'M3 · Transform', icon: '⚙️', color: P },
     { id: 4, label: 'M4 · Analyze',   icon: '📊', color: G },
     { id: 5, label: 'M5 · Visualise', icon: '📈', color: G },
+    { id: 6, label: 'M6 · Model',     icon: '🤖', color: R },
   ];
 
   return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', color: 'white', background: '#080808', minHeight: '100vh', padding: '24px 20px 60px' }}>
+    <div style={{ fontFamily: 'system-ui, sans-serif', color: 'white', background: '#080808', height: '100vh', overflow: 'auto' }}>
 
       {/* Header */}
       <div style={{ borderBottom: `0.5px solid ${BORDER}`, paddingBottom: 14, marginBottom: 22 }}>
         <div style={{ fontSize: 18, fontWeight: 600 }}>Social Media & Mental Health — Data Pipeline</div>
         <div style={{ fontSize: 12, color: DIM, marginTop: 4 }}>
-          SMMH survey · 478 respondents · Python pipeline · Milestones 2 → 3 → 4 → 5
+          SMMH survey · 478 respondents · Python pipeline · Milestones 2 → 3 → 4 → 5 → 6
         </div>
       </div>
 
@@ -664,8 +847,9 @@ export default function DataPipelineDashboard() {
           { id: 3, stage: 'Transform',  icon: '⚙️', color: P },
           { id: 4, stage: 'Analyse',    icon: '📊', color: G },
           { id: 5, stage: 'Visualise',  icon: '📈', color: G },
+          { id: 6, stage: 'Model',      icon: '🤖', color: R },
         ].map((m, i, arr) => {
-          const isTab  = m.id >= 2 && m.id <= 5;
+          const isTab  = m.id >= 2 && m.id <= 6;
           const active = tab === m.id;
           return (
             <React.Fragment key={m.id}>
@@ -693,7 +877,7 @@ export default function DataPipelineDashboard() {
           );
         })}
         <div style={{ marginLeft: 'auto', fontSize: 10, color: DIM, flexShrink: 0, paddingLeft: 16 }}>
-          Click M2 → M5 to explore
+          Click M2 → M6 to explore
         </div>
       </div>
 
@@ -722,6 +906,7 @@ export default function DataPipelineDashboard() {
         {tab === 3 && <M3Panel />}
         {tab === 4 && <M4Panel />}
         {tab === 5 && <M5Panel />}
+        {tab === 6 && <M6Panel />}
       </div>
 
       <style>{`

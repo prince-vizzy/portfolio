@@ -775,9 +775,6 @@ const Portfolio = () => {
           </button>
           <div
             style={{
-              maxWidth: '1100px',
-              margin: '0 auto',
-              padding: '20px 16px 56px',
               animation: 'titanicSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
@@ -830,9 +827,6 @@ const Portfolio = () => {
           </button>
           <div
             style={{
-              maxWidth: '1400px',
-              margin: '0 auto',
-              padding: '0 0 56px',
               animation: 'titanicSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >

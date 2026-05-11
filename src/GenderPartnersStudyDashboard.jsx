@@ -348,18 +348,6 @@ const GenderPartnersStudyDashboard = () => {
           </div>
         </div>
 
-        {/* ── Analysis Viz (static output from R) ──────────────────────────── */}
-        <div style={{ marginBottom: '28px' }}>
-          <h2 style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#1D9E75', marginBottom: '12px' }}>Analysis Output — Full 6-Panel Visualization (R / ggplot2)</h2>
-          <div style={{ borderRadius: '10px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
-            <img
-              src={assetUrl('/het-partners-viz.png')}
-              alt="Full 6-panel ggplot2 analysis output"
-              style={{ width: '100%', display: 'block' }}
-            />
-          </div>
-        </div>
-
         {/* ── Hypothesis Tests ─────────────────────────────────────────────── */}
         <div style={{ marginBottom: '28px' }}>
           <h2 style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#1D9E75', marginBottom: '4px' }}>Hypothesis Tests — Mann-Whitney U &amp; Kruskal-Wallis</h2>
