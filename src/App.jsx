@@ -602,7 +602,7 @@ const Portfolio = () => {
           <span className="text-[10px] uppercase tracking-[0.4em] text-[#217522] font-bold">Featured Projects</span>
         </div>
 
-        <div className="grid grid-cols-2 xl:grid-cols-2 gap-3 md:gap-14 items-start">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-14 items-start">
           {/* Titanic card â€” opens the dashboard */}
           <div
             className="group cursor-pointer max-w-2xl w-full"
@@ -619,27 +619,27 @@ const Portfolio = () => {
               imageWidth="100%"
               className="aspect-square w-full"
             />
-            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
+            <div className="mt-4 md:mt-8 space-y-2 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
+                <h4 className="text-base md:text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   Titanic Survival Audit
                 </h4>
-                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   Data Analysis
                 </span>
               </div>
-              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="text-xs md:text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 An interactive dashboard investigating survival trends by age, gender, and class.
                 The analysis audits the 62% survival rate of Class 1 passengers and evaluates the
                 demographic disparity between male and female survivors.
               </p>
-              <div className="hidden md:flex gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="flex flex-wrap gap-2 md:gap-4 text-[9px] md:text-[10px] text-gray-400 font-mono">
                 <span>[ Chart.js ]</span>
                 <span>[ Statistical Analysis ]</span>
                 <span>[ Interactive Dashboard ]</span>
               </div>
               {/* Subtle "click to open" hint */}
-              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to explore â†'
               </p>
             </div>
@@ -661,25 +661,25 @@ const Portfolio = () => {
               imageWidth="100%"
               className="aspect-square w-full"
             />
-            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
+            <div className="mt-4 md:mt-8 space-y-2 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
+                <h4 className="text-base md:text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   Darts Scoring App
                 </h4>
-                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   React App
                 </span>
               </div>
-              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="text-xs md:text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 A live two-player darts scorer with 501/301 countdown logic, head-to-head history,
                 saved player suggestions, reactive win probability, set momentum, and checkout stats.
               </p>
-              <div className="hidden md:flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="flex flex-wrap gap-2 md:gap-4 text-[9px] md:text-[10px] text-gray-400 font-mono">
                 <span>[ React ]</span>
                 <span>[ Local Storage ]</span>
                 <span>[ Live Scoring ]</span>
               </div>
-              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to play â†'
               </p>
             </div>
@@ -701,27 +701,27 @@ const Portfolio = () => {
               imageWidth="100%"
               className="aspect-square w-full"
             />
-            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
+            <div className="mt-4 md:mt-8 space-y-2 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
+                <h4 className="text-base md:text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   M-Pesa Budget Tracker
                 </h4>
-                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   Flutter App
                 </span>
               </div>
-              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="text-xs md:text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 An Android app that intercepts M-Pesa SMS notifications in real time, parses transaction
                 details, auto-categorizes spending by merchant, and tracks budgets with live charts —
                 all stored locally in SQLite with no server required.
               </p>
-              <div className="hidden md:flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="flex flex-wrap gap-2 md:gap-4 text-[9px] md:text-[10px] text-gray-400 font-mono">
                 <span>[ Flutter / Dart ]</span>
                 <span>[ SQLite ]</span>
                 <span>[ Android Native ]</span>
                 <span>[ Chart.js ]</span>
               </div>
-              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to explore demo →
               </p>
             </div>
@@ -743,27 +743,27 @@ const Portfolio = () => {
               imageWidth="100%"
               className="aspect-square w-full"
             />
-            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
+            <div className="mt-4 md:mt-8 space-y-2 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
+                <h4 className="text-base md:text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   Data Pipeline
                 </h4>
-                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   Data Engineering
                 </span>
               </div>
-              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="text-xs md:text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 An end-to-end analytical architecture that transforms raw social media behavioral logs into a live psychological health dashboard.
                 This pipeline automates the journey from fragmented usage data to predictive insights, tracking the correlation between digital
                 consumption and mental well-being through six rigorous milestones.
               </p>
-              <div className="hidden md:flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="flex flex-wrap gap-2 md:gap-4 text-[9px] md:text-[10px] text-gray-400 font-mono">
                 <span>[ Python ]</span>
                 <span>[ Pandas ]</span>
                 <span>[ Scikit-learn ]</span>
                 <span>[ Docker ]</span>
               </div>
-              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to view milestones →
               </p>
             </div>
@@ -785,27 +785,27 @@ const Portfolio = () => {
               imageWidth="100%"
               className="aspect-square w-full"
             />
-            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
+            <div className="mt-4 md:mt-8 space-y-2 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
+                <h4 className="text-base md:text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   Gender &amp; Partners Study
                 </h4>
-                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   Statistical Research
                 </span>
               </div>
-              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="text-xs md:text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 Cross-sectional analysis of NSSAL survey data (~1999–2001 vs ~2010–2012) testing whether
                 gender is significantly associated with changes in heterosexual partners across the decade.
                 Full hypothesis testing, visualisations, and negative binomial regression.
               </p>
-              <div className="hidden md:flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="flex flex-wrap gap-2 md:gap-4 text-[9px] md:text-[10px] text-gray-400 font-mono">
                 <span>[ R ]</span>
                 <span>[ Negative Binomial ]</span>
                 <span>[ Non-Parametric Tests ]</span>
                 <span>[ ggplot2 ]</span>
               </div>
-              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to explore findings →
               </p>
             </div>
@@ -829,26 +829,26 @@ const Portfolio = () => {
                 objectFit="contain"
               />
             </div>
-            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
+            <div className="mt-4 md:mt-8 space-y-2 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
+                <h4 className="text-base md:text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   Shii Ngapi
                 </h4>
-                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   Transit App
                 </span>
               </div>
-              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="text-xs md:text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 A Nairobi matatu journey planner that finds the fastest route between any two points,
                 shows transfer stages, live fare estimates, and renders polylines on a live map.
                 Built with a multi-hop routing engine and Google Maps integration.
               </p>
-              <div className="hidden md:flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="flex flex-wrap gap-2 md:gap-4 text-[9px] md:text-[10px] text-gray-400 font-mono">
                 <span>[ Python / Flask ]</span>
                 <span>[ Routing Engine ]</span>
                 <span>[ GIS / Maps ]</span>
               </div>
-              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to try demo →
               </p>
             </div>

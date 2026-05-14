@@ -4,6 +4,7 @@ import CVPage from './CVPage';
 
 const CVOverlay = ({ isOpen, onClose, cvUrl }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [closeHovered, setCloseHovered] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -38,7 +39,22 @@ const CVOverlay = ({ isOpen, onClose, cvUrl }) => {
           {/* TOP BAR */}
           <div className="absolute top-0 left-0 w-full p-5 md:p-10 flex justify-between items-center z-[150] pointer-events-none">
             <div className="flex items-center gap-3 md:gap-6 pointer-events-auto">
-              <div className="w-6 md:w-12 h-[1px] bg-[#217522]"></div>
+              <button
+                onClick={(e) => { e.stopPropagation(); onClose(); }}
+                onMouseEnter={() => setCloseHovered(true)}
+                onMouseLeave={() => setCloseHovered(false)}
+                aria-label="Close CV"
+                className="relative flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300"
+                style={{
+                  background: closeHovered ? 'rgba(232,72,85,0.15)' : 'rgba(255,255,255,0.07)',
+                  border: `1px solid ${closeHovered ? 'rgba(232,72,85,0.5)' : 'rgba(255,255,255,0.14)'}`,
+                  transform: closeHovered ? 'rotate(90deg) scale(1.08)' : 'rotate(0deg) scale(1)',
+                }}
+              >
+                <span style={{ position: 'absolute', width: 13, height: 1.5, background: closeHovered ? '#E84855' : 'rgba(255,255,255,0.7)', borderRadius: 2, transform: 'rotate(45deg)' }} />
+                <span style={{ position: 'absolute', width: 13, height: 1.5, background: closeHovered ? '#E84855' : 'rgba(255,255,255,0.7)', borderRadius: 2, transform: 'rotate(-45deg)' }} />
+              </button>
+              <div className="hidden md:block w-6 md:w-12 h-[1px] bg-[#217522]"></div>
               <span className="text-[8px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.6em] text-white/80 font-bold whitespace-nowrap">
                 Victory Kanake CV
               </span>
