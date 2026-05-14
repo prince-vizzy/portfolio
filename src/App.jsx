@@ -10,6 +10,7 @@ import MpesaTrackerDashboard from './MpesaTrackerDashboard';
 import DataPipelineDashboard from './DataPipelineDashboard';
 import GenderPartnersStudyDashboard from './GenderPartnersStudyDashboard';
 import LogoLoop from './components/LogoLoop';
+import ScrollStack, { ScrollStackItem } from './components/ScrollStack';
 import {
   FaCalculator,
   FaChartBar,
@@ -307,6 +308,14 @@ const Portfolio = () => {
   const [activeTechLogo, setActiveTechLogo] = useState(null);
   const [isTechTooltipVisible, setIsTechTooltipVisible] = useState(false);
   const [techHoverPosition, setTechHoverPosition] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const updateTechHoverPosition = (e) => {
     const cardWidth = 320;
@@ -379,6 +388,81 @@ const Portfolio = () => {
         "Data Structures & Algorithms", "Automation & Data Pipelines",
         "Research Methods & Survey Analysis", "API Design (REST)",
       ],
+    },
+  ];
+
+  const projects = [
+    {
+      id: 'titanic',
+      title: 'Titanic Survival Audit',
+      badge: 'Data Analysis',
+      image: assetUrl('/titanic-viz.png'),
+      alt: 'Titanic Survival Audit Dashboard',
+      description: 'An interactive dashboard investigating survival trends by age, gender, and class. The analysis audits the 62% survival rate of Class 1 passengers and evaluates the demographic disparity between male and female survivors.',
+      tags: ['Chart.js', 'Statistical Analysis', 'Interactive Dashboard'],
+      hint: 'Click to explore →',
+      onOpen: () => setShowTitanicDashboard(true),
+      ariaLabel: 'Open Titanic Survival Audit dashboard',
+    },
+    {
+      id: 'darts',
+      title: 'Darts Scoring App',
+      badge: 'React App',
+      image: assetUrl('/darts.png'),
+      alt: 'Darts Scoring and Dashboard App',
+      description: 'A live two-player darts scorer with 501/301 countdown logic, head-to-head history, saved player suggestions, reactive win probability, set momentum, and checkout stats.',
+      tags: ['React', 'Local Storage', 'Live Scoring'],
+      hint: 'Click to play →',
+      onOpen: () => setShowDartsApp(true),
+      ariaLabel: 'Open Darts Scoring app',
+    },
+    {
+      id: 'mpesa',
+      title: 'M-Pesa Budget Tracker',
+      badge: 'Flutter App',
+      image: assetUrl('/finance.png'),
+      alt: 'M-Pesa Budget Tracker Flutter App',
+      description: 'An Android app that intercepts M-Pesa SMS notifications in real time, parses transaction details, auto-categorizes spending by merchant, and tracks budgets with live charts — all stored locally in SQLite with no server required.',
+      tags: ['Flutter / Dart', 'SQLite', 'Android Native', 'Chart.js'],
+      hint: 'Click to explore demo →',
+      onOpen: () => setShowMpesaTracker(true),
+      ariaLabel: 'Open M-Pesa Budget Tracker demo',
+    },
+    {
+      id: 'pipeline',
+      title: 'Data Pipeline',
+      badge: 'Data Engineering',
+      image: assetUrl('/pipeline.png'),
+      alt: 'End-to-End Data Pipeline',
+      description: 'An end-to-end analytical architecture that transforms raw social media behavioral logs into a live psychological health dashboard. This pipeline automates the journey from fragmented usage data to predictive insights, tracking the correlation between digital consumption and mental well-being through six rigorous milestones.',
+      tags: ['Python', 'Pandas', 'Scikit-learn', 'Docker'],
+      hint: 'Click to view milestones →',
+      onOpen: () => setShowPipeline(true),
+      ariaLabel: 'Open Data Pipeline milestones dashboard',
+    },
+    {
+      id: 'gender',
+      title: 'Gender & Partners Study',
+      badge: 'Statistical Research',
+      image: 'https://www.psychologicalscience.org/redesign/wp-content/uploads/2024/02/Feb24-Experienced-Love-Featured-1600x1000.jpg',
+      alt: 'Gender & Change in Heterosexual Partners – Research Dashboard',
+      description: 'Cross-sectional analysis of NSSAL survey data (~1999–2001 vs ~2010–2012) testing whether gender is significantly associated with changes in heterosexual partners across the decade. Full hypothesis testing, visualisations, and negative binomial regression.',
+      tags: ['R', 'Negative Binomial', 'Non-Parametric Tests', 'ggplot2'],
+      hint: 'Click to explore findings →',
+      onOpen: () => setShowGenderStudy(true),
+      ariaLabel: 'Open Gender & Heterosexual Partners research dashboard',
+    },
+    {
+      id: 'shii-ngapi',
+      title: 'Shii Ngapi',
+      badge: 'Transit App',
+      image: assetUrl('/matatu-hero.png'),
+      alt: 'Shii Ngapi — Nairobi Transit Planner',
+      description: 'A Nairobi matatu journey planner that finds the fastest route between any two points, shows transfer stages, live fare estimates, and renders polylines on a live map. Built with a multi-hop routing engine and Google Maps integration.',
+      tags: ['Python / Flask', 'Routing Engine', 'GIS / Maps'],
+      hint: 'Click to try demo →',
+      onOpen: () => setShowShiiNgapi(true),
+      ariaLabel: 'Open Shii Ngapi transit planner demo',
     },
   ];
 
@@ -602,6 +686,56 @@ const Portfolio = () => {
           <span className="text-[10px] uppercase tracking-[0.4em] text-[#217522] font-bold">Featured Projects</span>
         </div>
 
+        {isMobile ? (
+          <ScrollStack
+            useWindowScroll
+            itemDistance={60}
+            itemStackDistance={20}
+            stackPosition="18%"
+            baseScale={0.88}
+            itemScale={0.025}
+            className="!h-auto"
+          >
+            {projects.map((p) => (
+              <ScrollStackItem
+                key={p.id}
+                itemClassName="!h-auto !p-5 !my-4 !rounded-2xl bg-[#0c100e] border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
+              >
+                <div
+                  className="group cursor-pointer w-full"
+                  onClick={p.onOpen}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && p.onOpen()}
+                  aria-label={p.ariaLabel}
+                >
+                  <div className="aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/5 bg-black/20">
+                    <img src={p.image} alt={p.alt} loading="lazy" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="mt-3 space-y-2">
+                    <div className="flex items-center gap-3">
+                      <h4 className="text-base font-light tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
+                        {p.title}
+                      </h4>
+                      <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                        {p.badge}
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-300 leading-relaxed font-light">
+                      {p.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2 text-[9px] text-gray-400 font-mono">
+                      {p.tags.map((t) => <span key={t}>[ {t} ]</span>)}
+                    </div>
+                    <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+                      {p.hint}
+                    </p>
+                  </div>
+                </div>
+              </ScrollStackItem>
+            ))}
+          </ScrollStack>
+        ) : (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-14 items-start">
           {/* Titanic card â€” opens the dashboard */}
           <div
@@ -854,6 +988,7 @@ const Portfolio = () => {
             </div>
           </div>
         </div>
+        )}
       </section>
 
       <footer className="py-12 px-6 md:py-24 md:px-12 border-t border-white/5 flex flex-col items-center gap-10 relative z-10">
