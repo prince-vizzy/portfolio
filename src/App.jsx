@@ -10,7 +10,7 @@ import MpesaTrackerDashboard from './MpesaTrackerDashboard';
 import DataPipelineDashboard from './DataPipelineDashboard';
 import GenderPartnersStudyDashboard from './GenderPartnersStudyDashboard';
 import LogoLoop from './components/LogoLoop';
-import ScrollStack, { ScrollStackItem } from './components/ScrollStack';
+import CardDeck from './components/CardDeck';
 import {
   FaCalculator,
   FaChartBar,
@@ -687,54 +687,42 @@ const Portfolio = () => {
         </div>
 
         {isMobile ? (
-          <ScrollStack
-            useWindowScroll
-            itemDistance={60}
-            itemStackDistance={20}
-            stackPosition="18%"
-            baseScale={0.88}
-            itemScale={0.025}
-            className="!h-auto"
-          >
+          <CardDeck cardOffset={14} cardScale={0.045} maxVisible={4}>
             {projects.map((p) => (
-              <ScrollStackItem
+              <div
                 key={p.id}
-                itemClassName="!h-auto !p-5 !my-4 !rounded-2xl bg-[#0c100e] border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
+                className="group cursor-pointer w-full rounded-2xl bg-[#0c100e] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.55)] p-5"
+                onClick={p.onOpen}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && p.onOpen()}
+                aria-label={p.ariaLabel}
               >
-                <div
-                  className="group cursor-pointer w-full"
-                  onClick={p.onOpen}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && p.onOpen()}
-                  aria-label={p.ariaLabel}
-                >
-                  <div className="aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/5 bg-black/20">
-                    <img src={p.image} alt={p.alt} loading="lazy" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="mt-3 space-y-2">
-                    <div className="flex items-center gap-3">
-                      <h4 className="text-base font-light tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
-                        {p.title}
-                      </h4>
-                      <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
-                        {p.badge}
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-300 leading-relaxed font-light">
-                      {p.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2 text-[9px] text-gray-400 font-mono">
-                      {p.tags.map((t) => <span key={t}>[ {t} ]</span>)}
-                    </div>
-                    <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
-                      {p.hint}
-                    </p>
-                  </div>
+                <div className="aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/5 bg-black/20">
+                  <img src={p.image} alt={p.alt} loading="lazy" className="w-full h-full object-cover" />
                 </div>
-              </ScrollStackItem>
+                <div className="mt-3 space-y-2">
+                  <div className="flex items-center gap-3">
+                    <h4 className="text-base font-light tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
+                      {p.title}
+                    </h4>
+                    <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                      {p.badge}
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-300 leading-relaxed font-light line-clamp-4">
+                    {p.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 text-[9px] text-gray-400 font-mono">
+                    {p.tags.map((t) => <span key={t}>[ {t} ]</span>)}
+                  </div>
+                  <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+                    {p.hint}
+                  </p>
+                </div>
+              </div>
             ))}
-          </ScrollStack>
+          </CardDeck>
         ) : (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-14 items-start">
           {/* Titanic card â€” opens the dashboard */}
