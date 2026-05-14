@@ -30,7 +30,7 @@ const TitanicDashboard = ({ onOpenCV }) => {
   const R = '#D85A30';
   const B1 = '#185FA5';
   const B2 = '#378ADD';
-  const B3 = '#85B7EB';
+  const B3 = '#4F95DD';
   const P1 = '#534AB7';
   const P2 = '#7F77DD';
   const GR = '#888780';
@@ -135,7 +135,7 @@ const TitanicDashboard = ({ onOpenCV }) => {
     }
 
     if (chart3Ref.current) {
-      const ageBins = ['0â€“9', '10â€“19', '20â€“29', '30â€“39', '40â€“49', '50â€“59', '60â€“69', '70+'];
+      const ageBins = ['0–9', '10–19', '20–29', '30–39', '40–49', '50–59', '60–69', '70+'];
       chart3Instance.current = new Chart(chart3Ref.current, {
         type: 'bar',
         data: {
@@ -324,7 +324,7 @@ const TitanicDashboard = ({ onOpenCV }) => {
           <div className="charts-row-1">
             {[
               { id: 'c1', title: 'Survival by sex', subtitle: 'Ï‡Â² = 260.7 Â· p < 0.001 Â· H1', legend: [['#1D9E75','female 74.2%'],['#D85A30','male 18.9%']], ref: chart1Ref },
-              { id: 'c2', title: 'Survival by class', subtitle: 'Ï‡Â² = 102.9 Â· p < 0.001 Â· SES', legend: [['#185FA5','1st 63.0%'],['#378ADD','2nd 47.3%'],['#85B7EB','3rd 24.2%']], ref: chart2Ref },
+              { id: 'c2', title: 'Survival by class', subtitle: 'Ï‡Â² = 102.9 Â· p < 0.001 Â· SES', legend: [['#185FA5','1st 63.0%'],['#378ADD','2nd 47.3%'],['#4F95DD','3rd 24.2%']], ref: chart2Ref },
               { id: 'c3', title: 'Age distribution by survival', subtitle: 't-test: t = âˆ’2.07 Â· p = 0.039 Â· H2 supported', legend: [['#1D9E75','survived (mean 28.3 yrs)'],['#D85A30','perished (mean 30.6 yrs)']], ref: chart3Ref },
             ].map(({ id, title, subtitle, legend, ref }) => (
               <div 

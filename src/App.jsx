@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SplitText from './SplitText';
 import TiltedCard from './TiltedCard';
 import CVOverlay from './CVOverlay';
@@ -9,6 +9,38 @@ import TitanicDashboard from './TitanicDashboard';
 import MpesaTrackerDashboard from './MpesaTrackerDashboard';
 import DataPipelineDashboard from './DataPipelineDashboard';
 import GenderPartnersStudyDashboard from './GenderPartnersStudyDashboard';
+import LogoLoop from './components/LogoLoop';
+import {
+  FaCalculator,
+  FaChartBar,
+  FaChartLine,
+  FaChartPie,
+  FaCode,
+  FaFileExcel,
+  FaNetworkWired,
+  FaProjectDiagram,
+  FaTable,
+} from 'react-icons/fa';
+import {
+  DiAws,
+  DiCode,
+  DiCss3,
+  DiDart,
+  DiDatabase,
+  DiDocker,
+  DiGit,
+  DiGoogleAnalytics,
+  DiGoogleDrive,
+  DiHtml5,
+  DiJava,
+  DiJavascript1,
+  DiMysql,
+  DiPostgresql,
+  DiPython,
+  DiReact,
+  DiRust,
+  DiSqllite,
+} from 'react-icons/di';
 
 const assetUrl = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
 
@@ -41,6 +73,224 @@ const Icons = {
   )
 };
 
+const techLogos = [
+  {
+    node: <DiPython />,
+    title: "Python",
+    description: "I use Python for data cleaning, modelling, automation, statistical workflows, and analytics scripts.",
+  },
+  {
+    node: <FaChartLine />,
+    title: "R",
+    description: "I use R for statistical analysis, hypothesis testing, survey work, and reproducible visualisation.",
+  },
+  {
+    node: <DiJavascript1 />,
+    title: "JavaScript",
+    description: "I use JavaScript to build interactive dashboard logic, filters, and browser-based data experiences.",
+  },
+  {
+    node: <DiReact />,
+    title: "React",
+    description: "I use React to turn analysis outputs into polished dashboards and reusable analytics interfaces.",
+  },
+  {
+    node: <DiDart />,
+    title: "Dart / Flutter",
+    description: "I use Dart and Flutter to prototype mobile-first tools such as budget trackers and data-entry apps.",
+  },
+  {
+    node: <DiPostgresql />,
+    title: "SQL",
+    description: "I use SQL to join, aggregate, validate, and prepare structured data before deeper analysis.",
+  },
+  {
+    node: <FaTable />,
+    title: "Stata",
+    description: "I use Stata for econometrics, survey analysis, regression workflows, and clean statistical outputs.",
+  },
+  {
+    node: <DiHtml5 />,
+    title: "HTML",
+    description: "I use HTML to structure dashboards, embedded findings, and accessible analytical reports.",
+  },
+  {
+    node: <DiCss3 />,
+    title: "CSS",
+    description: "I use CSS to make dashboards readable, responsive, and presentation-ready.",
+  },
+  {
+    node: <DiJava />,
+    title: "Java",
+    description: "I use Java for structured backend logic and data-processing services where type safety helps.",
+  },
+  {
+    node: <DiCode />,
+    title: "C++",
+    description: "I use C++ concepts for algorithms, performance-aware thinking, and lower-level problem solving.",
+  },
+  {
+    node: <DiRust />,
+    title: "Rust",
+    description: "I use Rust to explore high-performance data tooling and efficient processing patterns.",
+  },
+  {
+    node: <FaFileExcel />,
+    title: "Excel",
+    description: "A spreadsheet tool I use for quick cleaning, pivot tables, summaries, and stakeholder-friendly reports.",
+  },
+  {
+    node: <DiPython />,
+    title: "Pandas",
+    description: "I use Pandas to reshape, merge, clean, validate, and summarise tabular datasets in Python.",
+  },
+  {
+    node: <FaCalculator />,
+    title: "NumPy",
+    description: "I use NumPy for fast numerical operations, arrays, transformations, and model-ready calculations.",
+  },
+  {
+    node: <FaProjectDiagram />,
+    title: "Scikit-learn",
+    description: "I use scikit-learn for preprocessing, regression, classification, and practical machine-learning experiments.",
+  },
+  {
+    node: <FaCalculator />,
+    title: "SciPy",
+    description: "I use SciPy for statistical tests, scientific calculations, and analytical methods beyond basic arrays.",
+  },
+  {
+    node: <FaNetworkWired />,
+    title: "NetworkX",
+    description: "I use NetworkX to model relationships, graph structures, routes, and network-style analytical problems.",
+  },
+  {
+    node: <FaChartBar />,
+    title: "ggplot2",
+    description: "I use ggplot2 to build clear statistical charts and layered visualisations in R.",
+  },
+  {
+    node: <DiCode />,
+    title: "Flask",
+    description: "I use Flask to expose analysis logic through lightweight APIs and small dashboard backends.",
+  },
+  {
+    node: <FaChartBar />,
+    title: "Chart.js",
+    description: "I use Chart.js for interactive charts, dashboard visuals, and browser-based exploratory views.",
+  },
+  {
+    node: <FaChartLine />,
+    title: "Streamlit",
+    description: "I use Streamlit to turn Python analysis into fast, shareable data apps and prototypes.",
+  },
+  {
+    node: <DiSqllite />,
+    title: "SQLite",
+    description: "I use SQLite for lightweight local databases, demos, and compact analytical storage.",
+  },
+  {
+    node: <DiMysql />,
+    title: "Database Design",
+    description: "I use relational design patterns to keep reporting data consistent, queryable, and auditable.",
+  },
+  {
+    node: <DiDatabase />,
+    title: "Databases",
+    description: "Systems I use to structure reporting sources, audit records, and pipeline outputs.",
+  },
+  {
+    node: <DiDocker />,
+    title: "Docker",
+    description: "A container tool I use to make analytics apps and pipelines run consistently across machines.",
+  },
+  {
+    node: <DiGit />,
+    title: "GitHub Actions",
+    description: "I use GitHub Actions to automate checks, builds, and deployment workflows for data projects.",
+  },
+  {
+    node: <FaChartPie />,
+    title: "Power BI",
+    description: "I use Power BI for business dashboards, KPI tracking, and stakeholder-facing analytics reports.",
+  },
+  {
+    node: <DiGoogleDrive />,
+    title: "Google Sheets",
+    description: "I use Google Sheets for collaborative data review, lightweight tracking, and shared summaries.",
+  },
+  {
+    node: <DiCode />,
+    title: "Vite",
+    description: "I use Vite to build fast React-based dashboards and portfolio analytics interfaces.",
+  },
+  {
+    node: <DiCss3 />,
+    title: "Tailwind CSS",
+    description: "I use Tailwind CSS to create clean, responsive dashboard layouts quickly and consistently.",
+  },
+  {
+    node: <DiGoogleAnalytics />,
+    title: "Google Analytics",
+    description: "I use Google Analytics to understand traffic, user behaviour, engagement, and site performance.",
+  },
+  {
+    node: <DiAws />,
+    title: "AWS",
+    description: "A cloud platform I use to deploy dashboards, store data assets, and support cloud-based workflows.",
+  },
+  {
+    node: <FaTable />,
+    title: "Data Cleaning & Validation",
+    description: "I use cleaning and validation workflows to catch errors, standardise fields, and make datasets analysis-ready.",
+  },
+  {
+    node: <FaProjectDiagram />,
+    title: "Feature Engineering",
+    description: "I create meaningful variables from raw data so models and reports capture the right signals.",
+  },
+  {
+    node: <FaCalculator />,
+    title: "Statistical Inference",
+    description: "I use inference and hypothesis testing to decide whether patterns are meaningful or just noise.",
+  },
+  {
+    node: <FaProjectDiagram />,
+    title: "Machine Learning & Regression",
+    description: "I use regression and machine-learning methods to explain relationships, predict outcomes, and compare model performance.",
+  },
+  {
+    node: <FaChartBar />,
+    title: "Data Visualisation",
+    description: "I turn analytical results into charts that make trends, comparisons, and outliers easy to read.",
+  },
+  {
+    node: <FaNetworkWired />,
+    title: "Geospatial / GIS Analysis",
+    description: "I use spatial thinking to analyse routes, locations, access patterns, and map-based data questions.",
+  },
+  {
+    node: <FaCode />,
+    title: "Data Structures & Algorithms",
+    description: "I use algorithmic thinking to write efficient logic for searching, grouping, routing, and transforming data.",
+  },
+  {
+    node: <DiCode />,
+    title: "Automation & Data Pipelines",
+    description: "I build repeatable workflows that move, clean, transform, and prepare data with less manual work.",
+  },
+  {
+    node: <FaChartLine />,
+    title: "Research Methods & Survey Analysis",
+    description: "I use research design and survey analysis to interpret responses, compare groups, and report findings responsibly.",
+  },
+  {
+    node: <DiCode />,
+    title: "API Design",
+    description: "I design REST APIs that expose data, models, and dashboard features through clean backend endpoints.",
+  },
+];
+
 // Main Portfolio Component
 const Portfolio = () => {
   const [isProfileHovered, setIsProfileHovered] = useState(false);
@@ -54,6 +304,18 @@ const Portfolio = () => {
   const [skillsDecrypted, setSkillsDecrypted] = useState(false);
   const [closeXHovered, setCloseXHovered] = useState(false);
   const [copiedField, setCopiedField] = useState(null);
+  const [activeTechLogo, setActiveTechLogo] = useState(null);
+  const [isTechTooltipVisible, setIsTechTooltipVisible] = useState(false);
+  const [techHoverPosition, setTechHoverPosition] = useState({ x: 0, y: 0 });
+
+  const updateTechHoverPosition = (e) => {
+    const cardWidth = 320;
+    const cardHeight = 120;
+    setTechHoverPosition({
+      x: Math.min(e.clientX + 18, window.innerWidth - cardWidth - 16),
+      y: Math.min(e.clientY + 18, window.innerHeight - cardHeight - 16),
+    });
+  };
 
   const handleCopy = async (text, field, e) => {
     e.preventDefault();
@@ -95,7 +357,7 @@ const Portfolio = () => {
       title: "Languages",
       skills: [
         "Python", "R", "JavaScript", "React", "Dart (Flutter)",
-        "SQL", "Stata", "HTML / CSS", "Java", "C++", "Rust",
+        "SQL", "Stata", "HTML / CSS", "Java", "C++", "Rust", "Typescript",
       ],
     },
     {
@@ -161,7 +423,7 @@ const Portfolio = () => {
                 </span>
                 {copiedField === social.label && (
                   <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800/90 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-lg whitespace-nowrap animate-fade-in-out">
-                    Copied! âœ“
+                    Copied! ✓
                   </span>
                 )}
               </button>
@@ -256,6 +518,80 @@ const Portfolio = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="w-full max-w-5xl mt-14 border-y border-white/10 py-6">
+          <LogoLoop
+            logos={techLogos}
+            speed={70}
+            direction="left"
+            logoHeight={18}
+            gap={44}
+            hoverSpeed={0}
+            fadeOut
+            fadeOutColor="#050505"
+            scaleOnHover
+            ariaLabel="Technologies and tools"
+            className="text-[#1D9E75]"
+            renderItem={(item, key) => (
+              <div
+                key={key}
+                className="inline-flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-[#217522]/20 bg-[#217522]/5 text-[30px] text-[#1D9E75] transition-colors duration-300 group-hover/item:border-[#1D9E75]/60 group-hover/item:bg-[#217522]/10 group-hover/item:text-white"
+                tabIndex={0}
+                aria-label={`${item.title}: ${item.description}`}
+                onMouseEnter={(e) => {
+                  setActiveTechLogo(item);
+                  setIsTechTooltipVisible(true);
+                  updateTechHoverPosition(e);
+                }}
+                onMouseMove={updateTechHoverPosition}
+                onMouseLeave={() => setIsTechTooltipVisible(false)}
+                onFocus={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  setActiveTechLogo(item);
+                  setIsTechTooltipVisible(true);
+                  setTechHoverPosition({
+                    x: Math.min(rect.right + 18, window.innerWidth - 320 - 16),
+                    y: Math.min(rect.bottom + 18, window.innerHeight - 120 - 16),
+                  });
+                }}
+                onBlur={() => setIsTechTooltipVisible(false)}
+              >
+                {'node' in item ? item.node : null}
+              </div>
+            )}
+          />
+          <div
+            className={`pointer-events-none fixed z-[9999] w-[320px] max-w-[calc(100vw-2rem)] transition-[opacity,transform,filter] duration-200 ease-out ${
+              isTechTooltipVisible && activeTechLogo
+                ? 'translate-y-0 opacity-100 blur-0'
+                : 'translate-y-1 opacity-0 blur-sm'
+            }`}
+            style={{
+              left: `${techHoverPosition.x}px`,
+              top: `${techHoverPosition.y}px`,
+            }}
+          >
+            <div
+              className="rounded-xl border border-[#1D9E75]/35 bg-[#07100b]/95 px-4 py-3 text-left shadow-[0_16px_50px_rgba(0,0,0,0.36)] ring-1 ring-white/5 backdrop-blur-xl"
+              role="status"
+              aria-live="polite"
+            >
+              <div className="flex items-start gap-3">
+                <div className="flex h-9 w-9 flex-none items-center justify-center rounded-lg border border-[#1D9E75]/30 bg-[#1D9E75]/10 text-xl text-[#1D9E75]">
+                  {activeTechLogo && 'node' in activeTechLogo ? activeTechLogo.node : null}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold text-white">
+                    {activeTechLogo?.title || 'Technology'}
+                  </p>
+                  <p className="mt-1 text-[11px] leading-relaxed text-white/70">
+                    {activeTechLogo?.description || ' '}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -417,9 +753,9 @@ const Portfolio = () => {
                 </span>
               </div>
               <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
-                An end-to-end data pipeline covering ingestion, cleaning, transformation, analysis,
-                visualisation, and deployment — across the Titanic, M-Pesa, and Shii Ngapi datasets.
-                Six tracked milestones from raw CSV to live dashboard.
+                An end-to-end analytical architecture that transforms raw social media behavioral logs into a live psychological health dashboard.
+                This pipeline automates the journey from fragmented usage data to predictive insights, tracking the correlation between digital
+                consumption and mental well-being through six rigorous milestones.
               </p>
               <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
                 <span>[ Python ]</span>
