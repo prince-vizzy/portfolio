@@ -76,20 +76,20 @@ const Dot = () => (
 );
 
 const SectionHeader = ({ icon, label }) => (
-  <div className="mb-4">
-    <div className="flex items-center gap-3">
+  <div className="mb-3 md:mb-4">
+    <div className="flex items-center gap-2.5 md:gap-3">
       {icon}
-      <h2 className="text-2xl font-extrabold tracking-tight text-white">{label}</h2>
+      <h2 className="text-lg md:text-2xl font-extrabold tracking-tight text-white">{label}</h2>
     </div>
     <div className="mt-2 h-px w-full" style={{ background: `linear-gradient(90deg, ${GREEN}55, transparent)` }} />
   </div>
 );
 
 const SidebarHeader = ({ icon, label }) => (
-  <div className="mb-3">
-    <div className="flex items-center gap-3">
+  <div className="mb-2.5 md:mb-3">
+    <div className="flex items-center gap-2.5 md:gap-3">
       {icon}
-      <h2 className="text-xl font-extrabold tracking-tight text-white">{label}</h2>
+      <h2 className="text-base md:text-xl font-extrabold tracking-tight text-white">{label}</h2>
     </div>
     <div className="mt-2 h-px w-full" style={{ background: `linear-gradient(90deg, ${GREEN}55, transparent)` }} />
   </div>
@@ -166,16 +166,14 @@ const CVPage = () => {
     >
       <div className="grid grid-cols-1 md:grid-cols-[36%_64%]">
         {/* LEFT SIDEBAR */}
-        <aside className="relative px-7 py-10" style={{ background: '#0f1411' }}>
+        <aside className="relative px-5 py-7 md:px-7 md:py-10" style={{ background: '#0f1411' }}>
           {/* Green corner accent triangle */}
           <div
             aria-hidden
-            className="absolute top-0 left-0 pointer-events-none"
+            className="absolute top-0 left-0 pointer-events-none w-[110px] h-[110px] md:w-[170px] md:h-[170px]"
             style={{
-              width: 0,
-              height: 0,
-              borderTop: `170px solid ${GREEN_DEEP}`,
-              borderRight: '170px solid transparent',
+              background: GREEN_DEEP,
+              clipPath: 'polygon(0 0, 100% 0, 0 100%)',
               opacity: 0.95,
             }}
           />
@@ -183,8 +181,8 @@ const CVPage = () => {
           {/* Photo */}
           <div className="relative z-10 flex justify-center">
             <div
-              className="rounded-full overflow-hidden border-4"
-              style={{ width: 200, height: 200, borderColor: '#0f1411', boxShadow: '0 8px 24px rgba(0,0,0,0.45)' }}
+              className="rounded-full overflow-hidden border-4 w-[140px] h-[140px] md:w-[200px] md:h-[200px]"
+              style={{ borderColor: '#0f1411', boxShadow: '0 8px 24px rgba(0,0,0,0.45)' }}
             >
               <img
                 src={assetUrl('/color-image.jpg')}
@@ -195,15 +193,15 @@ const CVPage = () => {
           </div>
 
           {/* Name + role */}
-          <div className="mt-6 text-center">
-            <h1 className="text-[40px] leading-[0.95] font-extrabold tracking-tight" style={{ color: GREEN }}>
+          <div className="mt-4 md:mt-6 text-center">
+            <h1 className="text-[30px] md:text-[40px] leading-[0.95] font-extrabold tracking-tight" style={{ color: GREEN }}>
               Victory<br />Kanake
             </h1>
-            <p className="mt-4 text-white font-bold text-base">Junior Data Analyst</p>
+            <p className="mt-3 md:mt-4 text-white font-bold text-sm md:text-base">Junior Data Analyst</p>
           </div>
 
           {/* Contact */}
-          <div className="mt-8">
+          <div className="mt-6 md:mt-8">
             <SidebarHeader icon={<IconPhone />} label="Contact" />
             <ul className="mt-4 space-y-2 text-[13px] text-gray-200">
               <li>
@@ -250,7 +248,7 @@ const CVPage = () => {
           </div>
 
           {/* About Me */}
-          <div className="mt-8">
+          <div className="mt-6 md:mt-8">
             <SidebarHeader icon={<IconUser />} label="About Me" />
             <p className="mt-3 text-[13px] leading-relaxed text-gray-300">
               I am a Data Science student with hands-on exposure to data analysis,
@@ -262,7 +260,7 @@ const CVPage = () => {
           </div>
 
           {/* Skills */}
-          <div className="mt-8">
+          <div className="mt-6 md:mt-8">
             <SidebarHeader icon={<IconPuzzle />} label="Skills" />
 
             <div className="mt-3">
@@ -302,7 +300,7 @@ const CVPage = () => {
           </div>
 
           {/* Socials */}
-          <div className="mt-8 pt-6 border-t border-white/10">
+          <div className="mt-6 md:mt-8 pt-5 md:pt-6 border-t border-white/10">
             <div className="flex gap-3 justify-around">
               <div className="relative">
                 <button
@@ -344,7 +342,7 @@ const CVPage = () => {
         </aside>
 
         {/* RIGHT CONTENT */}
-        <main className="px-8 py-10 relative">
+        <main className="px-5 py-7 md:px-8 md:py-10 relative">
           {/* Education */}
           <section>
             <SectionHeader icon={<IconEducation />} label="Education" />
@@ -368,7 +366,7 @@ const CVPage = () => {
           </section>
 
           {/* Experience */}
-          <section className="mt-10">
+          <section className="mt-7 md:mt-10">
             <SectionHeader icon={<IconBriefcase />} label="Experience" />
             <div className="mt-4 space-y-6 relative">
               <div
@@ -419,7 +417,7 @@ const CVPage = () => {
           </section>
 
           {/* References */}
-          <section className="mt-10">
+          <section className="mt-7 md:mt-10">
             <SectionHeader icon={<IconBook />} label="References" />
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-6">
               <ReferenceCard

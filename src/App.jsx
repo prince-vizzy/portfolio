@@ -387,18 +387,18 @@ const Portfolio = () => {
 
       <ParticleBackground />
 
-      {/* Profile & Socials â€” inline on mobile, fixed sidebar on md+ */}
-      <div className="relative md:fixed md:top-28 md:left-24 z-50 flex flex-col items-center md:items-start gap-6 md:gap-10 px-8 pt-20 pb-8 md:p-0 pointer-events-none">
+      {/* Profile & Socials — inline on mobile, fixed sidebar on md+ */}
+      <div className="relative md:fixed md:top-28 md:left-24 z-50 flex flex-col items-center md:items-start gap-4 md:gap-10 px-6 pt-12 pb-4 md:p-0 pointer-events-none">
         <div
           onMouseEnter={() => setIsProfileHovered(true)}
           onMouseLeave={() => setIsProfileHovered(false)}
-          className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-2 transition-all duration-700 pointer-events-auto
+          className={`relative w-20 h-20 sm:w-28 sm:h-28 md:w-48 md:h-48 rounded-full overflow-hidden border-2 transition-all duration-700 pointer-events-auto
             ${isProfileHovered ? 'border-[#217522] scale-105 shadow-[0_0_50px_rgba(33,117,34,0.15)]' : 'border-white/10 scale-100'}`}
         >
           <img src={assetUrl('/color-image.jpg')} alt="Victory Kanake" className="w-full h-full object-cover" />
         </div>
 
-        <div className="flex flex-col gap-3 md:gap-4 pointer-events-auto">
+        <div className="flex flex-row flex-wrap justify-center md:flex-col gap-3 md:gap-4 pointer-events-auto">
           {[
             { icon: <Icons.Gmail />, label: "mwendavictory2@gmail.com", color: "#EA4335", hoverBg: "hover:bg-[#EA4335]/20", href: "https://mail.google.com/mail/?view=cm&fs=1&to=mwendavictory2@gmail.com&su=%20Inquiry&body=Hi%20Victory,", isCopy: false },
             { icon: <Icons.Linkedin />, label: "victory mwenda", color: "#0A66C2", hoverBg: "hover:bg-[#0A66C2]/20", href: "https://www.linkedin.com/in/victory-mwenda-2723113aa/", isCopy: false },
@@ -412,12 +412,12 @@ const Portfolio = () => {
                 onClick={(e) => handleCopy(social.copyText, social.label, e)}
                 className={`group flex items-center w-fit gap-3 rounded-full transition-all duration-300 ${social.hoverBg} hover:pl-4 hover:pr-4 relative`}
               >
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/10">
+                <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/5 border border-white/10 transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/10">
                   {social.icon}
                 </div>
                 <span
                   style={{ color: social.color }}
-                  className="text-[11px] uppercase tracking-[0.15em] font-medium opacity-95 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
+                  className="hidden md:inline text-[11px] uppercase tracking-[0.15em] font-medium opacity-95 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
                 >
                   {social.label}
                 </span>
@@ -435,12 +435,12 @@ const Portfolio = () => {
                 rel="noreferrer"
                 className={`group flex items-center w-fit gap-3 rounded-full transition-all duration-300 ${social.hoverBg} hover:pl-4 hover:pr-4`}
               >
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/10">
+                <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/5 border border-white/10 transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/10">
                   {social.icon}
                 </div>
                 <span
                   style={{ color: social.color }}
-                  className="text-[11px] uppercase tracking-[0.15em] font-medium opacity-95 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
+                  className="hidden md:inline text-[11px] uppercase tracking-[0.15em] font-medium opacity-95 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
                 >
                   {social.label}
                 </span>
@@ -451,25 +451,25 @@ const Portfolio = () => {
       </div>
 
       {/* Hero */}
-      <section className="relative flex flex-col items-center justify-center md:min-h-screen w-full px-8 md:pl-64 py-16 md:py-32 z-10">
+      <section className="relative flex flex-col items-center justify-center md:min-h-screen w-full px-6 md:pl-64 py-8 md:py-32 z-10">
         <div className="relative z-10 w-full flex flex-col items-center justify-center text-center">
-          <div className="font-bold mb-8 flex items-center justify-center">
+          <div className="font-bold mb-4 md:mb-8 flex items-center justify-center">
             <SplitText
               text="Hello"
               tag="h1"
-              className="text-[25vw] md:text-[16vw] leading-none tracking-tighter text-white"
+              className="text-[18vw] md:text-[16vw] leading-none tracking-tighter text-white"
             />
           </div>
 
-          <div className="flex flex-col items-center gap-8 max-w-4xl mt-4">
-            <p className="text-lg md:text-2xl font-light leading-relaxed text-gray-200 max-w-2xl mx-auto">
+          <div className="flex flex-col items-center gap-4 md:gap-8 max-w-4xl mt-2 md:mt-4">
+            <p className="text-xs md:text-2xl font-light leading-relaxed text-gray-200 max-w-2xl mx-auto">
               I am <span className="text-white font-semibold">Victory Kanake</span>,
               a Data Science student with hands-on exposure to data analysis, automation, and backend systems.
             </p>
 
             <button
               onClick={() => setIsCVOpen(true)}
-              className="mt-8 px-8 py-3 bg-gradient-to-r from-[#1D9E75] to-[#15855e] rounded-full text-white font-medium hover:shadow-lg hover:shadow-[#1D9E75]/30 transition-all duration-300 transform hover:scale-105"
+              className="mt-2 md:mt-8 px-4 md:px-8 py-2 md:py-3 bg-gradient-to-r from-[#1D9E75] to-[#15855e] rounded-full text-white text-[11px] md:text-base font-medium hover:shadow-lg hover:shadow-[#1D9E75]/30 transition-all duration-300 transform hover:scale-105"
             >
               View My CV / Resume
             </button>
@@ -477,10 +477,10 @@ const Portfolio = () => {
         </div>
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mt-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full max-w-6xl mt-12 md:mt-24">
           {skillSections.map((section, idx) => (
-            <div key={idx} className="p-8 border border-white/5 bg-white/[0.01] backdrop-blur-sm rounded-2xl hover:border-[#217522]/30 transition-all duration-500 group">
-              <h3 className="text-[11px] uppercase tracking-[0.4em] text-[#1D9E75] font-bold mb-6">
+            <div key={idx} className="p-4 md:p-8 border border-white/5 bg-white/[0.01] backdrop-blur-sm rounded-2xl hover:border-[#217522]/30 transition-all duration-500 group">
+              <h3 className="text-[9px] md:text-[11px] uppercase tracking-[0.3em] md:tracking-[0.4em] text-[#1D9E75] font-bold mb-3 md:mb-6">
                 {!skillsDecrypted ? (
                   <DecryptedText
                     text={section.title}
@@ -496,9 +496,9 @@ const Portfolio = () => {
                   />
                 ) : section.title}
               </h3>
-              <div className="flex flex-wrap gap-x-4 gap-y-2">
+              <div className="flex flex-wrap gap-x-2.5 gap-y-1.5 md:gap-x-4 md:gap-y-2">
                 {section.skills.map((skill, sIdx) => (
-                  <span key={sIdx} className="text-xs font-light text-gray-300 group-hover:text-white transition-colors">
+                  <span key={sIdx} className="text-[10px] md:text-xs font-light text-gray-300 group-hover:text-white transition-colors">
                     {!skillsDecrypted ? (
                       <DecryptedText
                         text={skill}
@@ -520,7 +520,7 @@ const Portfolio = () => {
           ))}
         </div>
 
-        <div className="w-full max-w-5xl mt-14 border-y border-white/10 py-6">
+        <div className="w-full max-w-5xl mt-8 md:mt-14 border-y border-white/10 py-4 md:py-6">
           <LogoLoop
             logos={techLogos}
             speed={70}
@@ -536,7 +536,7 @@ const Portfolio = () => {
             renderItem={(item, key) => (
               <div
                 key={key}
-                className="inline-flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-[#217522]/20 bg-[#217522]/5 text-[30px] text-[#1D9E75] transition-colors duration-300 group-hover/item:border-[#1D9E75]/60 group-hover/item:bg-[#217522]/10 group-hover/item:text-white"
+                className="inline-flex h-10 w-10 md:h-12 md:w-12 cursor-pointer items-center justify-center rounded-full border border-[#217522]/20 bg-[#217522]/5 text-[22px] md:text-[30px] text-[#1D9E75] transition-colors duration-300 group-hover/item:border-[#1D9E75]/60 group-hover/item:bg-[#217522]/10 group-hover/item:text-white"
                 tabIndex={0}
                 aria-label={`${item.title}: ${item.description}`}
                 onMouseEnter={(e) => {
@@ -596,13 +596,13 @@ const Portfolio = () => {
       </section>
 
       {/* Work Section */}
-      <section id="work" className="py-40 px-12 md:px-24 md:pl-80 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-24 border-b border-white/10 pb-8 gap-4">
-          <h2 className="text-7xl tracking-tighter font-bold opacity-30 uppercase">Work</h2>
+      <section id="work" className="py-20 px-6 md:py-40 md:px-24 md:pl-80 relative z-10">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 md:mb-24 border-b border-white/10 pb-5 md:pb-8 gap-3 md:gap-4">
+          <h2 className="text-4xl md:text-7xl tracking-tighter font-bold opacity-30 uppercase">Work</h2>
           <span className="text-[10px] uppercase tracking-[0.4em] text-[#217522] font-bold">Featured Projects</span>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-14 items-start">
+        <div className="grid grid-cols-2 xl:grid-cols-2 gap-3 md:gap-14 items-start">
           {/* Titanic card â€” opens the dashboard */}
           <div
             className="group cursor-pointer max-w-2xl w-full"
@@ -619,27 +619,27 @@ const Portfolio = () => {
               imageWidth="100%"
               className="aspect-square w-full"
             />
-            <div className="mt-8 space-y-4">
+            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all">
+                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   Titanic Survival Audit
                 </h4>
-                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   Data Analysis
                 </span>
               </div>
-              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 An interactive dashboard investigating survival trends by age, gender, and class.
                 The analysis audits the 62% survival rate of Class 1 passengers and evaluates the
                 demographic disparity between male and female survivors.
               </p>
-              <div className="flex gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="hidden md:flex gap-4 text-[10px] text-gray-400 font-mono">
                 <span>[ Chart.js ]</span>
                 <span>[ Statistical Analysis ]</span>
                 <span>[ Interactive Dashboard ]</span>
               </div>
               {/* Subtle "click to open" hint */}
-              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to explore â†'
               </p>
             </div>
@@ -661,25 +661,25 @@ const Portfolio = () => {
               imageWidth="100%"
               className="aspect-square w-full"
             />
-            <div className="mt-8 space-y-4">
+            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all">
+                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   Darts Scoring App
                 </h4>
-                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   React App
                 </span>
               </div>
-              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 A live two-player darts scorer with 501/301 countdown logic, head-to-head history,
                 saved player suggestions, reactive win probability, set momentum, and checkout stats.
               </p>
-              <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="hidden md:flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
                 <span>[ React ]</span>
                 <span>[ Local Storage ]</span>
                 <span>[ Live Scoring ]</span>
               </div>
-              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to play â†'
               </p>
             </div>
@@ -701,27 +701,27 @@ const Portfolio = () => {
               imageWidth="100%"
               className="aspect-square w-full"
             />
-            <div className="mt-8 space-y-4">
+            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all">
+                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   M-Pesa Budget Tracker
                 </h4>
-                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   Flutter App
                 </span>
               </div>
-              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 An Android app that intercepts M-Pesa SMS notifications in real time, parses transaction
                 details, auto-categorizes spending by merchant, and tracks budgets with live charts —
                 all stored locally in SQLite with no server required.
               </p>
-              <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="hidden md:flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
                 <span>[ Flutter / Dart ]</span>
                 <span>[ SQLite ]</span>
                 <span>[ Android Native ]</span>
                 <span>[ Chart.js ]</span>
               </div>
-              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to explore demo →
               </p>
             </div>
@@ -743,27 +743,27 @@ const Portfolio = () => {
               imageWidth="100%"
               className="aspect-square w-full"
             />
-            <div className="mt-8 space-y-4">
+            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all">
+                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   Data Pipeline
                 </h4>
-                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   Data Engineering
                 </span>
               </div>
-              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 An end-to-end analytical architecture that transforms raw social media behavioral logs into a live psychological health dashboard.
                 This pipeline automates the journey from fragmented usage data to predictive insights, tracking the correlation between digital
                 consumption and mental well-being through six rigorous milestones.
               </p>
-              <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="hidden md:flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
                 <span>[ Python ]</span>
                 <span>[ Pandas ]</span>
                 <span>[ Scikit-learn ]</span>
                 <span>[ Docker ]</span>
               </div>
-              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to view milestones →
               </p>
             </div>
@@ -785,27 +785,27 @@ const Portfolio = () => {
               imageWidth="100%"
               className="aspect-square w-full"
             />
-            <div className="mt-8 space-y-4">
+            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all">
+                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   Gender &amp; Partners Study
                 </h4>
-                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   Statistical Research
                 </span>
               </div>
-              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 Cross-sectional analysis of NSSAL survey data (~1999–2001 vs ~2010–2012) testing whether
                 gender is significantly associated with changes in heterosexual partners across the decade.
                 Full hypothesis testing, visualisations, and negative binomial regression.
               </p>
-              <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="hidden md:flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
                 <span>[ R ]</span>
                 <span>[ Negative Binomial ]</span>
                 <span>[ Non-Parametric Tests ]</span>
                 <span>[ ggplot2 ]</span>
               </div>
-              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to explore findings →
               </p>
             </div>
@@ -820,7 +820,7 @@ const Portfolio = () => {
             onKeyDown={e => e.key === 'Enter' && setShowShiiNgapi(true)}
             aria-label="Open Shii Ngapi transit planner demo"
           >
-            <div className="w-56">
+            <div className="w-full md:w-56">
               <TiltedCard
                 imageSrc={assetUrl('/matatu-hero.png')}
                 altText="Shii Ngapi — Nairobi Transit Planner"
@@ -829,26 +829,26 @@ const Portfolio = () => {
                 objectFit="contain"
               />
             </div>
-            <div className="mt-8 space-y-4">
+            <div className="mt-2 md:mt-8 space-y-1 md:space-y-4">
               <div className="flex items-center gap-4">
-                <h4 className="text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all">
+                <h4 className="text-[10px] md:text-xl font-light tracking-wide md:tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
                   Shii Ngapi
                 </h4>
-                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                <span className="hidden md:inline-block px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
                   Transit App
                 </span>
               </div>
-              <p className="text-sm text-gray-300 leading-relaxed max-w-md font-light">
+              <p className="hidden md:block text-sm text-gray-300 leading-relaxed max-w-md font-light">
                 A Nairobi matatu journey planner that finds the fastest route between any two points,
                 shows transfer stages, live fare estimates, and renders polylines on a live map.
                 Built with a multi-hop routing engine and Google Maps integration.
               </p>
-              <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
+              <div className="hidden md:flex flex-wrap gap-4 text-[10px] text-gray-400 font-mono">
                 <span>[ Python / Flask ]</span>
                 <span>[ Routing Engine ]</span>
                 <span>[ GIS / Maps ]</span>
               </div>
-              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+              <p className="hidden md:block text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
                 Click to try demo →
               </p>
             </div>
@@ -856,7 +856,7 @@ const Portfolio = () => {
         </div>
       </section>
 
-      <footer className="py-24 px-12 border-t border-white/5 flex flex-col items-center gap-10 relative z-10">
+      <footer className="py-12 px-6 md:py-24 md:px-12 border-t border-white/5 flex flex-col items-center gap-10 relative z-10">
         <p className="text-[9px] uppercase tracking-[1em] opacity-50">Victory Kanake â€” JKUAT 2026</p>
       </footer>
 
