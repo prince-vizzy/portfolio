@@ -352,6 +352,27 @@ const Portfolio = () => {
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
 
+  // Deep-link support: open a specific project modal when the URL hash matches.
+  useEffect(() => {
+    const openFromHash = () => {
+      const h = window.location.hash.replace('#', '').toLowerCase();
+      const map = {
+        titanic: setShowTitanicDashboard,
+        darts: setShowDartsApp,
+        mpesa: setShowMpesaTracker,
+        pipeline: setShowPipeline,
+        gender: setShowGenderStudy,
+        'shii-ngapi': setShowShiiNgapi,
+        cv: setIsCVOpen,
+      };
+      const setter = map[h];
+      if (setter) setter(true);
+    };
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+    return () => window.removeEventListener('hashchange', openFromHash);
+  }, []);
+
   const skillSections = [
     {
       title: "Languages",
