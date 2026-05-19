@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const assetUrl = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
@@ -22,6 +22,12 @@ const IconBook = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M4 4h7a3 3 0 013 3v14a2 2 0 00-2-2H4z" />
     <path d="M20 4h-7a3 3 0 00-3 3v14a2 2 0 012-2h8z" />
+  </svg>
+);
+const IconCertificate = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="9" r="5" />
+    <path d="M8.5 13l-1.5 7 5-3 5 3-1.5-7" />
   </svg>
 );
 const IconPhone = () => (
@@ -130,6 +136,14 @@ const ReferenceCard = ({ name, school, role, phone, email }) => (
 
 const CVPage = () => {
   const [copiedField, setCopiedField] = useState(null);
+  const [isCertOpen, setIsCertOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isCertOpen) return;
+    const onKey = (e) => { if (e.key === 'Escape') setIsCertOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isCertOpen]);
 
   const handleCopy = async (text, field, e) => {
     if (e) {
@@ -251,11 +265,13 @@ const CVPage = () => {
           <div className="mt-6 md:mt-8">
             <SidebarHeader icon={<IconUser />} label="About Me" />
             <p className="mt-3 text-[13px] leading-relaxed text-gray-300">
-              I am a Data Science student with hands-on exposure to data analysis,
-              automation, and backend systems. I work with Python, Pandas, Excel,
-              SQL, Power BI, and Google Sheets to clean, analyze, and visualize
-              data, and to build simple data-driven applications. I am eager to
-              keep learning and contribute to real-world data and software projects.
+              Data Science student at JKUAT with hands-on experience in data
+              cleaning, SQL, Python, Power BI, and Excel-based reporting.
+              Comfortable building dashboards, writing SQL against relational
+              databases, and developing data-driven applications end-to-end.
+              Strong interest in applying analytical skills to public-health
+              and social-impact data, and eager to support data quality,
+              visualization, and information-use work in real-world programmes.
             </p>
           </div>
 
@@ -263,39 +279,39 @@ const CVPage = () => {
           <div className="mt-6 md:mt-8">
             <SidebarHeader icon={<IconPuzzle />} label="Skills" />
 
-            <div className="mt-3">
-              <h4 className="text-[11px] uppercase tracking-[0.25em] font-bold mb-2" style={{ color: GREEN }}>Languages</h4>
-              <div className="flex flex-wrap gap-1.5">
-                {['Python', 'R', 'JavaScript', 'TypeScript', 'React', 'Dart (Flutter)', 'SQL', 'Stata', 'HTML', 'CSS', 'Java', 'C++', 'Rust'].map((s) => (
-                  <span key={s} className="text-[11px] text-gray-200 bg-white/5 border border-white/10 rounded-md px-2 py-0.5">{s}</span>
-                ))}
+            <div className="mt-3 space-y-3 text-[12px] leading-relaxed text-gray-200">
+              <div>
+                <span className="font-bold" style={{ color: GREEN }}>Programming: </span>
+                Python (Pandas, NumPy), SQL, Java, R, JavaScript, TypeScript, Dart (Flutter)
               </div>
-            </div>
-
-            <div className="mt-4">
-              <h4 className="text-[11px] uppercase tracking-[0.25em] font-bold mb-2" style={{ color: GREEN }}>Tools &amp; Libraries</h4>
-              <div className="flex flex-wrap gap-1.5">
-                {['Pandas', 'NumPy', 'Scikit-learn', 'SciPy', 'NetworkX', 'ggplot2', 'Flask', 'Chart.js', 'Streamlit', 'SQLite', 'Docker', 'GitHub Actions', 'Power BI', 'Excel', 'Google Sheets', 'Vite', 'Tailwind CSS', 'Google Analytics', 'AWS'].map((s) => (
-                  <span key={s} className="text-[11px] text-gray-200 bg-white/5 border border-white/10 rounded-md px-2 py-0.5">{s}</span>
-                ))}
+              <div>
+                <span className="font-bold" style={{ color: GREEN }}>Data Analysis: </span>
+                Data cleaning &amp; validation, exploratory data analysis, KPI reporting, descriptive statistics, hypothesis testing, statistical inference
               </div>
-            </div>
-
-            <div className="mt-4">
-              <h4 className="text-[11px] uppercase tracking-[0.25em] font-bold mb-2" style={{ color: GREEN }}>Core Competencies</h4>
-              <ul className="space-y-1 text-[12px] text-gray-200 list-disc pl-5 marker:text-[#1D9E75]">
-                <li>Data Cleaning &amp; Validation</li>
-                <li>Feature Engineering</li>
-                <li>Statistical Inference &amp; Hypothesis Testing</li>
-                <li>Machine Learning &amp; Regression</li>
-                <li>Data Visualisation</li>
-                <li>Database Design &amp; Management</li>
-                <li>Geospatial / GIS Analysis</li>
-                <li>Data Structures &amp; Algorithms</li>
-                <li>Automation &amp; Data Pipelines</li>
-                <li>Research Methods &amp; Survey Analysis</li>
-                <li>API Design (REST)</li>
-              </ul>
+              <div>
+                <span className="font-bold" style={{ color: GREEN }}>Business Intelligence: </span>
+                Power BI, Power Query (ETL), Google Sheets dashboards, dashboard design, Chart.js, Streamlit
+              </div>
+              <div>
+                <span className="font-bold" style={{ color: GREEN }}>Databases: </span>
+                SQL (WHERE, GROUP BY, INNER/LEFT JOIN), relational database design, data modeling, SQLite
+              </div>
+              <div>
+                <span className="font-bold" style={{ color: GREEN }}>Tools: </span>
+                Excel (PivotTables, conditional formatting, text functions), Google Sheets (QUERY), Git, GitHub Actions, Docker, Vite, Tailwind CSS, AWS
+              </div>
+              <div>
+                <span className="font-bold" style={{ color: GREEN }}>Frameworks &amp; Libraries: </span>
+                React, Flask, Scikit-learn, SciPy, NetworkX, ggplot2
+              </div>
+              <div>
+                <span className="font-bold" style={{ color: GREEN }}>Methods: </span>
+                Data cleaning &amp; quality checks, table relationships &amp; joins, data aggregation, automation &amp; data pipelines, machine learning &amp; regression, geospatial / GIS analysis, research methods
+              </div>
+              <div>
+                <span className="font-bold" style={{ color: GREEN }}>Spoken Languages: </span>
+                English (fluent — spoken &amp; written), Swahili
+              </div>
             </div>
           </div>
 
@@ -365,9 +381,9 @@ const CVPage = () => {
             </div>
           </section>
 
-          {/* Experience */}
+          {/* Experience / Projects */}
           <section className="mt-7 md:mt-10">
-            <SectionHeader icon={<IconBriefcase />} label="Experience" />
+            <SectionHeader icon={<IconBriefcase />} label="Experience &amp; Projects" />
             <div className="mt-4 space-y-6 relative">
               <div
                 aria-hidden
@@ -376,43 +392,117 @@ const CVPage = () => {
               />
 
               <ExperienceBlock
-                title="Data Cleanup"
+                title="Data Cleaning &amp; Quality Assurance — Academic &amp; self-directed work"
                 bullets={[
-                  'Applied Excel conditional formatting to surface trends, anomalies, and data-quality exceptions.',
-                  'Used Excel text functions (LEFT, RIGHT, MID, TRIM, LEN) to standardize and validate structured identifiers.',
-                  'Leveraged Pandas boolean indexing to filter and cleanse datasets, including removal of bounced or invalid transactions.',
+                  'Cleaned and validated structured datasets using Excel text functions (LEFT, RIGHT, MID, TRIM, LEN) to standardise identifiers and surface inconsistencies.',
+                  'Applied conditional formatting to flag data-quality exceptions, anomalies, and trends for review.',
+                  'Used Pandas boolean indexing to filter and cleanse datasets, including removing invalid and bounced transactions.',
                 ]}
               />
 
               <ExperienceBlock
-                title="Data Visualization and Filtering"
+                title="Data Visualisation &amp; Dashboard Development — Coursework &amp; projects"
                 bullets={[
-                  'Experimented with Pandas groupby and isin functions for data aggregation and filtering to support visualizations.',
-                  'Built and explored dynamic Excel PivotTables for interactive data summarization.',
-                  'Worked with Google Sheets QUERY to transform data and create dynamic dashboards.',
-                  'Explored Power Query (ETL) workflows to clean, transform, and prepare data for Power BI visualizations.',
-                  'Applied foundational SQL WHERE and GROUP BY clauses to extract and aggregate datasets for Power BI reporting.',
+                  'Built interactive Excel PivotTables and Google Sheets QUERY-based dashboards to summarise and explore data dynamically.',
+                  'Developed Power BI dashboards backed by Power Query (ETL) workflows to clean, transform, and prepare data.',
+                  'Wrote foundational SQL (WHERE, GROUP BY) to extract and aggregate data for Power BI reports.',
+                  'Used Pandas groupby and isin operations to aggregate and filter data ahead of visualisation.',
                 ]}
               />
 
               <ExperienceBlock
-                title="Table Relationships"
+                title="Relational Data &amp; Table Integration"
                 bullets={[
-                  'Explored table relationships using SQL joins (INNER, LEFT) to combine related datasets for analysis.',
-                  'Worked with data appending and lookups in Excel and Google Sheets, and Power Query to integrate multiple tables for Power BI reporting.',
-                  'Applied Pandas merge and concatenation operations to relate and append datasets for exploratory analysis and visualization.',
+                  'Combined related datasets using SQL joins (INNER, LEFT) for downstream analysis.',
+                  'Integrated multiple tables using Power Query, Excel / Google Sheets lookups, and Pandas merge/concat operations to build unified analytical datasets.',
                 ]}
               />
 
               <ExperienceBlock
-                title="System Development and Automation"
+                title="Titanic Survival Audit — Interactive analytics dashboard"
                 bullets={[
-                  'Built a simple procurement system with basic backend automation in Python, handling core business logic and data flow.',
-                  'Designed and created a relational database to store procurement records, suppliers, and transactions.',
-                  'Integrated APIs and implemented Java-based automation to support system workflows and data exchange.',
-                  'Developed a budgeting mobile app featuring event-based transaction listeners, allowing incoming transactions to be captured, processed, and categorized by the user.',
+                  'Built a Chart.js dashboard investigating survival trends by age, gender, and class on the 891-passenger Titanic dataset.',
+                  'Audited the 62% survival rate of Class 1 passengers and quantified the demographic disparity between male and female survivors.',
+                  'Applied chi-square tests, logistic regression, and group comparisons to validate hypotheses about sex, class, and family-size effects.',
                 ]}
               />
+
+              <ExperienceBlock
+                title="End-to-End Data Pipeline — Social media &amp; mental-health analytics"
+                bullets={[
+                  'Designed an end-to-end pipeline that transforms raw social-media behavioural logs into a live psychological-health dashboard.',
+                  'Implemented six milestones from ingestion to predictive insight using Python, Pandas, and Scikit-learn.',
+                  'Containerised the workflow with Docker for reproducible, environment-stable execution.',
+                ]}
+              />
+
+              <ExperienceBlock
+                title="Gender &amp; Heterosexual Partners Study — Statistical research"
+                bullets={[
+                  'Performed cross-sectional analysis of NSSAL survey data (~1999–2001 vs ~2010–2012) on whether gender is significantly associated with changes in heterosexual partners across the decade.',
+                  'Ran non-parametric tests, hypothesis testing, and a negative-binomial regression in R, visualised with ggplot2.',
+                  'Produced a research-grade report covering methodology, findings, and limitations.',
+                ]}
+              />
+
+              <ExperienceBlock
+                title="Shii Ngapi — Nairobi matatu transit planner"
+                bullets={[
+                  'Built a journey planner that finds the fastest route between any two points in Nairobi, with transfer stages, live fare estimates, and route polylines on a live map.',
+                  'Implemented a multi-hop routing engine in Python / Flask and integrated Google Maps for geospatial visualisation.',
+                ]}
+              />
+
+              <ExperienceBlock
+                title="M-Pesa Budget Tracker — Mobile budgeting app"
+                bullets={[
+                  'Built a Flutter / Dart Android app with event-based listeners that intercept M-Pesa SMS notifications in real time, parse transaction details, and auto-categorise spending by merchant.',
+                  'Tracked budgets with live charts; persisted all data locally in SQLite for an offline-first, server-less experience.',
+                ]}
+              />
+
+              <ExperienceBlock
+                title="Procurement System with Backend Automation — Personal project"
+                bullets={[
+                  'Designed and built a relational database to store suppliers, transactions, and procurement records.',
+                  'Implemented a Python backend handling core business logic and data flow.',
+                  'Integrated APIs and Java-based automation to support system workflows and data exchange.',
+                ]}
+              />
+
+              <ExperienceBlock
+                title="Darts Scoring App — Live two-player scorer"
+                bullets={[
+                  'Built a React app with 501/301 countdown logic, head-to-head history, saved player suggestions, reactive win probability, set momentum, and checkout statistics.',
+                  'Persisted player/session state locally in the browser for a zero-backend experience.',
+                ]}
+              />
+            </div>
+          </section>
+
+          {/* Certifications */}
+          <section className="mt-7 md:mt-10">
+            <SectionHeader icon={<IconCertificate />} label="Certifications" />
+            <div className="mt-4 relative pl-6">
+              <div className="absolute left-0 top-1.5"><Dot /></div>
+              <h3 className="text-[15px] font-semibold text-white leading-tight">
+                Mayerfeld Practicum Program<sup>®</sup> — Data Analysis
+              </h3>
+              <p className="text-[12px] italic text-gray-400 mt-0.5">Mayerfeld Consulting · Issued 2026-05-12</p>
+              <p className="text-[12px] text-gray-300 mt-2 leading-relaxed">
+                Practicum program in applied data analysis, covering exploratory analysis,
+                data cleaning, and reporting workflows.
+              </p>
+              <button
+                onClick={(e) => { e.stopPropagation(); setIsCertOpen(true); }}
+                className="inline-flex items-center gap-2 mt-2 text-[11px] uppercase tracking-[0.2em] font-semibold rounded-full px-3 py-1 border transition-colors hover:bg-white/5"
+                style={{ color: GREEN, borderColor: `${GREEN}55` }}
+              >
+                View certificate →
+              </button>
+              <p className="text-[10px] text-gray-500 mt-2 font-mono break-all">
+                ID: 3d602561-a927-4007-9f1f-2c79872e0133
+              </p>
             </div>
           </section>
 
@@ -438,6 +528,68 @@ const CVPage = () => {
           </section>
         </main>
       </div>
+
+      {/* Certificate popup — anchored to top-right of the viewport */}
+      <AnimatePresence>
+        {isCertOpen && (
+          <>
+            <motion.div
+              key="cert-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsCertOpen(false)}
+              className="fixed inset-0 z-[200] bg-black/40 backdrop-blur-sm"
+            />
+            <motion.div
+              key="cert-popup"
+              initial={{ opacity: 0, scale: 0.92, x: 24, y: -16 }}
+              animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, x: 24, y: -16 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="fixed z-[210] top-4 right-4 md:top-6 md:right-6 w-[min(92vw,440px)] h-[min(80vh,640px)] rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.55)] ring-1 ring-white/15 flex flex-col"
+              style={{ background: '#0b0f0d', transformOrigin: 'top right' }}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mayerfeld certificate preview"
+            >
+              <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10">
+                <div className="min-w-0">
+                  <p className="text-[10px] uppercase tracking-[0.3em] font-bold" style={{ color: GREEN }}>Certificate</p>
+                  <p className="text-[12px] text-white truncate">Mayerfeld Practicum — Data Analysis</p>
+                </div>
+                <div className="flex items-center gap-2 flex-none">
+                  <a
+                    href={assetUrl('/mayerfild.pdf')}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="text-[10px] uppercase tracking-[0.2em] font-semibold rounded-full px-3 py-1 border transition-colors hover:bg-white/5"
+                    style={{ color: GREEN, borderColor: `${GREEN}55` }}
+                  >
+                    Open
+                  </a>
+                  <button
+                    onClick={() => setIsCertOpen(false)}
+                    aria-label="Close certificate"
+                    className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+                      <path d="M6 6l12 12M18 6l-12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <iframe
+                src={`${assetUrl('/mayerfild.pdf')}#toolbar=0&navpanes=0&view=FitH`}
+                title="Mayerfeld certificate"
+                className="flex-1 w-full border-0 bg-white"
+              />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
