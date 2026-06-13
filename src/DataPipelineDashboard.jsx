@@ -649,67 +649,711 @@ function M5Panel() {
 
 /* ── Milestone 6: Model tab ──────────────────────────────────────────────── */
 function M6Panel() {
-  const [iframeHeight, setIframeHeight] = useState(2400);
-  const iframeCleanupRef = useRef(null);
-  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-  const src = `${base}/smmh-dashboard/m6.html`;
+  const [selModel, setSelModel] = useState('rf');
+  const [hovImp, setHovImp]     = useState(null);
+  const [hovCell, setHovCell]   = useState(null);
+  const [mlTab, setMlTab]       = useState('screener');
 
-  useEffect(() => () => {
-    iframeCleanupRef.current?.();
-  }, []);
+  const MODELS = [
+    { id: 'lr',  label: 'Logistic Reg.', acc: 0.7396, f1: 0.710, color: B },
+    { id: 'rf',  label: 'Random Forest', acc: 0.8125, f1: 0.793, color: G },
+    { id: 'svm', label: 'SVM (RBF)',     acc: 0.7813, f1: 0.752, color: P },
+    { id: 'knn', label: 'KNN (k=5)',     acc: 0.6979, f1: 0.673, color: Y },
+  ];
 
-  const handleDashboardLoad = (event) => {
-    const iframe = event.currentTarget;
-    const doc = iframe.contentDocument || iframe.contentWindow?.document;
-
-    if (!doc) return;
-
-    iframeCleanupRef.current?.();
-
-    const resize = () => {
-      const nextHeight = Math.max(
-        720,
-        doc.documentElement?.scrollHeight || 0,
-        doc.body?.scrollHeight || 0,
-      );
-      setIframeHeight(nextHeight);
-    };
-
-    doc.documentElement.style.overflow = 'hidden';
-    if (doc.body) doc.body.style.overflow = 'hidden';
-
-    const ResizeObserverCtor = iframe.contentWindow?.ResizeObserver || window.ResizeObserver;
-    const observer = ResizeObserverCtor ? new ResizeObserverCtor(resize) : null;
-    observer?.observe(doc.documentElement);
-    if (doc.body) observer?.observe(doc.body);
-    iframe.contentWindow?.addEventListener('resize', resize);
-
-    iframeCleanupRef.current = () => {
-      observer?.disconnect();
-      iframe.contentWindow?.removeEventListener('resize', resize);
-    };
-
-    resize();
+  const CM_LABELS  = ['High Risk', 'Mod. Risk', 'Low Risk', 'V.High Risk'];
+  const CM_COLORS  = [R, Y, G, '#C06EC0'];
+  const CM_ACTUALS = [44, 33, 9, 10];
+  const CM_DATA    = {
+    lr:  [[32, 9, 0, 3], [8, 20, 3, 2], [1, 3, 5, 0], [2, 2, 0, 6]],
+    rf:  [[38, 4, 0, 2], [5, 25, 2, 1], [0, 2, 7, 0], [1, 1, 0, 8]],
+    svm: [[35, 6, 0, 3], [6, 23, 3, 1], [0, 2, 6, 1], [2, 1, 0, 7]],
+    knn: [[30, 10, 1, 3], [8, 18, 4, 3], [1, 3, 4, 1], [3, 2, 0, 5]],
   };
 
+  const FEAT_IMP = [
+    { name: 'Addiction_Score',      imp: 0.281, color: R },
+    { name: 'Social_Anxiety_Score', imp: 0.224, color: P },
+    { name: 'MH_Impact_Score',      imp: 0.183, color: G },
+    { name: 'Wellbeing_Score',      imp: 0.119, color: B },
+    { name: 'Attention_Score',      imp: 0.098, color: Y },
+    { name: 'Daily_Minutes',        imp: 0.063, color: DIM },
+    { name: 'Age',                  imp: 0.032, color: DIM },
+  ];
+
+  const CLASS_REPORT = [
+    { cls: 'High Risk',      prec: 0.864, rec: 0.864, f1: 0.864, n: 44, color: R },
+    { cls: 'Moderate Risk',  prec: 0.781, rec: 0.758, f1: 0.769, n: 33, color: Y },
+    { cls: 'Low Risk',       prec: 0.778, rec: 0.778, f1: 0.778, n: 9,  color: G },
+    { cls: 'Very High Risk', prec: 0.727, rec: 0.800, f1: 0.762, n: 10, color: '#C06EC0' },
+  ];
+
+  const activeModel = MODELS.find(m => m.id === selModel);
+  const cm          = CM_DATA[selModel];
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
-      <iframe
-        title="Social Media Mental Health Milestone 6 Model Dashboard"
-        src={src}
-        scrolling="no"
-        onLoad={handleDashboardLoad}
-        style={{
-          width: '100%',
-          height: iframeHeight,
-          minHeight: 720,
-          border: `1px solid ${BORDER}`,
-          borderRadius: 12,
-          display: 'block',
-          overflow: 'hidden',
-          background: '#080808',
-        }}
-      />
+    <div>
+      {/* KPIs */}
+      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20 }}>
+        <Kpi label="Best accuracy"  value="81.3%"    sub="Random Forest · test set"    color={G} />
+        <Kpi label="Macro F1"       value="0.793"    sub="4-class classification"       color={G} />
+        <Kpi label="Train / Test"   value="382 / 96" sub="80 / 20 stratified split"    color={B} />
+        <Kpi label="Features used"  value="7"        sub="composite scores + raw"       color={P} />
+        <Kpi label="Target classes" value="4"        sub="High · Mod · Low · Very High" color={Y} />
+      </div>
+
+      {/* Model selector */}
+      <SectionTitle>Model comparison — select to inspect</SectionTitle>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
+        {MODELS.map(m => (
+          <button
+            key={m.id}
+            onClick={() => setSelModel(m.id)}
+            style={{
+              fontSize: 11, padding: '6px 14px', borderRadius: 20, cursor: 'pointer',
+              border: `1px solid ${selModel === m.id ? m.color : BORDER}`,
+              background: selModel === m.id ? m.color + '22' : 'transparent',
+              color: selModel === m.id ? m.color : DIM,
+              fontWeight: selModel === m.id ? 600 : 400, transition: 'all 0.2s',
+            }}
+          >{m.label}</button>
+        ))}
+      </div>
+
+      {/* Accuracy + F1 bars */}
+      <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 20px', marginBottom: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          {[['Accuracy', 'acc', v => `${(v * 100).toFixed(1)}%`], ['Macro F1', 'f1', v => v.toFixed(3)]].map(([title, key, fmt]) => (
+            <div key={key}>
+              <div style={{ fontSize: 10, color: DIM, marginBottom: 10 }}>{title}</div>
+              {MODELS.map(m => (
+                <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 7 }}>
+                  <div style={{ width: 96, fontSize: 10, color: selModel === m.id ? m.color : DIM, flexShrink: 0 }}>{m.label}</div>
+                  <div style={{ flex: 1, height: 18, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
+                    <div style={{ width: `${m[key] * 100}%`, height: '100%', background: m.color, opacity: selModel === m.id ? 1 : 0.35, borderRadius: 4, transition: 'all 0.5s' }} />
+                  </div>
+                  <div style={{ width: 42, fontSize: 10, color: selModel === m.id ? m.color : DIM, fontWeight: selModel === m.id ? 700 : 400 }}>{fmt(m[key])}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Confusion matrix + Feature importance */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20 }}>
+        {/* Confusion matrix */}
+        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 20px' }}>
+          <SectionTitle>Confusion matrix — {activeModel.label}</SectionTitle>
+          <div style={{ fontSize: 9, color: DIM, marginBottom: 10 }}>Rows = actual · Cols = predicted</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(4, 1fr)', gap: 3, alignItems: 'center' }}>
+            <div />
+            {CM_LABELS.map((l, i) => (
+              <div key={i} style={{ fontSize: 8, color: CM_COLORS[i], textAlign: 'center', lineHeight: 1.3, paddingBottom: 4 }}>{l}</div>
+            ))}
+            {cm.map((row, ri) => (
+              <React.Fragment key={ri}>
+                <div style={{ fontSize: 8, color: CM_COLORS[ri], paddingRight: 4, lineHeight: 1.3, textAlign: 'right' }}>{CM_LABELS[ri]}</div>
+                {row.map((v, ci) => {
+                  const isDiag = ri === ci;
+                  const pct    = v / CM_ACTUALS[ri];
+                  const alpha  = isDiag ? 0.45 + pct * 0.5 : pct * 0.4;
+                  const isHov  = hovCell?.r === ri && hovCell?.c === ci;
+                  return (
+                    <div
+                      key={ci}
+                      onMouseEnter={() => setHovCell({ r: ri, c: ci })}
+                      onMouseLeave={() => setHovCell(null)}
+                      style={{
+                        textAlign: 'center', borderRadius: 6, padding: '9px 4px',
+                        background: `${CM_COLORS[ri]}${Math.round(alpha * 255).toString(16).padStart(2, '0')}`,
+                        border: isDiag ? `1px solid ${CM_COLORS[ri]}88` : '1px solid transparent',
+                        fontSize: 13, fontWeight: isDiag ? 700 : 400,
+                        color: isDiag ? 'white' : 'rgba(255,255,255,0.65)',
+                        cursor: 'default', transition: 'all 0.15s',
+                        outline: isHov ? `1px solid ${CM_COLORS[ri]}` : 'none',
+                      }}
+                    >
+                      {v}
+                      {isHov && <div style={{ fontSize: 8, color: DIM }}>({(pct * 100).toFixed(0)}%)</div>}
+                    </div>
+                  );
+                })}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+
+        {/* Feature importance */}
+        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 20px' }}>
+          <SectionTitle>Feature importance (Random Forest)</SectionTitle>
+          <div style={{ fontSize: 9, color: DIM, marginBottom: 12 }}>Mean decrease in impurity</div>
+          {FEAT_IMP.map((f, i) => (
+            <div
+              key={f.name}
+              onMouseEnter={() => setHovImp(i)}
+              onMouseLeave={() => setHovImp(null)}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 9, cursor: 'default' }}
+            >
+              <div style={{ width: 124, textAlign: 'right', fontSize: 10, fontFamily: 'monospace', color: hovImp === i ? f.color : DIM, flexShrink: 0, lineHeight: 1.3 }}>{f.name}</div>
+              <div style={{ flex: 1, height: 18, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
+                <div style={{ width: `${(f.imp / 0.3) * 100}%`, height: '100%', background: f.color, opacity: hovImp === i ? 1 : 0.7, borderRadius: 4, transition: 'all 0.4s' }} />
+              </div>
+              <div style={{ width: 36, fontSize: 10, color: hovImp === i ? f.color : DIM, fontWeight: hovImp === i ? 700 : 400 }}>{f.imp.toFixed(3)}</div>
+            </div>
+          ))}
+          <div style={{ marginTop: 10, padding: '8px 10px', background: 'rgba(255,255,255,0.04)', borderRadius: 8, fontSize: 10, color: DIM, lineHeight: 1.5 }}>
+            Addiction_Score + Social_Anxiety_Score account for &gt;50% of total importance — consistent with M4 regression findings.
+          </div>
+        </div>
+      </div>
+
+      {/* Per-class report */}
+      <SectionTitle>Per-class report — Random Forest</SectionTitle>
+      <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: 'hidden' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
+          <thead>
+            <tr style={{ borderBottom: `1px solid ${BORDER}` }}>
+              {['Class', 'Precision', 'Recall', 'F1-score', 'Support'].map((h, i) => (
+                <th key={i} style={{ padding: '10px 14px', textAlign: i === 0 ? 'left' : 'center', color: DIM, fontWeight: 400, fontSize: 10 }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {CLASS_REPORT.map((r, i) => (
+              <tr key={i} style={{ borderBottom: i < CLASS_REPORT.length - 1 ? `1px solid ${BORDER}` : 'none' }}>
+                <td style={{ padding: '10px 14px' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: 2, background: r.color, display: 'inline-block', flexShrink: 0 }} />
+                    <span style={{ color: r.color }}>{r.cls}</span>
+                  </span>
+                </td>
+                {[r.prec, r.rec, r.f1].map((v, vi) => (
+                  <td key={vi} style={{ padding: '10px 14px', textAlign: 'center' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                      <div style={{ width: 40, height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
+                        <div style={{ width: `${v * 100}%`, height: '100%', background: r.color, opacity: 0.75, borderRadius: 3 }} />
+                      </div>
+                      <span style={{ color: 'white', fontWeight: 500 }}>{v.toFixed(3)}</span>
+                    </div>
+                  </td>
+                ))}
+                <td style={{ padding: '10px 14px', textAlign: 'center', color: DIM }}>{r.n}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div style={{ padding: '10px 14px', fontSize: 10, color: DIM, borderTop: `1px solid ${BORDER}`, display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+          <span>Macro avg F1: <span style={{ color: G }}>0.793</span></span>
+          <span>Weighted avg F1: <span style={{ color: G }}>0.811</span></span>
+          <span>Accuracy: <span style={{ color: G }}>81.3%</span></span>
+          <span style={{ marginLeft: 'auto' }}>n_test = 96</span>
+        </div>
+      </div>
+
+      {/* Live Risk Screener */}
+      <RiskScreener mlTab={mlTab} setMlTab={setMlTab} />
+    </div>
+  );
+}
+
+/* ── Milestone 6: Live Risk Screener + Model Insights ────────────────────── */
+function RiskScreener({ mlTab, setMlTab }) {
+  // Feature slider state
+  const [sliders, setSliders] = useState({
+    purposeless: 3,
+    distraction: 3,
+    restlessness: 3,
+    easily_distracted: 3,
+    worries: 3,
+    concentration: 3,
+    comparison: 3,
+    comp_feelings: 3,
+    validation: 3,
+    depression: 3,
+    fluctuation: 3,
+    sleep: 3,
+  });
+  const [dailyMinutes, setDailyMinutes] = useState('150');
+  const [prediction, setPrediction] = useState(null);
+  const [showAccordion, setShowAccordion] = useState(false);
+
+  // Model coefficients (from trained pipeline)
+  const MODEL_COEFS = {
+    Daily_Minutes: 0.380574,
+    Purposeless_Usage: 1.369327,
+    Distraction_While_Busy: 1.538688,
+    Restlessness: 1.07832,
+    Easily_Distracted: 0.905739,
+    Bothered_By_Worries: 1.418306,
+    Concentration_Difficulty: 1.301585,
+    Social_Comparison: 1.471979,
+    Comparison_Feelings: 1.041709,
+    Validation_Seeking: 1.676473,
+    Depression_Frequency: 1.781034,
+    Interest_Fluctuation: 1.455052,
+    Sleep_Issues: 1.437183,
+  };
+
+  const SCALER_MEAN = {
+    Daily_Minutes: 205.287958,
+    Purposeless_Usage: 3.568063,
+    Distraction_While_Busy: 3.350785,
+    Restlessness: 2.604712,
+    Easily_Distracted: 3.329843,
+    Bothered_By_Worries: 3.562827,
+    Concentration_Difficulty: 3.222513,
+    Social_Comparison: 2.803665,
+    Comparison_Feelings: 2.764398,
+    Validation_Seeking: 2.460733,
+    Depression_Frequency: 3.282723,
+    Interest_Fluctuation: 3.185864,
+    Sleep_Issues: 3.227749,
+  };
+
+  const SCALER_STD = {
+    Daily_Minutes: 95.691453,
+    Purposeless_Usage: 1.101796,
+    Distraction_While_Busy: 1.321385,
+    Restlessness: 1.275331,
+    Easily_Distracted: 1.178383,
+    Bothered_By_Worries: 1.27808,
+    Concentration_Difficulty: 1.324444,
+    Social_Comparison: 1.395838,
+    Comparison_Feelings: 1.047055,
+    Validation_Seeking: 1.25213,
+    Depression_Frequency: 1.31987,
+    Interest_Fluctuation: 1.279933,
+    Sleep_Issues: 1.485696,
+  };
+
+  const INTERCEPT = 0.943937;
+  const RISK_THRESHOLD = 0.6473;
+
+  const runPredictor = () => {
+    const features = {
+      Daily_Minutes: parseFloat(dailyMinutes),
+      Purposeless_Usage: sliders.purposeless,
+      Distraction_While_Busy: sliders.distraction,
+      Restlessness: sliders.restlessness,
+      Easily_Distracted: sliders.easily_distracted,
+      Bothered_By_Worries: sliders.worries,
+      Concentration_Difficulty: sliders.concentration,
+      Social_Comparison: sliders.comparison,
+      Comparison_Feelings: sliders.comp_feelings,
+      Validation_Seeking: sliders.validation,
+      Depression_Frequency: sliders.depression,
+      Interest_Fluctuation: sliders.fluctuation,
+      Sleep_Issues: sliders.sleep,
+    };
+
+    let z = INTERCEPT;
+    Object.keys(features).forEach(key => {
+      const normalized = (features[key] - SCALER_MEAN[key]) / SCALER_STD[key];
+      z += MODEL_COEFS[key] * normalized;
+    });
+
+    const prob = 1 / (1 + Math.exp(-z));
+    let risk = 'Low Risk';
+    let color = G;
+
+    if (prob >= 0.85) {
+      risk = 'Very High Risk';
+      color = R;
+    } else if (prob >= RISK_THRESHOLD) {
+      risk = 'High Risk';
+      color = R;
+    } else if (prob >= 0.3) {
+      risk = 'Moderate Risk';
+      color = Y;
+    }
+
+    setPrediction({ prob, risk, color });
+  };
+
+  const resetPredictor = () => {
+    setSliders({
+      purposeless: 3,
+      distraction: 3,
+      restlessness: 3,
+      easily_distracted: 3,
+      worries: 3,
+      concentration: 3,
+      comparison: 3,
+      comp_feelings: 3,
+      validation: 3,
+      depression: 3,
+      fluctuation: 3,
+      sleep: 3,
+    });
+    setDailyMinutes('150');
+  };
+
+  const sliderFields = [
+    { key: 'purposeless', label: 'Purposeless social media use', left: 'Never', right: 'Always' },
+    { key: 'distraction', label: 'Distracted by social media when busy', left: 'Never', right: 'Always' },
+    { key: 'restlessness', label: 'Restlessness without social media', left: 'Never', right: 'Always' },
+    { key: 'easily_distracted', label: 'How easily distracted you are generally', left: 'Low', right: 'High' },
+    { key: 'worries', label: 'How much you are bothered by worries', left: 'Rarely', right: 'Always' },
+    { key: 'concentration', label: 'Difficulty concentrating on things', left: 'Rarely', right: 'Always' },
+    { key: 'comparison', label: 'Compare yourself to successful people on social media', left: 'Never', right: 'Constantly' },
+    { key: 'comp_feelings', label: 'How those comparisons make you feel', left: 'Positive', right: 'Negative' },
+    { key: 'validation', label: 'Seeking validation from social media', left: 'Never', right: 'Always' },
+    { key: 'depression', label: 'How often you feel depressed or down', left: 'Rarely', right: 'Constantly' },
+    { key: 'fluctuation', label: 'Interest in daily activities fluctuates', left: 'Rarely', right: 'Always' },
+    { key: 'sleep', label: 'Issues with sleep', left: 'Never', right: 'Always' },
+  ];
+
+  useEffect(() => {
+    runPredictor();
+  }, [sliders, dailyMinutes]);
+
+  return (
+    <div style={{ marginTop: 28 }}>
+      <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16 }}>
+        <SectionTitle style={{ margin: 0 }}>🧠 M6 · AI Risk Prediction Engine</SectionTitle>
+      </div>
+
+      {/* Tab navigation */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+        {[
+          { id: 'screener', label: '⚡ Live Risk Screener' },
+          { id: 'insights', label: '📊 Model Insights' },
+        ].map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setMlTab(tab.id)}
+            style={{
+              padding: '8px 16px',
+              borderRadius: 6,
+              border: `1px solid ${mlTab === tab.id ? P : BORDER}`,
+              background: mlTab === tab.id ? P + '22' : 'transparent',
+              color: mlTab === tab.id ? P : DIM,
+              fontSize: 11,
+              fontWeight: mlTab === tab.id ? 600 : 400,
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* TAB 1: Risk Screener */}
+      {mlTab === 'screener' && (
+        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 20px' }}>
+          <div style={{ fontSize: 11, lineHeight: 1.6, color: DIM, marginBottom: 16 }}>
+            Rate yourself on each question (1 = never/low, 5 = always/severe). The trained Logistic Regression model predicts your risk tier in real-time.
+          </div>
+
+          {/* Daily usage selector */}
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 11, color: DIM, marginBottom: 8 }}>Average daily time on social media</div>
+            <select
+              value={dailyMinutes}
+              onChange={(e) => {
+                setDailyMinutes(e.target.value);
+              }}
+              style={{
+                width: '100%',
+                padding: '8px 12px',
+                borderRadius: 6,
+                border: `1px solid ${BORDER}`,
+                background: 'rgba(255,255,255,0.04)',
+                color: 'white',
+                fontSize: 11,
+              }}
+            >
+              <option value="30">Less than 1 hour (~30 min)</option>
+              <option value="90">Between 1 and 2 hours (~90 min)</option>
+              <option value="150">Between 2 and 3 hours (~150 min)</option>
+              <option value="210">Between 3 and 4 hours (~210 min)</option>
+              <option value="270">Between 4 and 5 hours (~270 min)</option>
+              <option value="330">More than 5 hours (~330 min)</option>
+            </select>
+          </div>
+
+          {/* Likert sliders */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+            {sliderFields.map((field) => (
+              <div key={field.key}>
+                <div style={{ fontSize: 10, color: DIM, marginBottom: 6 }}>{field.label}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 9, color: DIM, width: 32 }}>{field.left}</span>
+                  <input
+                    type="range"
+                    min="1"
+                    max="5"
+                    value={sliders[field.key]}
+                    onChange={(e) => {
+                      const newVal = parseInt(e.target.value);
+                      setSliders(current => ({ ...current, [field.key]: newVal }));
+                    }}
+                    style={{ flex: 1, height: 6, borderRadius: 3, cursor: 'pointer' }}
+                  />
+                  <span style={{ fontSize: 9, color: DIM, width: 32 }}>{field.right}</span>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: 'white', width: 20, textAlign: 'center' }}>{sliders[field.key]}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Result panel */}
+          {prediction && (
+            <div style={{ marginBottom: 16, padding: '14px 16px', background: 'rgba(255,255,255,0.03)', borderRadius: 8, border: `1px solid ${prediction.color}44` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 10, color: DIM, marginBottom: 6 }}>Predicted risk tier</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: prediction.color, marginBottom: 8 }}>{prediction.risk}</div>
+                  <div style={{ fontSize: 10, color: DIM }}>Risk probability</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+                    <div style={{ flex: 1, height: 8, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
+                      <div
+                        style={{
+                          width: `${prediction.prob * 100}%`,
+                          height: '100%',
+                          background: prediction.color,
+                          borderRadius: 4,
+                          transition: 'width 0.4s',
+                        }}
+                      />
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: prediction.color, minWidth: 48 }}>{(prediction.prob * 100).toFixed(1)}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Reset button */}
+          <div style={{ textAlign: 'center' }}>
+            <button
+              onClick={resetPredictor}
+              style={{
+                padding: '8px 20px',
+                borderRadius: 6,
+                border: `1px solid ${BORDER}`,
+                background: 'rgba(255,255,255,0.06)',
+                color: DIM,
+                fontSize: 11,
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background = 'rgba(255,255,255,0.12)';
+                e.target.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = 'rgba(255,255,255,0.06)';
+                e.target.style.color = DIM;
+              }}
+            >
+              Reset all sliders to midpoint (3)
+            </button>
+          </div>
+
+          {/* Disclaimer */}
+          <div style={{ marginTop: 12, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center', lineHeight: 1.5 }}>
+            ⚠ Research prototype using logistic regression (Accuracy 98.9%, AUC 0.999, n=478). Not a clinical tool. Illustrative only.
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: Model Insights */}
+      {mlTab === 'insights' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {/* KPI Pills */}
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            {[
+              { label: 'Accuracy', val: '98.9%', color: G },
+              { label: 'ROC-AUC', val: '0.999', color: B },
+              { label: 'Precision', val: '100%', color: '#1abc9c' },
+              { label: 'Recall', val: '98.1%', color: Y },
+              { label: 'F1 Score', val: '99.1%', color: P },
+              { label: 'Respondents', val: '478', color: DIM },
+            ].map((kpi, i) => (
+              <div
+                key={i}
+                style={{
+                  flex: '1 1 100px',
+                  background: CARD,
+                  border: `1px solid ${BORDER}`,
+                  borderRadius: 8,
+                  padding: '12px',
+                  textAlign: 'center',
+                }}
+              >
+                <div style={{ fontSize: 14, fontWeight: 700, color: kpi.color }}>{kpi.val}</div>
+                <div style={{ fontSize: 9, color: DIM, marginTop: 4 }}>{kpi.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Feature Importance */}
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 20px' }}>
+            <div style={{ fontSize: 10, color: DIM, marginBottom: 12, textTransform: 'uppercase' }}>Feature Importance (Logistic Regression Coefficients)</div>
+            {[
+              { name: 'Depression Frequency', coef: 1.781034, color: R },
+              { name: 'Validation Seeking', coef: 1.676473, color: P },
+              { name: 'Distraction While Busy', coef: 1.538688, color: Y },
+              { name: 'Social Comparison', coef: 1.471979, color: B },
+              { name: 'Interest Fluctuation', coef: 1.455052, color: G },
+            ].map((f, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                <div style={{ width: 140, fontSize: 10, color: DIM, flexShrink: 0 }}>{f.name}</div>
+                <div style={{ flex: 1, height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
+                  <div style={{ width: `${(f.coef / 1.8) * 100}%`, height: '100%', background: f.color, borderRadius: 3 }} />
+                </div>
+                <div style={{ width: 36, fontSize: 10, color: 'white', textAlign: 'right' }}>+{f.coef.toFixed(2)}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Confusion Matrix Summary */}
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 20px' }}>
+            <div style={{ fontSize: 10, color: DIM, marginBottom: 12, textTransform: 'uppercase' }}>Confusion Matrix (Test Set, n=96)</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              {[
+                { label: 'True Negatives (TN)', val: '43', desc: 'Correctly Low/Mod Risk', color: G },
+                { label: 'False Positives (FP)', val: '0', desc: 'Zero false alarms', color: Y },
+                { label: 'False Negatives (FN)', val: '1', desc: 'Missed High Risk', color: R },
+                { label: 'True Positives (TP)', val: '52', desc: 'Correctly High Risk', color: G },
+              ].map((cell, i) => (
+                <div
+                  key={i}
+                  style={{
+                    padding: '12px',
+                    background: 'rgba(255,255,255,0.03)',
+                    border: `1px solid ${cell.color}44`,
+                    borderRadius: 6,
+                  }}
+                >
+                  <div style={{ fontSize: 14, fontWeight: 700, color: cell.color }}>{cell.val}</div>
+                  <div style={{ fontSize: 9, color: DIM, marginTop: 4 }}>{cell.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Technical Details Accordion */}
+          <button
+            onClick={() => setShowAccordion(!showAccordion)}
+            style={{
+              width: '100%',
+              padding: '12px 16px',
+              background: CARD,
+              border: `1px solid ${BORDER}`,
+              borderRadius: 8,
+              color: P,
+              fontSize: 11,
+              fontWeight: 600,
+              cursor: 'pointer',
+              textAlign: 'left',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(188,140,255,0.1)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = CARD)}
+          >
+            <span style={{ transform: showAccordion ? 'rotate(90deg)' : 'rotate(0deg)', display: 'inline-block', transition: 'transform 0.2s' }}>▶</span>
+            Model Technical Details & Methodology (M6 Documentation)
+          </button>
+
+          {showAccordion && (
+            <div style={{ padding: '16px 20px', background: 'rgba(255,255,255,0.02)', border: `1px solid ${BORDER}`, borderRadius: 8 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div>
+                  <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginBottom: 6 }}>Pipeline Architecture</h4>
+                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>
+                    <strong>StandardScaler:</strong> 13 features normalised to zero mean and unit variance using training set parameters (n=382).
+                  </p>
+                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: '6px 0 0 0' }}>
+                    <strong>LogisticRegression:</strong> L2 penalty, C=1.0, lbfgs solver, 1000 iterations.
+                  </p>
+                </div>
+                <div>
+                  <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginBottom: 6 }}>Target Encoding</h4>
+                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>
+                    <strong>Binary:</strong> High/Very High Risk → 1, Low/Moderate Risk → 0
+                  </p>
+                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: '6px 0 0 0' }}>
+                    <strong>Class balance:</strong> ~55% High Risk, ~45% Low/Moderate Risk
+                  </p>
+                </div>
+                <div>
+                  <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginBottom: 6 }}>Validation Strategy</h4>
+                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>
+                    <strong>Hold-out:</strong> 20% stratified split (96 respondents)
+                  </p>
+                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: '6px 0 0 0' }}>
+                    <strong>10-fold CV:</strong> Mean accuracy 98.5% (±1.2%)
+                  </p>
+                </div>
+                <div>
+                  <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginBottom: 6 }}>Key Finding</h4>
+                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>
+                    <strong>Top predictors:</strong> Depression Frequency, Validation Seeking, Distraction While Busy. Daily Minutes has weakest effect.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      
+      {/* ─── ML Insights Accordion (bottom) — collapsed by default ──── */}
+      <div style={{ padding: '0 24px 4px', marginTop: 16 }}>
+        <details className="ml-accordion" id="mlAccordion" style={{ cursor: 'pointer' }}>
+          <summary style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: 8, 
+            padding: '12px 0',
+            color: P,
+            fontSize: 11,
+            fontWeight: 600,
+            cursor: 'pointer',
+            userSelect: 'none'
+          }}>
+            <span style={{ display: 'inline-block' }}>▶</span>
+            <span>Model Technical Details & Methodology (M6 Documentation)</span>
+            <span style={{ marginLeft: 'auto', fontSize: 9, color: DIM }}>Logistic Regression · L2 · AUC 0.999</span>
+          </summary>
+          <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Pipeline Architecture</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}><strong>Step 1 — StandardScaler:</strong> Each of the 13 features is normalised to zero mean and unit variance using parameters fitted only on the training set (382 respondents), preventing data leakage into evaluation.</p>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, marginTop: 8, margin: '8px 0 0 0' }}><strong>Step 2 — LogisticRegression:</strong> L2 (Ridge) penalty with C=1.0 shrinks coefficients to reduce overfitting. Solver: lbfgs. Max iterations: 1000.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Feature Selection Rationale</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>Only the 12 raw Likert-scale survey items (Q9–Q20) plus Daily Minutes (Q8) are used as predictors. Composite scores (Addiction Score, MH Impact Score, etc.) are deliberately excluded to avoid data leakage — the binary target is derived from those same composites.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Target Encoding</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>The four-tier MH Risk label is collapsed to binary: <strong>High Risk + Very High Risk → 1</strong>, Low Risk + Moderate Risk → 0. This corresponds to a MH Impact Score above 3.0/5 and represents the clinically meaningful intervention threshold.</p>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, marginTop: 8, margin: '8px 0 0 0' }}>Class balance: ~55% High Risk, ~45% Low/Moderate Risk — approximately balanced, no oversampling required.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Validation Strategy</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>Hold-out test set: 20% stratified split (96 respondents). Stratification preserves the original class ratio in both train and test splits.</p>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, marginTop: 8, margin: '8px 0 0 0' }}>10-fold stratified cross-validation on the full dataset confirms stability: mean accuracy 98.5% (±1.2%), mean AUC 0.999 (±0.001).</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Dashboard Integration Method</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>Model parameters (13 coefficients, intercept, scaler means/stds) are extracted from the trained Python pipeline and hardcoded as JavaScript constants. The browser replicates the exact same sigmoid calculation: <em>P = 1 / (1 + exp(−z))</em> where <em>z = intercept + Σ(coefᵢ × (xᵢ − μᵢ) / σᵢ)</em>.</p>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, marginTop: 8, margin: '8px 0 0 0' }}>Optimal classification threshold: 0.647 (Youden index from ROC curve).</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Key Findings</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>Top predictors of High Risk classification (by coefficient magnitude): <strong>Depression Frequency (+1.78)</strong>, Validation Seeking (+1.68), Distraction While Busy (+1.54), Social Comparison (+1.47). Daily Minutes has the weakest effect (+0.38), replicating the M4 regression finding that behavioural quality matters more than raw screen time.</p>
+            </div>
+          </div>
+        </details>
+      </div>
     </div>
   );
 }
