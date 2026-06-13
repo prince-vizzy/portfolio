@@ -739,7 +739,7 @@ function M6Panel() {
       <SectionTitle>Model comparison — select to inspect</SectionTitle>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
         {MODELS.map(m => (
-          <button
+          <div
             key={m.id}
             onClick={() => setSelModel(m.id)}
             style={{
@@ -909,7 +909,6 @@ function RiskScreener({ mlTab, setMlTab }) {
   });
   const [dailyMinutes, setDailyMinutes] = useState('150');
   const [prediction, setPrediction] = useState(null);
-  const [showAccordion, setShowAccordion] = useState(false);
 
   // Model coefficients (from trained pipeline)
   const MODEL_COEFS = {
@@ -1069,7 +1068,7 @@ function RiskScreener({ mlTab, setMlTab }) {
             }}
           >
             {tab.label}
-          </button>
+          </div>
         ))}
       </div>
 
