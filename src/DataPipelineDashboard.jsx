@@ -595,20 +595,14 @@ function M5Panel() {
     const resize = () => {
       const nextHeight = Math.max(
         720,
-        doc.documentElement?.clientHeight || 0,
-        doc.body?.clientHeight || 0,
+        doc.documentElement?.scrollHeight || 0,
+        doc.body?.scrollHeight || 0,
       );
       setIframeHeight(nextHeight);
     };
 
     doc.documentElement.style.overflow = 'hidden';
     if (doc.body) doc.body.style.overflow = 'hidden';
-    
-    // Disable scrolling on all nested elements
-    const allElements = doc.querySelectorAll('*');
-    allElements.forEach(el => {
-      if (el.style) el.style.overflow = 'hidden';
-    });
 
     const ResizeObserverCtor = iframe.contentWindow?.ResizeObserver || window.ResizeObserver;
     const observer = ResizeObserverCtor ? new ResizeObserverCtor(resize) : null;
