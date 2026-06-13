@@ -1,5 +1,11 @@
 <h2 class="sr-only">Social Media and Mental Health Interactive Analytics Dashboard, 481 survey respondents, exploring correlations between screen time and wellbeing indicators.</h2>
 
+<script>
+if (new URLSearchParams(window.location.search).get('section') === 'm6') {
+  document.documentElement.classList.add('m6-only');
+}
+</script>
+
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { margin: 0; min-height: 100%; background: #080808; }
@@ -47,6 +53,18 @@ html, body { margin: 0; min-height: 100%; background: #080808; }
   min-height: 100vh;
 }
 
+#m6-dashboard-embed { display: none; }
+html.m6-only .dash {
+  min-height: 0;
+  padding: 0;
+}
+html.m6-only .dash > :not(#m6-dashboard-embed) {
+  display: none !important;
+}
+html.m6-only #m6-dashboard-embed {
+  display: block;
+}
+
 .dash-header {
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 12px;
@@ -88,10 +106,19 @@ html, body { margin: 0; min-height: 100%; background: #080808; }
 .fsel {
   font-size: 12px; padding: 5px 28px 5px 10px;
   border-radius: 7px; border: 1px solid var(--bdr);
-  background: var(--surf2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238B949E' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 9px center;
-  color: var(--text); cursor: pointer; appearance: none; -webkit-appearance: none;
+  background: #121212 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.62)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 9px center;
+  color: rgba(255,255,255,0.92); cursor: pointer; appearance: none; -webkit-appearance: none;
+  color-scheme: dark;
   transition: border-color 0.15s, box-shadow 0.15s;
   font-family: inherit;
+}
+.fsel option {
+  background: #121212;
+  color: rgba(255,255,255,0.92);
+}
+.fsel option:checked {
+  background: #1D9E75;
+  color: #fff;
 }
 .fsel:hover { border-color: var(--green); }
 .fsel:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-bg); }
@@ -708,6 +735,7 @@ html, body { margin: 0; min-height: 100%; background: #080808; }
        MILESTONE 6 INTEGRATION: Risk Predictor Tab + ML Insights Accordion
   ═══════════════════════════════════════════════════════════════════════ -->
 
+  <section id="m6-dashboard-embed">
   <div class="sec" style="margin-top:8px;">
     <span class="sec-lbl" style="color:var(--purple)">🧠 M6 · AI Risk Prediction Engine</span>
     <span class="sec-line"></span>
@@ -1068,6 +1096,7 @@ html, body { margin: 0; min-height: 100%; background: #080808; }
   </div>
 
   <div class="gap12"></div>
+  </section>
 
   <footer class="dash-footer">
     <span>Data source: Kaggle, Social Media and Mental Health Survey (2022 to 2023) · n = 481 · Scores on 1 to 5 Likert scale (1 = never / low, 5 = always / severe) · Built as a web dashboard (Milestone 5, Interactive Visual Analytics System)</span>
