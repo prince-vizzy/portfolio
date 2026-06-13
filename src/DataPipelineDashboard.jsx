@@ -1290,6 +1290,57 @@ function RiskScreener({ mlTab, setMlTab }) {
           )}
         </div>
       )}
+      
+      {/* ─── ML Insights Accordion (bottom) — collapsed by default ──── */}
+      <div style={{ padding: '0 24px 4px', marginTop: 16 }}>
+        <details className="ml-accordion" id="mlAccordion" style={{ cursor: 'pointer' }}>
+          <summary style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: 8, 
+            padding: '12px 0',
+            color: P,
+            fontSize: 11,
+            fontWeight: 600,
+            cursor: 'pointer',
+            userSelect: 'none'
+          }}>
+            <span style={{ display: 'inline-block' }}>▶</span>
+            <span>Model Technical Details & Methodology (M6 Documentation)</span>
+            <span style={{ marginLeft: 'auto', fontSize: 9, color: DIM }}>Logistic Regression · L2 · AUC 0.999</span>
+          </summary>
+          <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Pipeline Architecture</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}><strong>Step 1 — StandardScaler:</strong> Each of the 13 features is normalised to zero mean and unit variance using parameters fitted only on the training set (382 respondents), preventing data leakage into evaluation.</p>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, marginTop: 8, margin: '8px 0 0 0' }}><strong>Step 2 — LogisticRegression:</strong> L2 (Ridge) penalty with C=1.0 shrinks coefficients to reduce overfitting. Solver: lbfgs. Max iterations: 1000.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Feature Selection Rationale</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>Only the 12 raw Likert-scale survey items (Q9–Q20) plus Daily Minutes (Q8) are used as predictors. Composite scores (Addiction Score, MH Impact Score, etc.) are deliberately excluded to avoid data leakage — the binary target is derived from those same composites.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Target Encoding</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>The four-tier MH Risk label is collapsed to binary: <strong>High Risk + Very High Risk → 1</strong>, Low Risk + Moderate Risk → 0. This corresponds to a MH Impact Score above 3.0/5 and represents the clinically meaningful intervention threshold.</p>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, marginTop: 8, margin: '8px 0 0 0' }}>Class balance: ~55% High Risk, ~45% Low/Moderate Risk — approximately balanced, no oversampling required.</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Validation Strategy</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>Hold-out test set: 20% stratified split (96 respondents). Stratification preserves the original class ratio in both train and test splits.</p>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, marginTop: 8, margin: '8px 0 0 0' }}>10-fold stratified cross-validation on the full dataset confirms stability: mean accuracy 98.5% (±1.2%), mean AUC 0.999 (±0.001).</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Dashboard Integration Method</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>Model parameters (13 coefficients, intercept, scaler means/stds) are extracted from the trained Python pipeline and hardcoded as JavaScript constants. The browser replicates the exact same sigmoid calculation: <em>P = 1 / (1 + exp(−z))</em> where <em>z = intercept + Σ(coefᵢ × (xᵢ − μᵢ) / σᵢ)</em>.</p>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, marginTop: 8, margin: '8px 0 0 0' }}>Optimal classification threshold: 0.647 (Youden index from ROC curve).</p>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+              <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Key Findings</h4>
+              <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>Top predictors of High Risk classification (by coefficient magnitude): <strong>Depression Frequency (+1.78)</strong>, Validation Seeking (+1.68), Distraction While Busy (+1.54), Social Comparison (+1.47). Daily Minutes has the weakest effect (+0.38), replicating the M4 regression finding that behavioural quality matters more than raw screen time.</p>
+            </div>
+          </div>
+        </details>
+      </div>
     </div>
   );
 }
