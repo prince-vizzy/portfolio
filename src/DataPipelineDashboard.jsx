@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 /* ── palette ─────────────────────────────────────────────────────────────── */
 const G  = '#1D9E75';
@@ -575,8 +575,49 @@ function M4Panel() {
 
 /* ── Milestone 5: Visualisation tab ─────────────────────────────────────── */
 function M5Panel() {
+  const [iframeHeight, setIframeHeight] = useState(3600);
+  const iframeCleanupRef = useRef(null);
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const src  = `${base}/smmh-dashboard/index.html`;
+
+  useEffect(() => () => {
+    iframeCleanupRef.current?.();
+  }, []);
+
+  const handleDashboardLoad = (event) => {
+    const iframe = event.currentTarget;
+    const doc = iframe.contentDocument || iframe.contentWindow?.document;
+
+    if (!doc) return;
+
+    iframeCleanupRef.current?.();
+
+    const resize = () => {
+      const nextHeight = Math.max(
+        720,
+        doc.documentElement?.scrollHeight || 0,
+        doc.body?.scrollHeight || 0,
+      );
+      setIframeHeight(nextHeight);
+    };
+
+    doc.documentElement.style.overflow = 'hidden';
+    if (doc.body) doc.body.style.overflow = 'hidden';
+
+    const ResizeObserverCtor = iframe.contentWindow?.ResizeObserver || window.ResizeObserver;
+    const observer = ResizeObserverCtor ? new ResizeObserverCtor(resize) : null;
+    observer?.observe(doc.documentElement);
+    if (doc.body) observer?.observe(doc.body);
+    iframe.contentWindow?.addEventListener('resize', resize);
+
+    iframeCleanupRef.current = () => {
+      observer?.disconnect();
+      iframe.contentWindow?.removeEventListener('resize', resize);
+    };
+
+    resize();
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20, flexShrink: 0 }}>
@@ -589,13 +630,16 @@ function M5Panel() {
       <iframe
         title="Social Media Usage vs Mental Health Dashboard"
         src={src}
+        scrolling="no"
+        onLoad={handleDashboardLoad}
         style={{
           width: '100%',
-          height: 'clamp(720px, calc(100vh - 56px), 980px)',
+          height: iframeHeight,
           minHeight: 720,
           border: `1px solid ${BORDER}`,
           borderRadius: 12,
           display: 'block',
+          overflow: 'hidden',
           background: '#0D1117',
         }}
       />

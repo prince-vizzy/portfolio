@@ -2,41 +2,41 @@
 
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { margin: 0; min-height: 100%; background: #0D1117; }
+html, body { margin: 0; min-height: 100%; background: #080808; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
 
 .dash {
-  --bg:     #0D1117;
-  --surf:   #161B22;
-  --surf2:  #1C2128;
-  --surf3:  #21262D;
-  --bdr:    #30363D;
-  --bdr2:   rgba(48,54,61,0.55);
+  --bg:     #080808;
+  --surf:   rgba(255,255,255,0.04);
+  --surf2:  rgba(255,255,255,0.065);
+  --surf3:  rgba(255,255,255,0.095);
+  --bdr:    rgba(255,255,255,0.08);
+  --bdr2:   rgba(255,255,255,0.055);
 
-  --blue:       #388BFD;
-  --blue-bg:    rgba(56,139,253,0.10);
-  --blue-glow:  rgba(56,139,253,0.18);
-  --green:      #3FB950;
-  --green-bg:   rgba(63,185,80,0.10);
-  --orange:     #E3B341;
-  --orange-bg:  rgba(227,179,65,0.10);
-  --red:        #F85149;
-  --red-bg:     rgba(248,81,73,0.10);
-  --purple:     #BC8CFF;
-  --purple-bg:  rgba(188,140,255,0.10);
-  --teal:       #2DD4BF;
-  --teal-bg:    rgba(45,212,191,0.10);
+  --blue:       #378ADD;
+  --blue-bg:    rgba(55,138,221,0.12);
+  --blue-glow:  rgba(55,138,221,0.18);
+  --green:      #1D9E75;
+  --green-bg:   rgba(29,158,117,0.12);
+  --orange:     #EAB308;
+  --orange-bg:  rgba(234,179,8,0.12);
+  --red:        #D85A30;
+  --red-bg:     rgba(216,90,48,0.12);
+  --purple:     #7F77DD;
+  --purple-bg:  rgba(127,119,221,0.12);
+  --teal:       #1D9E75;
+  --teal-bg:    rgba(29,158,117,0.12);
 
-  --text:   #E6EDF3;
-  --text2:  #8B949E;
-  --text3:  #6E7681;
+  --text:   rgba(255,255,255,0.92);
+  --text2:  rgba(255,255,255,0.62);
+  --text3:  rgba(255,255,255,0.42);
 
-  --color-text-primary:         #E6EDF3;
-  --color-text-secondary:       #8B949E;
-  --color-background-primary:   #161B22;
-  --color-background-secondary: #1C2128;
-  --color-border-secondary:     #30363D;
-  --color-border-tertiary:      rgba(48,54,61,0.55);
+  --color-text-primary:         rgba(255,255,255,0.92);
+  --color-text-secondary:       rgba(255,255,255,0.62);
+  --color-background-primary:   rgba(255,255,255,0.04);
+  --color-background-secondary: rgba(255,255,255,0.065);
+  --color-border-secondary:     rgba(255,255,255,0.08);
+  --color-border-tertiary:      rgba(255,255,255,0.055);
   --border-radius-md: 8px;
   --border-radius-lg: 12px;
 
@@ -52,12 +52,12 @@ html, body { margin: 0; min-height: 100%; background: #0D1117; }
   flex-wrap: wrap; gap: 12px;
   padding: 18px 24px 16px;
   border-bottom: 1px solid var(--bdr);
-  background: linear-gradient(180deg, rgba(56,139,253,0.06) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(29,158,117,0.08) 0%, transparent 100%);
 }
 .hdr-left  { display: flex; align-items: center; gap: 13px; }
 .hdr-icon  {
   width: 38px; height: 38px;
-  background: var(--blue-bg); border: 1px solid rgba(56,139,253,0.28);
+  background: var(--green-bg); border: 1px solid rgba(29,158,117,0.28);
   border-radius: 10px; display: flex; align-items: center; justify-content: center;
   font-size: 18px; flex-shrink: 0;
 }
@@ -93,8 +93,8 @@ html, body { margin: 0; min-height: 100%; background: #0D1117; }
   transition: border-color 0.15s, box-shadow 0.15s;
   font-family: inherit;
 }
-.fsel:hover { border-color: var(--blue); }
-.fsel:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
+.fsel:hover { border-color: var(--green); }
+.fsel:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-bg); }
 .reset-btn {
   margin-left: auto; font-size: 11px; padding: 5px 13px;
   border-radius: 7px; border: 1px solid var(--bdr);
@@ -131,7 +131,7 @@ html, body { margin: 0; min-height: 100%; background: #0D1117; }
   background: var(--kpi-accent, var(--blue));
   border-radius: 12px 12px 0 0;
 }
-.kpi:hover { border-color: #4A5568; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+.kpi:hover { border-color: rgba(255,255,255,0.16); transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
 .kpi-top   { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .kpi-ico   {
   width: 24px; height: 24px; border-radius: 7px;
@@ -153,7 +153,7 @@ html, body { margin: 0; min-height: 100%; background: #0D1117; }
   border-radius: 14px; padding: 16px 18px;
   transition: border-color 0.2s;
 }
-.card:hover { border-color: #3D4654; }
+.card:hover { border-color: rgba(255,255,255,0.14); }
 .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 3px; }
 .card-title { font-size: 13px; font-weight: 500; color: var(--text); display: flex; align-items: center; gap: 7px; line-height: 1.2; }
 .card-title .cti { font-size: 14px; color: var(--text2); }
@@ -198,7 +198,7 @@ html, body { margin: 0; min-height: 100%; background: #0D1117; }
 .pbar-pct  { font-weight: 700; color: var(--blue); font-size: 11px; }
 .pbar-n    { font-size: 10px; color: var(--text3); }
 .pbar-track { height: 4px; background: var(--surf3); border-radius: 2px; overflow: hidden; }
-.pbar-fill  { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--blue) 0%, #93C5FD 100%); }
+.pbar-fill  { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--green) 0%, var(--blue) 100%); }
 
 .gender-legend { display: flex; gap: 14px; margin-top: 8px; margin-bottom: 2px; flex-wrap: wrap; }
 .gpill { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); }
@@ -430,26 +430,26 @@ html, body { margin: 0; min-height: 100%; background: #0D1117; }
 
 #tt {
   position: fixed; z-index: 99999;
-  background: var(--surf3, #21262D); border: 1px solid var(--bdr, #30363D);
+  background: var(--surf3, rgba(255,255,255,0.095)); border: 1px solid var(--bdr, rgba(255,255,255,0.08));
   border-radius: 10px; padding: 10px 14px;
-  font-size: 12px; color: var(--text, #E6EDF3);
+  font-size: 12px; color: var(--text, rgba(255,255,255,0.92));
   max-width: 284px; line-height: 1.55;
   box-shadow: 0 10px 36px rgba(0,0,0,0.55);
   pointer-events: none; opacity: 0; transition: opacity 0.12s;
 }
 #tt.visible { opacity: 1; }
-#tt .tt-title { font-weight: 700; font-size: 10px; color: var(--text3, #6E7681); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+#tt .tt-title { font-weight: 700; font-size: 10px; color: var(--text3, rgba(255,255,255,0.42)); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
 .tip-icon {
   display: inline-flex; align-items: center; justify-content: center;
   width: 16px; height: 16px; border-radius: 50%;
-  background: var(--surf3, #21262D); color: var(--text3, #6E7681);
+  background: var(--surf3, rgba(255,255,255,0.095)); color: var(--text3, rgba(255,255,255,0.42));
   font-size: 9px; font-style: normal; font-weight: 700;
   cursor: help; flex-shrink: 0;
-  border: 1px solid var(--bdr, #30363D);
+  border: 1px solid var(--bdr, rgba(255,255,255,0.08));
   transition: background 0.12s, color 0.12s, border-color 0.12s;
   user-select: none; line-height: 1;
 }
-.tip-icon:hover { background: var(--blue-bg, rgba(56,139,253,0.1)); color: var(--blue, #388BFD); border-color: rgba(56,139,253,0.4); }
+.tip-icon:hover { background: var(--green-bg, rgba(29,158,117,0.12)); color: var(--green, #1D9E75); border-color: rgba(29,158,117,0.4); }
 </style>
 
 <div id="tt"></div>
@@ -1078,20 +1078,20 @@ html, body { margin: 0; min-height: 100%; background: #0D1117; }
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-Chart.defaults.color           = '#8B949E';
-Chart.defaults.borderColor     = 'rgba(48,54,61,0.7)';
+Chart.defaults.color           = 'rgba(255,255,255,0.62)';
+Chart.defaults.borderColor     = 'rgba(255,255,255,0.08)';
 Chart.defaults.font.family     = "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif";
-Chart.defaults.plugins.tooltip.backgroundColor = '#21262D';
-Chart.defaults.plugins.tooltip.titleColor      = '#E6EDF3';
-Chart.defaults.plugins.tooltip.bodyColor       = '#8B949E';
-Chart.defaults.plugins.tooltip.borderColor     = '#30363D';
+Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(18,18,18,0.98)';
+Chart.defaults.plugins.tooltip.titleColor      = 'rgba(255,255,255,0.92)';
+Chart.defaults.plugins.tooltip.bodyColor       = 'rgba(255,255,255,0.62)';
+Chart.defaults.plugins.tooltip.borderColor     = 'rgba(255,255,255,0.08)';
 Chart.defaults.plugins.tooltip.borderWidth     = 1;
 Chart.defaults.plugins.tooltip.padding         = 10;
 Chart.defaults.plugins.tooltip.cornerRadius    = 8;
 Chart.defaults.plugins.tooltip.boxPadding      = 4;
 
-const xScale = { grid:{ display:false }, ticks:{ color:'#8B949E', font:{size:11} }, border:{ color:'rgba(48,54,61,0.6)' } };
-const yScale = { grid:{ color:'rgba(48,54,61,0.55)' }, ticks:{ color:'#8B949E', font:{size:11} }, border:{ color:'rgba(48,54,61,0.4)', dash:[3,3] } };
+const xScale = { grid:{ display:false }, ticks:{ color:'rgba(255,255,255,0.62)', font:{size:11} }, border:{ color:'rgba(255,255,255,0.08)' } };
+const yScale = { grid:{ color:'rgba(255,255,255,0.055)' }, ticks:{ color:'rgba(255,255,255,0.62)', font:{size:11} }, border:{ color:'rgba(255,255,255,0.08)', dash:[3,3] } };
 const noLegend = { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } } };
 
 const TIME_ORDER = ['Less than an Hour','Between 1 and 2 hours','Between 2 and 3 hours','Between 3 and 4 hours','Between 4 and 5 hours','More than 5 hours'];
@@ -1099,12 +1099,12 @@ const TIME_SHORT = ['< 1 h','1 to 2 h','2 to 3 h','3 to 4 h','4 to 5 h','> 5 h']
 const PLAT_DECODE = {Y:'YouTube',F:'Facebook',I:'Instagram',D:'Discord',S:'Snapchat',P:'Pinterest',T:'Twitter',R:'Reddit',K:'TikTok'};
 
 const METRICS = [
-  {key:'distraction', label:'Distraction',       color:'#60A5FA'},
-  {key:'worries',     label:'Worries',            color:'#FB923C'},
-  {key:'depression',  label:'Depression',         color:'#F472B6'},
-  {key:'sleep',       label:'Sleep issues',       color:'#34D399'},
-  {key:'validation',  label:'Validation seeking', color:'#FBBF24'},
-  {key:'comparison',  label:'Social comparison',  color:'#A78BFA'},
+  {key:'distraction', label:'Distraction',       color:'#378ADD'},
+  {key:'worries',     label:'Worries',            color:'#EAB308'},
+  {key:'depression',  label:'Depression',         color:'#D85A30'},
+  {key:'sleep',       label:'Sleep issues',       color:'#1D9E75'},
+  {key:'validation',  label:'Validation seeking', color:'#EAB308'},
+  {key:'comparison',  label:'Social comparison',  color:'#7F77DD'},
 ];
 
 const METRIC_TIPS = {
@@ -1785,7 +1785,7 @@ function buildLineDatasets() {
     pointRadius: 4,
     pointHoverRadius: 6,
     pointBackgroundColor: m.color,
-    pointBorderColor: '#0D1117',
+    pointBorderColor: '#080808',
     pointBorderWidth: 1.5,
     tension: 0.38,
     fill: 'origin'
@@ -1815,7 +1815,7 @@ function initCharts() {
       labels: TIME_SHORT,
       datasets: [{
         data: PRECOMPUTED.usageCounts,
-        backgroundColor: ['#0D2D4A','#1A4A7A','#1D6FCC','#2B80E8','#388BFD','#60A5FA'],
+        backgroundColor: ['rgba(55,138,221,0.24)','rgba(55,138,221,0.38)','rgba(29,158,117,0.5)','rgba(29,158,117,0.66)','#1D9E75','#378ADD'],
         borderRadius: 5,
         borderSkipped: false
       }]
@@ -1849,7 +1849,7 @@ function initCharts() {
 
   const ageLabels  = ['13 to 17','18 to 24','25 to 34','35 to 44','45+'];
   const ageKeys    = ['13-17','18-24','25-34','35-44','45+'];
-  const ageColors  = ['#064E3B','#065F46','#047857','#059669','#10B981'];
+  const ageColors  = ['rgba(29,158,117,0.32)','rgba(29,158,117,0.46)','rgba(29,158,117,0.6)','rgba(29,158,117,0.78)','#1D9E75'];
   chartAge = new Chart(document.getElementById('chartAge'), {
     type: 'bar',
     data: {
@@ -1865,17 +1865,17 @@ function initCharts() {
       }}},
       scales: {
         x: { ...xScale },
-        y: { ...yScale, min:1, max:5, title:{ display:true, text:'Avg score', color:'#6E7681', font:{size:10} } }
+        y: { ...yScale, min:1, max:5, title:{ display:true, text:'Avg score', color:'rgba(255,255,255,0.42)', font:{size:10} } }
       }
     }
   });
 
-  const purposeColors = ['#0D2D4A','#1A4A7A','#2070B8','#388BFD','#93C5FD'];
+  const purposeColors = ['rgba(55,138,221,0.26)','rgba(55,138,221,0.42)','rgba(29,158,117,0.56)','#1D9E75','#378ADD'];
   chartPurpose = new Chart(document.getElementById('chartPurpose'), {
     type: 'doughnut',
     data: {
       labels: ['Never (1)','Rarely (2)','Sometimes (3)','Often (4)','Always (5)'],
-      datasets: [{ data:[20,65,129,163,104], backgroundColor: purposeColors, borderWidth:0, hoverBorderColor:'#0D1117', hoverBorderWidth:2 }]
+      datasets: [{ data:[20,65,129,163,104], backgroundColor: purposeColors, borderWidth:0, hoverBorderColor:'#080808', hoverBorderWidth:2 }]
     },
     options: {
       ...noLegend,
@@ -1885,9 +1885,9 @@ function initCharts() {
       }}}
     }
   });
-  const purposeLabels = [['#0D2D4A','Never'],['#1A4A7A','Rarely'],['#2070B8','Sometimes'],['#388BFD','Often'],['#93C5FD','Always']];
+  const purposeLabels = [['rgba(55,138,221,0.26)','Never'],['rgba(55,138,221,0.42)','Rarely'],['rgba(29,158,117,0.56)','Sometimes'],['#1D9E75','Often'],['#378ADD','Always']];
   document.getElementById('purposeLegend').innerHTML = purposeLabels.map(([c,l]) =>
-    `<div class="gpill"><span class="gpill-dot" style="background:${c};border:1px solid #30363D"></span>${l}</div>`
+    `<div class="gpill"><span class="gpill-dot" style="background:${c};border:1px solid rgba(255,255,255,0.08)"></span>${l}</div>`
   ).join('');
 
   updatePlatformBars();
@@ -2091,19 +2091,19 @@ function runPredictor() {
   let tier, color, bg, interp;
   if (prob < 0.30) {
     tier = '🟢 Low Risk';
-    color = 'var(--green)'; bg = 'rgba(63,185,80,0.12)';
+    color = 'var(--green)'; bg = 'rgba(29,158,117,0.12)';
     interp = 'Your responses suggest a low probability of adverse mental health impact from social media use. Maintain healthy usage habits.';
   } else if (prob < LR_THRESHOLD) {
     tier = '🟡 Moderate Risk';
-    color = 'var(--orange)'; bg = 'rgba(227,179,65,0.12)';
+    color = 'var(--orange)'; bg = 'rgba(234,179,8,0.12)';
     interp = 'Your responses suggest a moderate risk level. Some indicators — such as distraction or worry — appear elevated. Consider monitoring your usage patterns.';
   } else if (prob < 0.85) {
     tier = '🔴 High Risk';
-    color = 'var(--red)'; bg = 'rgba(248,81,73,0.12)';
+    color = 'var(--red)'; bg = 'rgba(216,90,48,0.12)';
     interp = 'Your responses indicate a high probability of mental health impact. Key drivers in your responses include one or more of: depression, validation-seeking, distraction, or social comparison.';
   } else {
     tier = '🔴 Very High Risk';
-    color = '#FF6B6B'; bg = 'rgba(255,107,107,0.14)';
+    color = '#D85A30'; bg = 'rgba(216,90,48,0.14)';
     interp = 'Your responses strongly indicate elevated mental health impact. Multiple risk indicators are at high levels. Consider speaking with a mental health professional.';
   }
 
@@ -2145,7 +2145,7 @@ function initMLInsightCharts() {
   const sortIdx = LR_COEFS.map((v,i)=>i).sort((a,b)=>LR_COEFS[a]-LR_COEFS[b]);
   const sortedLabels = sortIdx.map(i => FEAT_LABELS[i]);
   const sortedCoefs  = sortIdx.map(i => LR_COEFS[i]);
-  const barColors    = sortedCoefs.map(c => c < 0.5 ? '#4CC9F0' : c < 1.2 ? '#7048D0' : '#BC8CFF');
+  const barColors    = sortedCoefs.map(c => c < 0.5 ? '#378ADD' : c < 1.2 ? '#7F77DD' : '#D85A30');
 
   new Chart(document.getElementById('chartFeatureImportance'), {
     type: 'bar',
@@ -2168,8 +2168,8 @@ function initMLInsightCharts() {
         }}
       },
       scales: {
-        x: { ...yScale, min: 0, title: { display: true, text: 'Standardised Coefficient', color: '#6E7681', font: { size: 10 } } },
-        y: { ...xScale, ticks: { color: '#8B949E', font: { size: 10 } } }
+        x: { ...yScale, min: 0, title: { display: true, text: 'Standardised Coefficient', color: 'rgba(255,255,255,0.42)', font: { size: 10 } } },
+        y: { ...xScale, ticks: { color: 'rgba(255,255,255,0.62)', font: { size: 10 } } }
       }
     }
   });
@@ -2182,14 +2182,14 @@ function initMLInsightCharts() {
         {
           label: 'Logistic Regression (AUC = 0.999)',
           data: ROC_DATA.map(d => ({x: d.fpr, y: d.tpr})),
-          borderColor: '#4292E5', backgroundColor: 'rgba(66,146,229,0.08)',
+          borderColor: '#1D9E75', backgroundColor: 'rgba(29,158,117,0.08)',
           borderWidth: 2.5, fill: true, tension: 0, pointRadius: 4,
-          pointBackgroundColor: '#4292E5'
+          pointBackgroundColor: '#1D9E75'
         },
         {
           label: 'Random Classifier (AUC = 0.500)',
           data: [{x:0,y:0},{x:1,y:1}],
-          borderColor: '#7F9EBA', borderWidth: 1.5,
+          borderColor: 'rgba(255,255,255,0.42)', borderWidth: 1.5,
           borderDash: [5,4], fill: false, tension: 0, pointRadius: 0
         }
       ]
@@ -2198,15 +2198,15 @@ function initMLInsightCharts() {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: true, position: 'bottom',
-          labels: { color: '#8B949E', font: { size: 10 }, boxWidth: 20, padding: 12 }
+          labels: { color: 'rgba(255,255,255,0.62)', font: { size: 10 }, boxWidth: 20, padding: 12 }
         },
         tooltip: { callbacks: {
           label: ctx => `  TPR: ${ctx.parsed.y.toFixed(3)}, FPR: ${ctx.parsed.x.toFixed(3)}`
         }}
       },
       scales: {
-        x: { ...yScale, min: 0, max: 1, title: { display: true, text: 'False Positive Rate', color: '#6E7681', font: { size: 10 } } },
-        y: { ...yScale, min: 0, max: 1, title: { display: true, text: 'True Positive Rate', color: '#6E7681', font: { size: 10 } } }
+        x: { ...yScale, min: 0, max: 1, title: { display: true, text: 'False Positive Rate', color: 'rgba(255,255,255,0.42)', font: { size: 10 } } },
+        y: { ...yScale, min: 0, max: 1, title: { display: true, text: 'True Positive Rate', color: 'rgba(255,255,255,0.42)', font: { size: 10 } } }
       }
     }
   });
