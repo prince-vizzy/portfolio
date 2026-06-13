@@ -592,6 +592,20 @@ function M5Panel() {
 
     iframeCleanupRef.current?.();
 
+    const m6Label = [...doc.querySelectorAll('.sec-lbl')]
+      .find(label => label.textContent.includes('M6') || label.textContent.includes('AI Risk Prediction Engine'));
+    const m6Start = m6Label?.closest('.sec');
+    const footer = doc.querySelector('.dash-footer');
+
+    if (m6Start && footer) {
+      let node = m6Start;
+      while (node && node !== footer) {
+        const next = node.nextElementSibling;
+        node.remove();
+        node = next;
+      }
+    }
+
     const resize = () => {
       const nextHeight = Math.max(
         720,
