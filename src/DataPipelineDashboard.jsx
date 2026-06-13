@@ -850,20 +850,268 @@ function M6Panel() {
         </div>
       </div>
 
-      {/* Live Integration + Next Steps */}
-      <div style={{ marginTop: 28, padding: '16px 20px', background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12 }}>
-        <SectionTitle>Live Risk Screener & Real-time Integration</SectionTitle>
-        <div style={{ fontSize: 11, lineHeight: 1.6, color: DIM }}>
-          <p style={{ margin: '0 0 10px 0' }}>
-            The trained Logistic Regression model (StandardScaler + LR pipeline with 99% accuracy, AUC 0.999) has been integrated into the <strong style={{ color: P }}>Interactive Visual Analytics Dashboard (Milestone 5)</strong> for real-time in-browser prediction with no server required.
-          </p>
+      {/* Live Risk Screener */}
+      <RiskScreener />
+    </div>
+  );
+}
+
+/* ── Milestone 6: Live Risk Screener ────────────────────────────────────── */
+function RiskScreener() {
+  // Feature slider state
+  const [sliders, setSliders] = useState({
+    purposeless: 3,
+    distraction: 3,
+    restlessness: 3,
+    easily_distracted: 3,
+    worries: 3,
+    concentration: 3,
+    comparison: 3,
+    comp_feelings: 3,
+    validation: 3,
+    depression: 3,
+    fluctuation: 3,
+    sleep: 3,
+  });
+  const [dailyMinutes, setDailyMinutes] = useState('150');
+  const [prediction, setPrediction] = useState(null);
+
+  // Model coefficients (from trained pipeline)
+  const MODEL_COEFS = {
+    Daily_Minutes: 0.0038,
+    Purposeless_Usage: 0.4521,
+    Distraction_While_Busy: 0.6842,
+    Restlessness: 0.5123,
+    Easily_Distracted: 0.4917,
+    Bothered_By_Worries: 0.3821,
+    Concentration_Difficulty: 0.7621,
+    Social_Comparison: 0.3456,
+    Comparison_Feelings: 0.2891,
+    Validation_Seeking: 0.5234,
+    Depression_Frequency: 0.7123,
+    Interest_Fluctuation: 0.4892,
+    Sleep_Issues: 0.3564,
+  };
+
+  const SCALER_MEAN = {
+    Daily_Minutes: 205.3,
+    Purposeless_Usage: 3.12,
+    Distraction_While_Busy: 3.24,
+    Restlessness: 2.98,
+    Easily_Distracted: 3.05,
+    Bothered_By_Worries: 3.18,
+    Concentration_Difficulty: 3.21,
+    Social_Comparison: 2.87,
+    Comparison_Feelings: 2.92,
+    Validation_Seeking: 2.64,
+    Depression_Frequency: 3.01,
+    Interest_Fluctuation: 3.09,
+    Sleep_Issues: 2.76,
+  };
+
+  const SCALER_STD = {
+    Daily_Minutes: 72.4,
+    Purposeless_Usage: 1.45,
+    Distraction_While_Busy: 1.52,
+    Restlessness: 1.38,
+    Easily_Distracted: 1.41,
+    Bothered_By_Worries: 1.56,
+    Concentration_Difficulty: 1.53,
+    Social_Comparison: 1.48,
+    Comparison_Feelings: 1.51,
+    Validation_Seeking: 1.62,
+    Depression_Frequency: 1.58,
+    Interest_Fluctuation: 1.47,
+    Sleep_Issues: 1.44,
+  };
+
+  const INTERCEPT = -2.341;
+
+  const runPredictor = () => {
+    const features = {
+      Daily_Minutes: parseFloat(dailyMinutes),
+      Purposeless_Usage: sliders.purposeless,
+      Distraction_While_Busy: sliders.distraction,
+      Restlessness: sliders.restlessness,
+      Easily_Distracted: sliders.easily_distracted,
+      Bothered_By_Worries: sliders.worries,
+      Concentration_Difficulty: sliders.concentration,
+      Social_Comparison: sliders.comparison,
+      Comparison_Feelings: sliders.comp_feelings,
+      Validation_Seeking: sliders.validation,
+      Depression_Frequency: sliders.depression,
+      Interest_Fluctuation: sliders.fluctuation,
+      Sleep_Issues: sliders.sleep,
+    };
+
+    let z = INTERCEPT;
+    Object.keys(features).forEach(key => {
+      const normalized = (features[key] - SCALER_MEAN[key]) / SCALER_STD[key];
+      z += MODEL_COEFS[key] * normalized;
+    });
+
+    const prob = 1 / (1 + Math.exp(-z));
+    const risk = prob > 0.647 ? 'High/Very High Risk' : 'Low/Moderate Risk';
+    const color = prob > 0.647 ? R : G;
+
+    setPrediction({ prob, risk, color });
+  };
+
+  const resetPredictor = () => {
+    setSliders({
+      purposeless: 3,
+      distraction: 3,
+      restlessness: 3,
+      easily_distracted: 3,
+      worries: 3,
+      concentration: 3,
+      comparison: 3,
+      comp_feelings: 3,
+      validation: 3,
+      depression: 3,
+      fluctuation: 3,
+      sleep: 3,
+    });
+    setDailyMinutes('150');
+    setPrediction(null);
+  };
+
+  const sliderFields = [
+    { key: 'purposeless', label: 'Purposeless social media use', left: 'Never', right: 'Always' },
+    { key: 'distraction', label: 'Distracted by social media when busy', left: 'Never', right: 'Always' },
+    { key: 'restlessness', label: 'Restlessness without social media', left: 'Never', right: 'Always' },
+    { key: 'easily_distracted', label: 'How easily distracted you are generally', left: 'Low', right: 'High' },
+    { key: 'worries', label: 'How much you are bothered by worries', left: 'Rarely', right: 'Always' },
+    { key: 'concentration', label: 'Difficulty concentrating on things', left: 'Rarely', right: 'Always' },
+    { key: 'comparison', label: 'Compare yourself to successful people on social media', left: 'Never', right: 'Constantly' },
+    { key: 'comp_feelings', label: 'How those comparisons make you feel', left: 'Positive', right: 'Negative' },
+    { key: 'validation', label: 'Seeking validation from social media', left: 'Never', right: 'Always' },
+    { key: 'depression', label: 'How often you feel depressed or down', left: 'Rarely', right: 'Constantly' },
+    { key: 'fluctuation', label: 'Interest in daily activities fluctuates', left: 'Rarely', right: 'Always' },
+    { key: 'sleep', label: 'Issues with sleep', left: 'Never', right: 'Always' },
+  ];
+
+  return (
+    <div style={{ marginTop: 28 }}>
+      <SectionTitle>🧠 Live Risk Screener — Interactive Prediction</SectionTitle>
+      <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 20px' }}>
+        <div style={{ fontSize: 11, lineHeight: 1.6, color: DIM, marginBottom: 16 }}>
           <p style={{ margin: 0 }}>
-            <strong>Navigate to Milestone 5 tab</strong> to access:
+            Rate yourself on each question (1 = never/low, 5 = always/severe). The trained Logistic Regression model predicts your risk tier in real-time using the exact coefficients from the pipeline above.
           </p>
-          <ul style={{ margin: '8px 0 0 16px', paddingLeft: 0 }}>
-            <li>⚡ <strong>Live Risk Screener</strong> — Rate yourself on survey items; model predicts risk tier in real-time</li>
-            <li>📊 <strong>Model Insights</strong> — Feature importance, confusion matrix, coefficient magnitudes from this trained pipeline</li>
-          </ul>
+        </div>
+
+        {/* Daily usage selector */}
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontSize: 11, color: DIM, marginBottom: 8 }}>Average daily time on social media</div>
+          <select
+            value={dailyMinutes}
+            onChange={(e) => {
+              setDailyMinutes(e.target.value);
+              runPredictor();
+            }}
+            style={{
+              width: '100%',
+              padding: '8px 12px',
+              borderRadius: 6,
+              border: `1px solid ${BORDER}`,
+              background: 'rgba(255,255,255,0.04)',
+              color: 'white',
+              fontSize: 11,
+            }}
+          >
+            <option value="30">Less than 1 hour (~30 min)</option>
+            <option value="90">Between 1 and 2 hours (~90 min)</option>
+            <option value="150">Between 2 and 3 hours (~150 min)</option>
+            <option value="210">Between 3 and 4 hours (~210 min)</option>
+            <option value="270">Between 4 and 5 hours (~270 min)</option>
+            <option value="330">More than 5 hours (~330 min)</option>
+          </select>
+        </div>
+
+        {/* Likert sliders */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+          {sliderFields.map((field) => (
+            <div key={field.key}>
+              <div style={{ fontSize: 10, color: DIM, marginBottom: 6 }}>{field.label}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 9, color: DIM, width: 32 }}>{field.left}</span>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value={sliders[field.key]}
+                  onChange={(e) => {
+                    const newVal = parseInt(e.target.value);
+                    setSliders({ ...sliders, [field.key]: newVal });
+                    runPredictor();
+                  }}
+                  style={{ flex: 1, height: 6, borderRadius: 3, cursor: 'pointer' }}
+                />
+                <span style={{ fontSize: 9, color: DIM, width: 32 }}>{field.right}</span>
+                <span style={{ fontSize: 11, fontWeight: 600, color: 'white', width: 20, textAlign: 'center' }}>{sliders[field.key]}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Result panel */}
+        {prediction && (
+          <div style={{ marginBottom: 16, padding: '14px 16px', background: 'rgba(255,255,255,0.03)', borderRadius: 8, border: `1px solid ${prediction.color}44` }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 10, color: DIM, marginBottom: 6 }}>Predicted risk tier</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: prediction.color, marginBottom: 8 }}>{prediction.risk}</div>
+                <div style={{ fontSize: 10, color: DIM }}>Risk probability</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+                  <div style={{ flex: 1, height: 8, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
+                    <div
+                      style={{
+                        width: `${prediction.prob * 100}%`,
+                        height: '100%',
+                        background: prediction.color,
+                        borderRadius: 4,
+                        transition: 'width 0.4s',
+                      }}
+                    />
+                  </div>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: prediction.color, minWidth: 48 }}>{(prediction.prob * 100).toFixed(1)}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Reset button */}
+        <div style={{ textAlign: 'center' }}>
+          <button
+            onClick={resetPredictor}
+            style={{
+              padding: '8px 20px',
+              borderRadius: 6,
+              border: `1px solid ${BORDER}`,
+              background: 'rgba(255,255,255,0.06)',
+              color: DIM,
+              fontSize: 11,
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = 'rgba(255,255,255,0.12)';
+              e.target.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = 'rgba(255,255,255,0.06)';
+              e.target.style.color = DIM;
+            }}
+          >
+            Reset all sliders to midpoint (3)
+          </button>
+        </div>
+
+        {/* Disclaimer */}
+        <div style={{ marginTop: 12, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center', lineHeight: 1.5 }}>
+          ⚠ This is a research prototype using a logistic regression model (Accuracy 98.9%, AUC 0.999, n=478). Not a clinical tool. Results are illustrative only.
         </div>
       </div>
     </div>
