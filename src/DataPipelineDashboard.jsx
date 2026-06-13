@@ -575,7 +575,7 @@ function M4Panel() {
 
 /* ── Milestone 5: Visualisation tab ─────────────────────────────────────── */
 function M5Panel() {
-  const [iframeHeight, setIframeHeight] = useState(3600);
+  const [iframeHeight, setIframeHeight] = useState(720);
   const iframeCleanupRef = useRef(null);
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const src  = `${base}/smmh-dashboard/index.html`;
@@ -593,11 +593,15 @@ function M5Panel() {
     iframeCleanupRef.current?.();
 
     const resize = () => {
-      const nextHeight = Math.max(
-        720,
-        doc.documentElement?.scrollHeight || 0,
-        doc.body?.scrollHeight || 0,
+      const footer = doc.querySelector('.dash-footer');
+      const dashboard = doc.querySelector('.dash');
+      const contentBottom = Math.ceil(
+        (footer || dashboard)?.getBoundingClientRect().bottom ||
+        doc.body?.getBoundingClientRect().bottom ||
+        doc.documentElement?.scrollHeight ||
+        720
       );
+      const nextHeight = Math.max(720, contentBottom + 2);
       setIframeHeight(nextHeight);
     };
 
@@ -876,7 +880,6 @@ function RiskScreener({ mlTab, setMlTab }) {
   });
   const [dailyMinutes, setDailyMinutes] = useState('150');
   const [prediction, setPrediction] = useState(null);
-  const [showAccordion, setShowAccordion] = useState(false);
 
   // Model coefficients (from trained pipeline)
   const MODEL_COEFS = {
@@ -1236,9 +1239,8 @@ function RiskScreener({ mlTab, setMlTab }) {
             </div>
           </div>
 
-          {/* Technical Details Accordion */}
-          <button
-            onClick={() => setShowAccordion(!showAccordion)}
+          {/* Technical Details */}
+          <div
             style={{
               width: '100%',
               padding: '12px 16px',
@@ -1248,21 +1250,16 @@ function RiskScreener({ mlTab, setMlTab }) {
               color: P,
               fontSize: 11,
               fontWeight: 600,
-              cursor: 'pointer',
               textAlign: 'left',
               display: 'flex',
               alignItems: 'center',
               gap: 8,
-              transition: 'all 0.2s',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(188,140,255,0.1)')}
-            onMouseLeave={(e) => (e.currentTarget.style.background = CARD)}
           >
-            <span style={{ transform: showAccordion ? 'rotate(90deg)' : 'rotate(0deg)', display: 'inline-block', transition: 'transform 0.2s' }}>▶</span>
             Model Technical Details & Methodology (M6 Documentation)
-          </button>
+          </div>
 
-          {showAccordion && (
+          {(
             <div style={{ padding: '16px 20px', background: 'rgba(255,255,255,0.02)', border: `1px solid ${BORDER}`, borderRadius: 8 }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div>
@@ -1304,10 +1301,10 @@ function RiskScreener({ mlTab, setMlTab }) {
         </div>
       )}
       
-      {/* ─── ML Insights Accordion (bottom) — collapsed by default ──── */}
+      {/* ─── ML Insights Documentation (bottom) ──── */}
       <div style={{ padding: '0 24px 4px', marginTop: 16 }}>
-        <details className="ml-accordion" id="mlAccordion" style={{ cursor: 'pointer' }}>
-          <summary style={{ 
+        <div className="ml-accordion" id="mlAccordion">
+          <div style={{ 
             display: 'flex', 
             alignItems: 'center', 
             gap: 8, 
@@ -1315,13 +1312,11 @@ function RiskScreener({ mlTab, setMlTab }) {
             color: P,
             fontSize: 11,
             fontWeight: 600,
-            cursor: 'pointer',
             userSelect: 'none'
           }}>
-            <span style={{ display: 'inline-block' }}>▶</span>
             <span>Model Technical Details & Methodology (M6 Documentation)</span>
             <span style={{ marginLeft: 'auto', fontSize: 9, color: DIM }}>Logistic Regression · L2 · AUC 0.999</span>
-          </summary>
+          </div>
           <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
               <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginTop: 0, marginBottom: 6 }}>Pipeline Architecture</h4>
@@ -1352,7 +1347,7 @@ function RiskScreener({ mlTab, setMlTab }) {
               <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>Top predictors of High Risk classification (by coefficient magnitude): <strong>Depression Frequency (+1.78)</strong>, Validation Seeking (+1.68), Distraction While Busy (+1.54), Social Comparison (+1.47). Daily Minutes has the weakest effect (+0.38), replicating the M4 regression finding that behavioural quality matters more than raw screen time.</p>
             </div>
           </div>
-        </details>
+        </div>
       </div>
     </div>
   );
