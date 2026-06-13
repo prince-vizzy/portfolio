@@ -1129,39 +1129,39 @@ const Portfolio = () => {
             animation: 'titanicFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
-          <button
-            onClick={() => setShowPipeline(false)}
-            onMouseEnter={() => setCloseXHovered(true)}
-            onMouseLeave={() => setCloseXHovered(false)}
-            aria-label="Close pipeline dashboard"
-            style={{
-              position: 'fixed',
-              top: '20px',
-              right: '24px',
-              width: '36px',
-              height: '36px',
-              borderRadius: '50%',
-              background: closeXHovered ? 'rgba(232,72,85,0.15)' : 'rgba(255,255,255,0.07)',
-              border: `1px solid ${closeXHovered ? 'rgba(232,72,85,0.5)' : 'rgba(255,255,255,0.14)'}`,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 60,
-              transform: closeXHovered ? 'rotate(90deg) scale(1.1)' : 'rotate(0deg) scale(1)',
-              transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)',
-              padding: 0,
-              fontSize: 0,
-            }}
-          >
-            <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(45deg)', transition: 'background 0.2s ease' }} />
-            <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(-45deg)', transition: 'background 0.2s ease' }} />
-          </button>
           <div
             style={{
               animation: 'titanicSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              paddingTop: 20,
             }}
           >
+            <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 24px 12px' }}>
+              <button
+                onClick={() => setShowPipeline(false)}
+                onMouseEnter={() => setCloseXHovered(true)}
+                onMouseLeave={() => setCloseXHovered(false)}
+                aria-label="Close pipeline dashboard"
+                style={{
+                  position: 'relative',
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  background: closeXHovered ? 'rgba(232,72,85,0.15)' : 'rgba(255,255,255,0.07)',
+                  border: `1px solid ${closeXHovered ? 'rgba(232,72,85,0.5)' : 'rgba(255,255,255,0.14)'}`,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transform: closeXHovered ? 'rotate(90deg) scale(1.1)' : 'rotate(0deg) scale(1)',
+                  transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)',
+                  padding: 0,
+                  fontSize: 0,
+                }}
+              >
+                <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(45deg)', transition: 'background 0.2s ease' }} />
+                <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(-45deg)', transition: 'background 0.2s ease' }} />
+              </button>
+            </div>
             <DataPipelineDashboard />
           </div>
         </div>

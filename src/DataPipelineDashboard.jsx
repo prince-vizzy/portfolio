@@ -822,10 +822,10 @@ export default function DataPipelineDashboard() {
   ];
 
    return (
-     <div style={{ fontFamily: 'system-ui, sans-serif', color: 'white', background: '#080808', height: '100vh', display: 'flex', flexDirection: 'column' }}>
+     <div style={{ fontFamily: 'system-ui, sans-serif', color: 'white', background: '#080808', minHeight: '100vh' }}>
 
        {/* Header */}
-       <div style={{ borderBottom: `0.5px solid ${BORDER}`, paddingBottom: 14, marginBottom: 22, flexShrink: 0 }}>
+       <div style={{ borderBottom: `0.5px solid ${BORDER}`, paddingBottom: 14, marginBottom: 22 }}>
          <div style={{ fontSize: 18, fontWeight: 600 }}>Social Media & Mental Health — Data Pipeline</div>
          <div style={{ fontSize: 12, color: DIM, marginTop: 4 }}>
            SMMH survey · 478 respondents · Python pipeline · Milestones 2 → 3 → 4 → 5 → 6
@@ -833,7 +833,7 @@ export default function DataPipelineDashboard() {
        </div>
 
        {/* Global KPIs */}
-       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 24, flexShrink: 0 }}>
+       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 24 }}>
          <Kpi label="Respondents"    value="478"     sub="active SM users"        color={B} />
          <Kpi label="Avg daily use"  value="205 min" sub="3.4 hours/day"          color={Y} />
          <Kpi label="Avg MH impact"  value="3.12/5"  sub="95% CI [3.05, 3.18]"   color={R} />
@@ -842,7 +842,7 @@ export default function DataPipelineDashboard() {
        </div>
 
        {/* Pipeline flow */}
-       <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginBottom: 24, overflowX: 'auto', paddingBottom: 4, flexShrink: 0 }}>
+       <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginBottom: 24, overflowX: 'auto', paddingBottom: 4 }}>
          {[
            { id: 1, stage: 'Ingest',     icon: '📥', color: B },
            { id: 2, stage: 'Clean',      icon: '🧹', color: Y },
@@ -884,7 +884,7 @@ export default function DataPipelineDashboard() {
        </div>
 
        {/* Tab selector */}
-       <div style={{ display: 'flex', gap: 8, marginBottom: 22, flexWrap: 'wrap', flexShrink: 0 }}>
+       <div style={{ display: 'flex', gap: 8, marginBottom: 22, flexWrap: 'wrap' }}>
          {tabs.map(t => (
            <button
              key={t.id}
@@ -902,8 +902,8 @@ export default function DataPipelineDashboard() {
          ))}
        </div>
 
-       {/* Tab content - takes remaining space */}
-       <div key={tab} style={{ flexGrow: 1, overflow: 'auto', animation: 'fadeIn 0.3s ease' }}>
+       {/* Tab content */}
+       <div key={tab} style={{ animation: 'fadeIn 0.3s ease' }}>
          {tab === 2 && <M2Panel />}
          {tab === 3 && <M3Panel />}
          {tab === 4 && <M4Panel />}
