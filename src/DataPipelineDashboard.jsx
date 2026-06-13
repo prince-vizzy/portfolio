@@ -619,7 +619,7 @@ function M5Panel() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20, flexShrink: 0 }}>
         <Kpi label="Output stage"   value="M5"       sub="Visualisation"           color={G} />
         <Kpi label="Charts"         value="8+"        sub="interactive panels"      color={B} />
