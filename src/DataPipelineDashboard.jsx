@@ -640,7 +640,7 @@ function M5Panel() {
           borderRadius: 12,
           display: 'block',
           overflow: 'hidden',
-          background: '#0D1117',
+          background: '#080808',
         }}
       />
     </div>

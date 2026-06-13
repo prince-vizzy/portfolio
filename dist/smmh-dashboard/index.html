@@ -88,10 +88,19 @@ html, body { margin: 0; min-height: 100%; background: #080808; }
 .fsel {
   font-size: 12px; padding: 5px 28px 5px 10px;
   border-radius: 7px; border: 1px solid var(--bdr);
-  background: var(--surf2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238B949E' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 9px center;
-  color: var(--text); cursor: pointer; appearance: none; -webkit-appearance: none;
+  background: #121212 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.62)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 9px center;
+  color: rgba(255,255,255,0.92); cursor: pointer; appearance: none; -webkit-appearance: none;
+  color-scheme: dark;
   transition: border-color 0.15s, box-shadow 0.15s;
   font-family: inherit;
+}
+.fsel option {
+  background: #121212;
+  color: rgba(255,255,255,0.92);
+}
+.fsel option:checked {
+  background: #1D9E75;
+  color: #fff;
 }
 .fsel:hover { border-color: var(--green); }
 .fsel:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-bg); }
