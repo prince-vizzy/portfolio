@@ -575,7 +575,7 @@ function M4Panel() {
 
 /* ── Milestone 5: Visualisation tab ─────────────────────────────────────── */
 function M5Panel() {
-  const [iframeHeight, setIframeHeight] = useState(720);
+  const [iframeHeight, setIframeHeight] = useState(3600);
   const iframeCleanupRef = useRef(null);
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const src  = `${base}/smmh-dashboard/index.html`;
@@ -599,15 +599,11 @@ function M5Panel() {
       const prevBehavior = document.documentElement.style.scrollBehavior;
       if (prevBehavior !== 'auto') document.documentElement.style.scrollBehavior = 'auto';
 
-      const footer = doc.querySelector('.dash-footer');
-      const dashboard = doc.querySelector('.dash');
-      const contentBottom = Math.ceil(
-        (footer || dashboard)?.getBoundingClientRect().bottom ||
-        doc.body?.getBoundingClientRect().bottom ||
-        doc.documentElement?.scrollHeight ||
-        720
+      const nextHeight = Math.max(
+        720,
+        doc.documentElement?.scrollHeight || 0,
+        doc.body?.scrollHeight || 0,
       );
-      const nextHeight = Math.max(720, contentBottom + 2);
       setIframeHeight(nextHeight);
 
       // Restore the previous scroll position and scroll behavior immediately.
