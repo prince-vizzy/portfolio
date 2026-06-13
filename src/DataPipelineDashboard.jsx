@@ -1302,6 +1302,7 @@ function RiskScreener({ mlTab, setMlTab }) {
       )}
       
       {/* ─── ML Insights Documentation (bottom) ──── */}
+      {mlTab === 'insights' && (
       <div style={{ padding: '0 24px 4px', marginTop: 16 }}>
         <div className="ml-accordion" id="mlAccordion">
           <div style={{ 
@@ -1349,6 +1350,7 @@ function RiskScreener({ mlTab, setMlTab }) {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 }
