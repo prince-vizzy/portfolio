@@ -593,24 +593,12 @@ function M5Panel() {
     iframeCleanupRef.current?.();
 
     const resize = () => {
-      // Preserve the page scroll and temporarily disable smooth scrolling
-      // to prevent animated jumps when the iframe height changes.
-      const prevScroll = window.scrollY || window.pageYOffset || 0;
-      const prevBehavior = document.documentElement.style.scrollBehavior;
-      if (prevBehavior !== 'auto') document.documentElement.style.scrollBehavior = 'auto';
-
       const nextHeight = Math.max(
         720,
         doc.documentElement?.scrollHeight || 0,
         doc.body?.scrollHeight || 0,
       );
       setIframeHeight(nextHeight);
-
-      // Restore the previous scroll position and scroll behavior immediately.
-      window.scrollTo(0, prevScroll);
-      setTimeout(() => {
-        document.documentElement.style.scrollBehavior = prevBehavior || '';
-      }, 0);
     };
 
     doc.documentElement.style.overflow = 'hidden';
