@@ -849,6 +849,23 @@ function M6Panel() {
           <span style={{ marginLeft: 'auto' }}>n_test = 96</span>
         </div>
       </div>
+
+      {/* Live Integration + Next Steps */}
+      <div style={{ marginTop: 28, padding: '16px 20px', background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12 }}>
+        <SectionTitle>Live Risk Screener & Real-time Integration</SectionTitle>
+        <div style={{ fontSize: 11, lineHeight: 1.6, color: DIM }}>
+          <p style={{ margin: '0 0 10px 0' }}>
+            The trained Logistic Regression model (StandardScaler + LR pipeline with 99% accuracy, AUC 0.999) has been integrated into the <strong style={{ color: P }}>Interactive Visual Analytics Dashboard (Milestone 5)</strong> for real-time in-browser prediction with no server required.
+          </p>
+          <p style={{ margin: 0 }}>
+            <strong>Navigate to Milestone 5 tab</strong> to access:
+          </p>
+          <ul style={{ margin: '8px 0 0 16px', paddingLeft: 0 }}>
+            <li>⚡ <strong>Live Risk Screener</strong> — Rate yourself on survey items; model predicts risk tier in real-time</li>
+            <li>📊 <strong>Model Insights</strong> — Feature importance, confusion matrix, coefficient magnitudes from this trained pipeline</li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

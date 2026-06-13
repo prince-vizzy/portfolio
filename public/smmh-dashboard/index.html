@@ -1,11 +1,5 @@
 <h2 class="sr-only">Social Media and Mental Health Interactive Analytics Dashboard, 481 survey respondents, exploring correlations between screen time and wellbeing indicators.</h2>
 
-<script>
-if (new URLSearchParams(window.location.search).get('section') === 'm6') {
-  document.documentElement.classList.add('m6-only');
-}
-</script>
-
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { margin: 0; min-height: 100%; background: #080808; }
@@ -51,18 +45,6 @@ html, body { margin: 0; min-height: 100%; background: #080808; }
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   min-height: 100vh;
-}
-
-#m6-dashboard-embed { display: none; }
-html.m6-only .dash {
-  min-height: 0;
-  padding: 0;
-}
-html.m6-only .dash > :not(#m6-dashboard-embed) {
-  display: none !important;
-}
-html.m6-only #m6-dashboard-embed {
-  display: block;
 }
 
 .dash-header {
@@ -735,7 +717,6 @@ html.m6-only #m6-dashboard-embed {
        MILESTONE 6 INTEGRATION: Risk Predictor Tab + ML Insights Accordion
   ═══════════════════════════════════════════════════════════════════════ -->
 
-  <section id="m6-dashboard-embed">
   <div class="sec" style="margin-top:8px;">
     <span class="sec-lbl" style="color:var(--purple)">🧠 M6 · AI Risk Prediction Engine</span>
     <span class="sec-line"></span>
@@ -1096,7 +1077,6 @@ html.m6-only #m6-dashboard-embed {
   </div>
 
   <div class="gap12"></div>
-  </section>
 
   <footer class="dash-footer">
     <span>Data source: Kaggle, Social Media and Mental Health Survey (2022 to 2023) · n = 481 · Scores on 1 to 5 Likert scale (1 = never / low, 5 = always / severe) · Built as a web dashboard (Milestone 5, Interactive Visual Analytics System)</span>
