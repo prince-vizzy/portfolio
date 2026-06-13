@@ -595,8 +595,8 @@ function M5Panel() {
     const resize = () => {
       const nextHeight = Math.max(
         720,
-        doc.documentElement?.clientHeight || 0,
-        doc.body?.clientHeight || 0,
+        doc.documentElement?.scrollHeight || 0,
+        doc.body?.scrollHeight || 0,
       );
       setIframeHeight(nextHeight);
     };
@@ -604,7 +604,7 @@ function M5Panel() {
     doc.documentElement.style.overflow = 'hidden';
     if (doc.body) doc.body.style.overflow = 'hidden';
     
-    // Disable scrolling on all nested elements
+    // Disable scrolling on all elements
     const allElements = doc.querySelectorAll('*');
     allElements.forEach(el => {
       if (el.style) el.style.overflow = 'hidden';
@@ -614,10 +614,21 @@ function M5Panel() {
     const observer = ResizeObserverCtor ? new ResizeObserverCtor(resize) : null;
     observer?.observe(doc.documentElement);
     if (doc.body) observer?.observe(doc.body);
+    
+    // Also use MutationObserver to catch content changes
+    const mutationObserver = new MutationObserver(resize);
+    mutationObserver.observe(doc.body || doc.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      characterData: true,
+    });
+    
     iframe.contentWindow?.addEventListener('resize', resize);
 
     iframeCleanupRef.current = () => {
       observer?.disconnect();
+      mutationObserver?.disconnect();
       iframe.contentWindow?.removeEventListener('resize', resize);
     };
 
