@@ -63,7 +63,26 @@ const CVOverlay = ({ isOpen, onClose, cvUrl }) => {
               <a
                 href={cvUrl}
                 download
-                onClick={(e) => e.stopPropagation()}
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  try {
+                    const resp = await fetch(cvUrl, { cache: 'no-cache' });
+                    if (!resp.ok) throw new Error('fetch-failed');
+                    const blob = await resp.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Victory_Kanake_CV.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    URL.revokeObjectURL(url);
+                  } catch (err) {
+                    // fallback: open in new tab
+                    window.open(cvUrl, '_blank');
+                  }
+                }}
                 className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] bg-[#217522] text-white px-4 md:px-8 py-2 md:py-3 rounded-full font-bold hover:bg-white hover:text-black transition-all duration-500 whitespace-nowrap"
               >
                 Download PDF
