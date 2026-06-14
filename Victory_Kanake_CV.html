@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Victory Kanake — CV</title>
+  <style>
+    @page { margin: 0 }
+    :root{--accent:#0b66c3;--muted:#666}
+    body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif;color:#111;background:#f6f7fb;padding:40px}
+    .cv-container{max-width:860px;margin:0 auto;background:#fff;padding:28px 36px;border-radius:10px;box-shadow:0 10px 30px rgba(20,24,40,0.06)}
+    header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:6px}
+    h1{font-size:26px;margin:0;letter-spacing:0.2px}
+    .meta{color:var(--muted);margin-top:6px}
+    .contact{display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:13px;color:var(--muted)}
+    .section{margin:18px 0}
+    h2{font-size:13px;margin:0 0 8px 0;color:#222}
+    ul{margin:6px 0 6px 18px}
+    li{margin:6px 0;color:#222}
+    a{color:var(--accent);text-decoration:none}
+    .small{font-size:13px;color:#333}
+    .pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#f2f7ff;color:#0b66c3;font-size:11px;border:1px solid rgba(11,102,195,0.08)}
+    .section .small ul li strong{display:block;margin-bottom:6px}
+    .keyfinding{font-size:12px;color:#444;margin-top:6px}
+  </style>
+</head>
+<body>
+  <div class="cv-container">
+    <header>
+      <div>
+        <h1>Victory Kanake</h1>
+        <div class="meta">Junior Data Analyst — Nairobi, Kenya</div>
+      </div>
+      <div class="contact">
+        <div>📞 <a href="tel:+254710595923">+254 710 595 923</a></div>
+        <div>✉ <a href="mailto:mwendavictory2@gmail.com">mwendavictory2@gmail.com</a></div>
+        <div>WhatsApp: <a href="https://wa.me/254758985990" target="_blank" rel="noopener noreferrer">+254 758 985 990</a></div>
+        <div>LinkedIn: <a href="https://www.linkedin.com/in/victory-mwenda-2723113aa/" target="_blank" rel="noopener noreferrer">victory-mwenda</a></div>
+        <div>GitHub: <a href="https://github.com/prince-vizzy" target="_blank" rel="noopener noreferrer">prince-vizzy</a></div>
+        <div>Portfolio: <a href="https://vic-k.vercel.app/" target="_blank" rel="noopener noreferrer">vic-k.vercel.app</a></div>
+      </div>
+    </header>
+
+  <div class="section">
+    <h2>About Me</h2>
+    <p class="small">I am a third-year Data Science student at JKUAT. I build reproducible data workflows, create interactive visualisations, and produce reports that help teams make informed decisions. I translate messy data into clear, actionable insights and enjoy collaborating with others to turn analysis into impact.</p>
+  </div>
+
+  <div class="section">
+    <h2>Skills</h2>
+    <ul class="small">
+      <li><strong>Languages:</strong> Python (Pandas, NumPy), SQL, R, JavaScript</li>
+      <li><strong>Analysis:</strong> Data cleaning & validation, EDA, KPI reporting, hypothesis testing</li>
+      <li><strong>BI & Viz:</strong> Power BI, Power Query, Excel (PivotTables), Chart.js, Streamlit</li>
+      <li><strong>Databases & Tools:</strong> SQLite, relational joins, Git, Docker, AWS basics</li>
+      <li><strong>Methods:</strong> ETL/pipelines, data modeling, regression, statistical testing</li>
+      <li><strong>Spoken:</strong> English, Swahili</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Education</h2>
+    <ul class="small">
+      <li>Data Science & Analytics, JKUAT (2023 – present)</li>
+      <li>High School, Moi Forces Academy (2019 – 2022)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Selected Projects</h2>
+    <ul class="small">
+      <li><strong><a href="https://portfolio-roan-pi-99.vercel.app/#pipeline" target="_blank" rel="noopener noreferrer">End-to-End Pipeline — Social media & mental-health analytics</a></strong>
+        <ul>
+          <li>Built a 6-stage pipeline (ingest → clean → transform → analyze → model → dashboard).</li>
+          <li>My role: lead developer — wrote data ingestion and cleaning scripts, designed table joins and feature engineering, trained basic predictive models, and implemented the dashboard visualisation.</li>
+          <li>Tools: Python (Pandas, Scikit-learn), Docker; produced an interactive dashboard for psychological-health indicators.</li>
+          <li><strong>Key findings:</strong> higher average screen time correlated with poorer self-reported wellbeing indicators in our sample; effects were more pronounced in younger groups and heavy platform users. The dashboard highlights groups and variables for targeted follow-up.</li>
+        </ul>
+      </li>
+
+      <li><strong><a href="https://vic-k.vercel.app/#titanic" target="_blank" rel="noopener noreferrer">Titanic Survival Audit — Interactive dashboard</a></strong>
+        <ul>
+          <li>Chart.js dashboard exploring survival by age, sex, class. Applied chi-square tests and logistic regression.</li>
+          <li>My role: data analyst — cleaned and prepared the dataset, performed statistical tests and regression, and built the interactive visualisations to communicate findings.</li>
+          <li>Reproducible analysis showing demographic survival disparities.</li>
+          <li><strong>Key findings:</strong> sex and passenger class were the strongest predictors of survival; visualisations make the disparity and model results easy to explore.</li>
+        </ul>
+      </li>
+
+      <li><strong><a href="https://vic-k.vercel.app/#gender" target="_blank" rel="noopener noreferrer">Gender & Heterosexual Partners Study — Research analysis</a></strong>
+        <ul>
+          <li>Cross-sectional NSSAL survey analysis using R; non-parametric tests and negative-binomial regression; visualised with ggplot2.</li>
+          <li>My role: researcher & analyst — designed analysis plan, executed statistical models in R, and authored the report summarising methods and limitations.</li>
+          <li>Delivered a research-style report with methodology and limitations.</li>
+          <li><strong>Key findings:</strong> the analysis identified statistically significant associations between gender and changes in heterosexual partner counts over time; model diagnostics and sensitivity checks were included in the report.</li>
+        </ul>
+      </li>
+
+      <li><strong><a href="https://vic-k.vercel.app/#mpesa" target="_blank" rel="noopener noreferrer">M-Pesa Budget Tracker — Mobile app (demo)</a></strong>
+        <ul>
+          <li>Flutter/Dart Android app parsing M-Pesa SMS to auto-categorise transactions and present budgeting charts; local SQLite persistence.</li>
+          <li>My role: product developer — implemented SMS parsing and categorisation logic, designed the budgeting UX, and validated transaction categorisation accuracy using sample data.</li>
+          <li><strong>Key findings:</strong> categorisation revealed the top recurring spending categories and merchants, improving visibility into household cash flow and highlighting opportunities for small savings.</li>
+        </ul>
+      </li>
+
+      <li><strong><a href="https://vic-k.vercel.app/#darts" target="_blank" rel="noopener noreferrer">Darts Scoring App — Live two-player scorer</a></strong>
+        <ul>
+          <li>React app with countdown logic, session state persistence, and live two-player scoring analytics; zero-backend persistence.</li>
+          <li>My role: front-end engineer — implemented scoring logic, session persistence, and basic analytics to track player performance.</li>
+          <li><strong>Key findings:</strong> built-in analytics provide quick insights into checkout success rates and common finish routes useful for coaching and practice prioritisation.</li>
+        </ul>
+      </li>
+
+      <li><strong><a href="https://vic-k.vercel.app/#shii-ngapi" target="_blank" rel="noopener noreferrer">Shii Ngapi — Nairobi matatu transit planner (demo)</a></strong>
+        <ul>
+          <li>Journey planner with multi-hop routing, live fare estimates and route polylines; built with Flask and integrated map visualisations.</li>
+          <li>My role: systems designer & integrator — developed routing logic, integrated mapping APIs, and validated route accuracy with sample trips.</li>
+          <li><strong>Key findings:</strong> simulated routing shows reduced journey times on common origin–destination pairs and highlights cost-efficient transfers; useful for planning and fare transparency.</li>
+        </ul>
+      </li>
+
+      <li><strong>Data Cleaning & QA</strong>
+        <ul>
+          <li>Standardised identifiers with Excel text functions and Pandas; flagged and resolved data-quality issues via conditional formatting and boolean filters.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Certifications</h2>
+    <ul class="small">
+      <li>Mayerfeld Practicum Program — Data Analysis (Issued 2026-05-12) — <a href="https://vic-k.vercel.app/mayerfild.pdf" target="_blank" rel="noopener noreferrer">Certificate</a></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>References</h2>
+    <ul class="small">
+      <li>Samuel Adhola — JKUAT, Lecturer · <a href="mailto:adholasamuel@gmail.com">adholasamuel@gmail.com</a> · +254 725 872 811</li>
+      <li>James Mbao — JKUAT, Lecturer · <a href="mailto:mbaojames@gmail.com">mboajames@gmail.com</a> · +254 712 011 062</li>
+    </ul>
+  </div>
+
+  </div> <!-- .cv-container -->
+</body>
+</html>

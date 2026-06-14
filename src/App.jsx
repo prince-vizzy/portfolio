@@ -909,7 +909,7 @@ const Portfolio = () => {
       </footer>
 
       {/* CV Overlay */}
-      <CVOverlay isOpen={isCVOpen} onClose={() => setIsCVOpen(false)} cvUrl={assetUrl('/CV(4).pdf')} />
+      <CVOverlay isOpen={isCVOpen} onClose={() => setIsCVOpen(false)} cvUrl={assetUrl('/Victory_Kanake_CV.pdf')} />
 
       {/* M-Pesa Tracker Full-screen Modal */}
       {showMpesaTracker && (
