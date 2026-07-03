@@ -62,7 +62,7 @@ const CVOverlay = ({ isOpen, onClose, cvUrl }) => {
             <div className="pointer-events-auto">
               <a
                 href={cvUrl}
-                download
+                download="victory cv.pdf"
                 onClick={async (e) => {
                   e.stopPropagation();
                   e.preventDefault();
@@ -73,7 +73,7 @@ const CVOverlay = ({ isOpen, onClose, cvUrl }) => {
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'Victory_Kanake_CV.pdf';
+                    a.download = 'victory cv.pdf';
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
