@@ -532,7 +532,7 @@ const CVPage = () => {
                 school="JKUAT"
                 role="Lecturer"
                 phone="+254 712 011 062"
-                email="Mbaojames@gmail.com"
+                email="jamesmbao1@gmail.com"
               />
             </div>
             <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
