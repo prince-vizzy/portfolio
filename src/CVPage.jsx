@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const assetUrl = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+const assetUrl = (path) => `${import.meta.env.BASE_URL}${encodeURI(path.replace(/^\/+/, ''))}`;
 
 const GREEN = '#1D9E75';
 const GREEN_DEEP = '#217522';
@@ -136,14 +136,14 @@ const ReferenceCard = ({ name, school, role, phone, email }) => (
 
 const CVPage = () => {
   const [copiedField, setCopiedField] = useState(null);
-  const [isCertOpen, setIsCertOpen] = useState(false);
+  const [pdfPreview, setPdfPreview] = useState(null);
 
   useEffect(() => {
-    if (!isCertOpen) return;
-    const onKey = (e) => { if (e.key === 'Escape') setIsCertOpen(false); };
+    if (!pdfPreview) return;
+    const onKey = (e) => { if (e.key === 'Escape') setPdfPreview(null); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [isCertOpen]);
+  }, [pdfPreview]);
 
   const handleCopy = async (text, field, e) => {
     if (e) {
@@ -157,6 +157,11 @@ const CVPage = () => {
     } catch (err) {
       console.error('Failed to copy:', err);
     }
+  };
+
+  const openPdfPreview = (preview, e) => {
+    if (e) e.stopPropagation();
+    setPdfPreview(preview);
   };
 
   const CopiedToast = ({ field, bg = GREEN_DEEP }) =>
@@ -494,7 +499,12 @@ const CVPage = () => {
                 data cleaning, and reporting workflows.
               </p>
               <button
-                onClick={(e) => { e.stopPropagation(); setIsCertOpen(true); }}
+                onClick={(e) => openPdfPreview({
+                  type: 'Certificate',
+                  title: 'Mayerfeld Practicum - Data Analysis',
+                  path: '/mayerfild.pdf',
+                  ariaLabel: 'Mayerfeld certificate preview',
+                }, e)}
                 className="inline-flex items-center gap-2 mt-2 text-[11px] uppercase tracking-[0.2em] font-semibold rounded-full px-3 py-1 border transition-colors hover:bg-white/5"
                 style={{ color: GREEN, borderColor: `${GREEN}55` }}
               >
@@ -525,25 +535,54 @@ const CVPage = () => {
                 email="Mbaojames@gmail.com"
               />
             </div>
+            <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p className="text-[12px] font-semibold text-white uppercase tracking-[0.18em]">Reference letters</p>
+              <div className="mt-3 flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={(e) => openPdfPreview({
+                    type: 'Reference letter',
+                    title: 'JKUAT reference',
+                    path: '/jkuat-reference.pdf',
+                    ariaLabel: 'JKUAT reference preview',
+                  }, e)}
+                  className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[12px] font-medium text-white transition hover:bg-white/10"
+                >
+                  JKUAT reference
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => openPdfPreview({
+                    type: 'Reference letter',
+                    title: 'Mayerfield reference',
+                    path: '/mayerfield-reference.pdf',
+                    ariaLabel: 'Mayerfield reference preview',
+                  }, e)}
+                  className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[12px] font-medium text-white transition hover:bg-white/10"
+                >
+                  Mayerfield reference
+                </button>
+              </div>
+            </div>
           </section>
         </main>
       </div>
 
       {/* Certificate popup — anchored to top-right of the viewport */}
       <AnimatePresence>
-        {isCertOpen && (
+        {pdfPreview && (
           <>
             <motion.div
-              key="cert-backdrop"
+              key="pdf-backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              onClick={() => setIsCertOpen(false)}
+              onClick={() => setPdfPreview(null)}
               className="fixed inset-0 z-[200] bg-black/40 backdrop-blur-sm"
             />
             <motion.div
-              key="cert-popup"
+              key="pdf-popup"
               initial={{ opacity: 0, scale: 0.92, x: 24, y: -16 }}
               animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, x: 24, y: -16 }}
@@ -553,16 +592,16 @@ const CVPage = () => {
               style={{ background: '#0b0f0d', transformOrigin: 'top right' }}
               role="dialog"
               aria-modal="true"
-              aria-label="Mayerfeld certificate preview"
+              aria-label={pdfPreview.ariaLabel}
             >
               <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10">
                 <div className="min-w-0">
-                  <p className="text-[10px] uppercase tracking-[0.3em] font-bold" style={{ color: GREEN }}>Certificate</p>
-                  <p className="text-[12px] text-white truncate">Mayerfeld Practicum — Data Analysis</p>
+                  <p className="text-[10px] uppercase tracking-[0.3em] font-bold" style={{ color: GREEN }}>{pdfPreview.type}</p>
+                  <p className="text-[12px] text-white truncate">{pdfPreview.title}</p>
                 </div>
                 <div className="flex items-center gap-2 flex-none">
                   <a
-                    href={assetUrl('/mayerfild.pdf')}
+                    href={assetUrl(pdfPreview.path)}
                     target="_blank"
                     rel="noreferrer noopener"
                     className="text-[10px] uppercase tracking-[0.2em] font-semibold rounded-full px-3 py-1 border transition-colors hover:bg-white/5"
@@ -571,8 +610,8 @@ const CVPage = () => {
                     Open
                   </a>
                   <button
-                    onClick={() => setIsCertOpen(false)}
-                    aria-label="Close certificate"
+                    onClick={() => setPdfPreview(null)}
+                    aria-label="Close PDF preview"
                     className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
@@ -582,8 +621,8 @@ const CVPage = () => {
                 </div>
               </div>
               <iframe
-                src={`${assetUrl('/mayerfild.pdf')}#toolbar=0&navpanes=0&view=FitH`}
-                title="Mayerfeld certificate"
+                src={`${assetUrl(pdfPreview.path)}#toolbar=0&navpanes=0&view=FitH`}
+                title={pdfPreview.title}
                 className="flex-1 w-full border-0 bg-white"
               />
             </motion.div>
