@@ -1013,8 +1013,14 @@ function RiskScreener({ mlTab, setMlTab }) {
 
   return (
     <div style={{ marginTop: 28 }}>
-      <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16 }}>
-        <SectionTitle style={{ margin: 0 }}>🧠 M6 · AI Risk Prediction Engine</SectionTitle>
+      <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 8 }}>
+        <SectionTitle style={{ margin: 0 }}>🧠 Bonus: Interactive Binary Risk Screener</SectionTitle>
+      </div>
+      <div style={{ fontSize: 10, color: DIM, lineHeight: 1.6, marginBottom: 16, maxWidth: 760 }}>
+        This is a separate, simplified model — not the 4-class Random Forest benchmarked above. It's a binary Logistic
+        Regression classifier (High/Very High Risk vs Low/Moderate Risk) trained independently so its coefficients could
+        be hardcoded into the browser for a live, client-side prediction. Its own accuracy (98.9%) isn't comparable to the
+        81.3% figure above — different target, different task.
       </div>
 
       {/* Tab navigation */}
@@ -1158,7 +1164,7 @@ function RiskScreener({ mlTab, setMlTab }) {
 
           {/* Disclaimer */}
           <div style={{ marginTop: 12, fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center', lineHeight: 1.5 }}>
-            ⚠ Research prototype using logistic regression (Accuracy 98.9%, AUC 0.999, n=478). Not a clinical tool. Illustrative only.
+            ⚠ Research prototype — separate binary Logistic Regression model (Accuracy 98.9%, AUC 0.999, n=478), distinct from the 4-class Random Forest model above. Not a clinical tool. Illustrative only.
           </div>
         </div>
       )}
@@ -1238,66 +1244,6 @@ function RiskScreener({ mlTab, setMlTab }) {
               ))}
             </div>
           </div>
-
-          {/* Technical Details */}
-          <div
-            style={{
-              width: '100%',
-              padding: '12px 16px',
-              background: CARD,
-              border: `1px solid ${BORDER}`,
-              borderRadius: 8,
-              color: P,
-              fontSize: 11,
-              fontWeight: 600,
-              textAlign: 'left',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-            }}
-          >
-            Model Technical Details & Methodology (M6 Documentation)
-          </div>
-
-          {(
-            <div style={{ padding: '16px 20px', background: 'rgba(255,255,255,0.02)', border: `1px solid ${BORDER}`, borderRadius: 8 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                <div>
-                  <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginBottom: 6 }}>Pipeline Architecture</h4>
-                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>
-                    <strong>StandardScaler:</strong> 13 features normalised to zero mean and unit variance using training set parameters (n=382).
-                  </p>
-                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: '6px 0 0 0' }}>
-                    <strong>LogisticRegression:</strong> L2 penalty, C=1.0, lbfgs solver, 1000 iterations.
-                  </p>
-                </div>
-                <div>
-                  <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginBottom: 6 }}>Target Encoding</h4>
-                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>
-                    <strong>Binary:</strong> High/Very High Risk → 1, Low/Moderate Risk → 0
-                  </p>
-                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: '6px 0 0 0' }}>
-                    <strong>Class balance:</strong> ~55% High Risk, ~45% Low/Moderate Risk
-                  </p>
-                </div>
-                <div>
-                  <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginBottom: 6 }}>Validation Strategy</h4>
-                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>
-                    <strong>Hold-out:</strong> 20% stratified split (96 respondents)
-                  </p>
-                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: '6px 0 0 0' }}>
-                    <strong>10-fold CV:</strong> Mean accuracy 98.5% (±1.2%)
-                  </p>
-                </div>
-                <div>
-                  <h4 style={{ fontSize: 11, fontWeight: 600, color: 'white', marginBottom: 6 }}>Key Finding</h4>
-                  <p style={{ fontSize: 10, color: DIM, lineHeight: 1.5, margin: 0 }}>
-                    <strong>Top predictors:</strong> Depression Frequency, Validation Seeking, Distraction While Busy. Daily Minutes has weakest effect.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       )}
       
@@ -1315,7 +1261,7 @@ function RiskScreener({ mlTab, setMlTab }) {
             fontWeight: 600,
             userSelect: 'none'
           }}>
-            <span>Model Technical Details & Methodology (M6 Documentation)</span>
+            <span>Screener Model — Technical Details & Methodology</span>
             <span style={{ marginLeft: 'auto', fontSize: 9, color: DIM }}>Logistic Regression · L2 · AUC 0.999</span>
           </div>
           <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
