@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import MpesaPhoneShowcase from './MpesaPhoneShowcase';
 
 const G = '#1D9E75';
 const Y = '#EAB308';
@@ -153,7 +154,7 @@ export default function MpesaTrackerDashboard() {
           </div>
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
-          {['overview', 'transactions', 'live'].map(tab => (
+          {['overview', 'transactions', 'live', 'app'].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -165,7 +166,7 @@ export default function MpesaTrackerDashboard() {
                 transition: 'all 0.2s',
               }}
             >
-              {tab === 'live' ? '⚡ Live Demo' : tab}
+              {tab === 'live' ? '⚡ Live Demo' : tab === 'app' ? '📱 The App' : tab}
             </button>
           ))}
         </div>
@@ -404,6 +405,9 @@ export default function MpesaTrackerDashboard() {
           )}
         </div>
       )}
+
+      {/* ── PHONE MOCKUP TAB ── */}
+      {activeTab === 'app' && <MpesaPhoneShowcase />}
 
       <style>{`
         @keyframes fadeInUp {
