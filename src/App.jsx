@@ -9,6 +9,7 @@ import TitanicDashboard from './TitanicDashboard';
 import MpesaTrackerDashboard from './MpesaTrackerDashboard';
 import DataPipelineDashboard from './DataPipelineDashboard';
 import GenderPartnersStudyDashboard from './GenderPartnersStudyDashboard';
+import AlitaFlowShowcase from './AlitaFlowShowcase';
 import LogoLoop from './components/LogoLoop';
 import {
   FaCalculator,
@@ -301,6 +302,7 @@ const Portfolio = () => {
   const [showMpesaTracker, setShowMpesaTracker] = useState(false);
   const [showPipeline, setShowPipeline] = useState(false);
   const [showGenderStudy, setShowGenderStudy] = useState(false);
+  const [showAlitaFlow, setShowAlitaFlow] = useState(false);
   const [skillsDecrypted, setSkillsDecrypted] = useState(false);
   const [closeXHovered, setCloseXHovered] = useState(false);
   const [copiedField, setCopiedField] = useState(null);
@@ -329,7 +331,7 @@ const Portfolio = () => {
     }
   };
 
-  const isOverlayOpen = isCVOpen || showTitanicDashboard || showDartsApp || showShiiNgapi || showMpesaTracker || showPipeline || showGenderStudy;
+  const isOverlayOpen = isCVOpen || showTitanicDashboard || showDartsApp || showShiiNgapi || showMpesaTracker || showPipeline || showGenderStudy || showAlitaFlow;
 
   useEffect(() => {
     if (!isOverlayOpen) return undefined;
@@ -902,13 +904,14 @@ const Portfolio = () => {
             </div>
           </div>
 
-          {/* Alita Flow card — links out to the live PWA */}
-          <a
-            href="https://alita-flow.vercel.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group cursor-pointer max-w-2xl w-full block"
-            aria-label="Open Alita Flow inventory app"
+          {/* Alita Flow card — opens the showcase dashboard */}
+          <div
+            className="group cursor-pointer max-w-2xl w-full"
+            onClick={() => setShowAlitaFlow(true)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && setShowAlitaFlow(true)}
+            aria-label="Open Alita Flow showcase"
           >
             <div className="w-full md:w-56">
               <TiltedCard
@@ -939,10 +942,10 @@ const Portfolio = () => {
                 <span>[ Google Apps Script ]</span>
               </div>
               <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
-                Click to open live app →
+                Click to explore →
               </p>
             </div>
-          </a>
+          </div>
         </div>
       </section>
 
@@ -1004,6 +1007,61 @@ const Portfolio = () => {
             }}
           >
             <MpesaTrackerDashboard />
+          </div>
+        </div>
+      )}
+
+      {/* Alita Flow Showcase Full-screen Modal */}
+      {showAlitaFlow && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 50,
+            background: 'rgba(3, 3, 3, 0.97)',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
+            overflowY: 'auto',
+            animation: 'titanicFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        >
+          <button
+            onClick={() => setShowAlitaFlow(false)}
+            onMouseEnter={() => setCloseXHovered(true)}
+            onMouseLeave={() => setCloseXHovered(false)}
+            aria-label="Close Alita Flow showcase"
+            style={{
+              position: 'fixed',
+              top: '20px',
+              right: '24px',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              background: closeXHovered ? 'rgba(232,72,85,0.15)' : 'rgba(255,255,255,0.07)',
+              border: `1px solid ${closeXHovered ? 'rgba(232,72,85,0.5)' : 'rgba(255,255,255,0.14)'}`,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 60,
+              transform: closeXHovered ? 'rotate(90deg) scale(1.1)' : 'rotate(0deg) scale(1)',
+              transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)',
+              padding: 0,
+              fontSize: 0,
+            }}
+          >
+            <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(45deg)', transition: 'background 0.2s ease' }} />
+            <span style={{ position: 'absolute', width: '13px', height: '1.5px', background: closeXHovered ? '#E84855' : 'rgba(255,255,255,0.65)', borderRadius: '2px', transform: 'rotate(-45deg)', transition: 'background 0.2s ease' }} />
+          </button>
+          <div
+            style={{
+              maxWidth: '1100px',
+              margin: '0 auto',
+              padding: '20px 16px 56px',
+              animation: 'titanicSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            <AlitaFlowShowcase />
           </div>
         </div>
       )}
