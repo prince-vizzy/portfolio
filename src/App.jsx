@@ -901,6 +901,48 @@ const Portfolio = () => {
               </p>
             </div>
           </div>
+
+          {/* Alita Flow card — links out to the live PWA */}
+          <a
+            href="https://alita-flow.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group cursor-pointer max-w-2xl w-full block"
+            aria-label="Open Alita Flow inventory app"
+          >
+            <div className="w-full md:w-56">
+              <TiltedCard
+                imageSrc={assetUrl('/alita-flow.png')}
+                altText="Alita Flow — Inventory & Sales PWA"
+                containerHeight="auto"
+                imageWidth="100%"
+                objectFit="contain"
+              />
+            </div>
+            <div className="mt-4 md:mt-8 space-y-2 md:space-y-4">
+              <div className="flex items-center gap-4">
+                <h4 className="text-base md:text-xl font-light tracking-widest uppercase group-hover:text-[#217522] transition-all leading-tight">
+                  Alita Flow
+                </h4>
+                <span className="px-2 py-0.5 border border-[#217522]/30 text-[#217522] text-[8px] uppercase tracking-widest rounded">
+                  PWA
+                </span>
+              </div>
+              <p className="text-xs md:text-sm text-gray-300 leading-relaxed max-w-md font-light">
+                An installable offline-first inventory and point-of-sale app for a plumbing/hardware
+                shop, syncing stock live to a Google Sheet. Selling or restocking while offline queues
+                locally and syncs automatically once back online.
+              </p>
+              <div className="flex flex-wrap gap-2 md:gap-4 text-[9px] md:text-[10px] text-gray-400 font-mono">
+                <span>[ React / Vite ]</span>
+                <span>[ PWA / Offline-first ]</span>
+                <span>[ Google Apps Script ]</span>
+              </div>
+              <p className="text-[10px] text-[#1D9E75] uppercase tracking-widest group-hover:text-white transition-colors">
+                Click to open live app →
+              </p>
+            </div>
+          </a>
         </div>
       </section>
 
