@@ -9,24 +9,24 @@ const GRID = 'rgba(128,128,128,0.12)';
 const TXT = '#888780';
 
 const INVENTORY = [
-  { name: 'Flexible Basin (½")', stock: 27 },
-  { name: 'Magic Connector (1¼")', stock: 24 },
-  { name: 'Silicon Haluken', stock: 20 },
-  { name: 'Thread Tube Small', stock: 20 },
-  { name: 'Thread Tube Big', stock: 18 },
-  { name: 'Flexible Long', stock: 16 },
-  { name: 'Basin Tap Star', stock: 10 },
-  { name: 'Brass Hinge', stock: 10 },
-  { name: 'Bottle Trap Viega (1½")', stock: 9 },
-  { name: 'Tissue Holder (Phone)', stock: 9 },
-  { name: 'Toothbrush Holder Square (O)', stock: 2 },
-  { name: 'Lorenzetti', stock: 1 },
-  { name: 'Horizon', stock: 1 },
-  { name: 'Angle Valve Double', stock: 0 },
+  { name: 'Pipe Fitting Set', stock: 26 },
+  { name: 'Faucet Cartridge', stock: 22 },
+  { name: 'Drain Trap', stock: 19 },
+  { name: 'Hose Clamp', stock: 18 },
+  { name: 'Sealing Tape', stock: 17 },
+  { name: 'Connector Joint', stock: 15 },
+  { name: 'Tap Handle', stock: 11 },
+  { name: 'Mounting Bracket', stock: 10 },
+  { name: 'Pressure Gauge', stock: 8 },
+  { name: 'Spare Washer Pack', stock: 8 },
+  { name: 'Cabinet Hinge', stock: 2 },
+  { name: 'Inline Filter', stock: 1 },
+  { name: 'Backflow Preventer', stock: 1 },
+  { name: 'Shut-off Valve', stock: 0 },
 ];
 
-const TOTAL_ITEMS = 48;
-const TOTAL_STOCK = 382;
+const TOTAL_ITEMS = 40;
+const TOTAL_STOCK = 340;
 const OUT_OF_STOCK = INVENTORY.filter(i => i.stock === 0).length;
 const LOW_STOCK = INVENTORY.filter(i => i.stock > 0 && i.stock <= 3).length;
 

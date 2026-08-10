@@ -17,12 +17,12 @@ const C = {
 };
 
 const ITEMS = [
-  { name: 'Angle Valve Double', stock: 27 },
-  { name: 'Basin Tap Star', stock: 10 },
-  { name: 'Bottle Trap Viega (1½")', stock: 9 },
-  { name: 'Magic Connector (1¼")', stock: 24 },
-  { name: 'Silicon Haluken', stock: 20 },
-  { name: 'Thread Tube Small', stock: 20 },
+  { name: 'Shut-off Valve', stock: 26 },
+  { name: 'Tap Handle', stock: 11 },
+  { name: 'Drain Trap', stock: 19 },
+  { name: 'Connector Joint', stock: 15 },
+  { name: 'Faucet Cartridge', stock: 22 },
+  { name: 'Hose Clamp', stock: 18 },
 ];
 
 const SCREENS = [
@@ -56,7 +56,7 @@ function CatalogScreen() {
 
       <div style={{ padding: '10px 14px' }}>
         <div style={{ background: C.panel, border: `1px solid ${C.border}`, borderRadius: 20, padding: '8px 12px', fontSize: 10, color: C.muted }}>
-          🔍 Angle Valve Double
+          🔍 Shut-off Valve
         </div>
       </div>
 
@@ -89,8 +89,8 @@ function DetailScreen({ qty }) {
       <div style={{ background: '#fff', borderRadius: 24, aspectRatio: '4/3', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40, marginTop: 16 }}>
         🔧
       </div>
-      <div style={{ fontSize: 13, color: '#f3f4f6', textAlign: 'center', marginTop: 14 }}>Angle Valve Double</div>
-      <div style={{ fontSize: 10, color: C.green, textAlign: 'center', marginTop: 3 }}>27 in stock</div>
+      <div style={{ fontSize: 13, color: '#f3f4f6', textAlign: 'center', marginTop: 14 }}>Shut-off Valve</div>
+      <div style={{ fontSize: 10, color: C.green, textAlign: 'center', marginTop: 3 }}>26 in stock</div>
 
       <div style={{ display: 'flex', gap: 8, marginTop: 18, justifyContent: 'center' }}>
         <div style={{ width: 46, background: '#d9d9d9', color: '#000', borderRadius: 20, textAlign: 'center', fontSize: 11, padding: '7px 0', fontWeight: 600 }}>{qty}</div>
@@ -124,8 +124,8 @@ function OfflineScreen() {
       <div style={{ background: '#fff', borderRadius: 24, aspectRatio: '4/3', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40, marginTop: 14 }}>
         🔧
       </div>
-      <div style={{ fontSize: 13, color: '#f3f4f6', textAlign: 'center', marginTop: 14 }}>Angle Valve Double</div>
-      <div style={{ fontSize: 10, color: C.green, textAlign: 'center', marginTop: 3 }}>25 in stock</div>
+      <div style={{ fontSize: 13, color: '#f3f4f6', textAlign: 'center', marginTop: 14 }}>Shut-off Valve</div>
+      <div style={{ fontSize: 10, color: C.green, textAlign: 'center', marginTop: 3 }}>24 in stock</div>
 
       <div style={{ marginTop: 16, fontSize: 9, color: '#f3f4f6', textAlign: 'center', background: 'rgba(0,255,136,0.06)', border: `1px solid ${C.border}`, borderRadius: 12, padding: '10px 12px', lineHeight: 1.5 }}>
         Sold 2 Pieces — offline, will sync when back online.
@@ -147,7 +147,7 @@ function SyncedScreen() {
         <div style={{ fontSize: 30 }}>✅</div>
         <div style={{ fontSize: 12, color: '#f3f4f6', marginTop: 10, fontWeight: 600 }}>Synced to the sheet</div>
         <div style={{ fontSize: 9, color: C.muted, marginTop: 6, lineHeight: 1.5, padding: '0 14px' }}>
-          2 Pieces of Angle Valve Double recorded, timestamped to the exact
+          2 Pieces of Shut-off Valve recorded, timestamped to the exact
           moment the sale happened — not when it reconnected.
         </div>
       </div>
@@ -155,7 +155,7 @@ function SyncedScreen() {
       <div style={{ background: '#fff', borderRadius: 24, aspectRatio: '4/3', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40, marginTop: 22 }}>
         🔧
       </div>
-      <div style={{ fontSize: 10, color: C.green, textAlign: 'center', marginTop: 10 }}>25 in stock</div>
+      <div style={{ fontSize: 10, color: C.green, textAlign: 'center', marginTop: 10 }}>24 in stock</div>
     </div>
   );
 }
